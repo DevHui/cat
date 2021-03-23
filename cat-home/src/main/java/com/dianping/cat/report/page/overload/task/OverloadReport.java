@@ -22,24 +22,24 @@ import com.dianping.cat.core.dal.DailyReport;
 
 public class OverloadReport extends DailyReport {
 
-	private int m_reportType;
+    private int m_reportType;
 
-	private double m_reportLength;
+    private double m_reportLength;
 
-	public double getReportLength() {
-		return m_reportLength;
-	}
+    public double getReportLength() {
+        return m_reportLength;
+    }
 
-	public void setReportLength(double reportLength) {
-		m_reportLength = reportLength;
-	}
+    public void setReportLength(double reportLength) {
+        m_reportLength = reportLength;
+    }
 
-	public int getReportType() {
-		return m_reportType;
-	}
+    public int getReportType() {
+        return m_reportType;
+    }
 
-	public void setReportType(int reportType) {
-		m_reportType = reportType;
-	}
+    public void setReportType(int reportType) {
+        m_reportType = reportType;
+    }
 
 }

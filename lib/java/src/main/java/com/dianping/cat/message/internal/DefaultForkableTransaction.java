@@ -34,6 +34,17 @@ public class DefaultForkableTransaction extends AbstractMessage implements Forka
     private long durationInMicros;
     private List<Message> children = Collections.synchronizedList(new ArrayList<Message>());
 
+    public DefaultForkableTransaction(String rootMessageId, String parentMessageId) {
+        super("System", "Forkable");
+
+        this.rootMessageId = rootMessageId;
+        this.parentMessageId = parentMessageId;
+        durationInMicros = System.nanoTime() / 1000L;
+
+        setStatus(Message.SUCCESS);
+        addData("thread-name=" + generateThreadName());
+    }
+
     private static String generateThreadName() {
         String threadName = Thread.currentThread().getName();
         if (threadName.startsWith("qtp")) {
@@ -48,17 +59,6 @@ public class DefaultForkableTransaction extends AbstractMessage implements Forka
         }
 
         return threadName;
-    }
-
-    public DefaultForkableTransaction(String rootMessageId, String parentMessageId) {
-        super("System", "Forkable");
-
-        this.rootMessageId = rootMessageId;
-        this.parentMessageId = parentMessageId;
-        durationInMicros = System.nanoTime() / 1000L;
-
-        setStatus(Message.SUCCESS);
-        addData("thread-name=" + generateThreadName());
     }
 
     @Override
@@ -121,12 +121,21 @@ public class DefaultForkableTransaction extends AbstractMessage implements Forka
     }
 
     @Override
+    public void setDurationInMicros(long durationInMicros) {
+        this.durationInMicros = durationInMicros;
+    }
+
+    @Override
     public long getDurationInMillis() {
         if (super.isCompleted()) {
             return durationInMicros / 1000L;
         } else {
             return 0;
         }
+    }
+
+    public void setDurationInMillis(long durationInMillis) {
+        durationInMicros = durationInMillis * 1000L;
     }
 
     @Override
@@ -137,15 +146,6 @@ public class DefaultForkableTransaction extends AbstractMessage implements Forka
     @Override
     public boolean hasChildren() {
         return children != null && children.size() > 0;
-    }
-
-    @Override
-    public void setDurationInMicros(long durationInMicros) {
-        this.durationInMicros = durationInMicros;
-    }
-
-    public void setDurationInMillis(long durationInMillis) {
-        durationInMicros = durationInMillis * 1000L;
     }
 
     @Override

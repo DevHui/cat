@@ -25,39 +25,39 @@ import com.dianping.cat.consumer.transaction.model.entity.TransactionType;
 
 public class HistoryTransactionReportMerger extends TransactionReportMerger {
 
-	public double m_duration = 1;
+    public double m_duration = 1;
 
-	public HistoryTransactionReportMerger(TransactionReport transactionReport) {
-		super(transactionReport);
-	}
+    public HistoryTransactionReportMerger(TransactionReport transactionReport) {
+        super(transactionReport);
+    }
 
-	@Override
-	public void mergeName(TransactionName old, TransactionName other) {
-		old.getDurations().clear();
-		old.getRanges().clear();
+    @Override
+    public void mergeName(TransactionName old, TransactionName other) {
+        old.getDurations().clear();
+        old.getRanges().clear();
 
-		other.getDurations().clear();
-		other.getRanges().clear();
-		super.mergeName(old, other);
-		old.setTps(old.getTotalCount() / (m_duration * 24 * 3600));
-	}
+        other.getDurations().clear();
+        other.getRanges().clear();
+        super.mergeName(old, other);
+        old.setTps(old.getTotalCount() / (m_duration * 24 * 3600));
+    }
 
-	@Override
-	public void mergeType(TransactionType old, TransactionType other) {
-		super.mergeType(old, other);
-		old.setTps(old.getTotalCount() / (m_duration * 24 * 3600));
-	}
+    @Override
+    public void mergeType(TransactionType old, TransactionType other) {
+        super.mergeType(old, other);
+        old.setTps(old.getTotalCount() / (m_duration * 24 * 3600));
+    }
 
-	public HistoryTransactionReportMerger setDuration(double duration) {
-		m_duration = duration;
-		return this;
-	}
+    public HistoryTransactionReportMerger setDuration(double duration) {
+        m_duration = duration;
+        return this;
+    }
 
-	@Override
-	public void visitName(TransactionName name) {
-		name.getDurations().clear();
-		name.getRanges().clear();
-		super.visitName(name);
-	}
+    @Override
+    public void visitName(TransactionName name) {
+        name.getDurations().clear();
+        name.getRanges().clear();
+        super.visitName(name);
+    }
 
 }

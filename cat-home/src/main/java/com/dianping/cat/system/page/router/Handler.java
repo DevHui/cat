@@ -46,143 +46,143 @@ import java.util.*;
 
 public class Handler implements PageHandler<Context> {
 
-	@Inject
-	private CachedRouterConfigService m_cachedReportService;
+    @Inject
+    private CachedRouterConfigService m_cachedReportService;
 
-	@Inject
-	private RouterConfigManager m_configManager;
+    @Inject
+    private RouterConfigManager m_configManager;
 
-	@Inject
-	private SampleConfigManager m_sampleConfigManager;
+    @Inject
+    private SampleConfigManager m_sampleConfigManager;
 
-	@Inject
-	private ServerFilterConfigManager m_filterManager;
+    @Inject
+    private ServerFilterConfigManager m_filterManager;
 
-	@Inject(RouterConfigBuilder.ID)
-	private TaskBuilder m_routerConfigBuilder;
+    @Inject(RouterConfigBuilder.ID)
+    private TaskBuilder m_routerConfigBuilder;
 
-	@Inject
-	private RouterConfigHandler m_routerConfigHandler;
+    @Inject
+    private RouterConfigHandler m_routerConfigHandler;
 
-	private JsonBuilder m_jsonBuilder = new JsonBuilder();
+    private JsonBuilder m_jsonBuilder = new JsonBuilder();
 
-	private String buildRouterInfo(String ip, String domain, RouterConfig config) {
-		String group = m_configManager.queryServerGroupByIp(ip);
-		Domain domainConfig = m_configManager.getRouterConfig().findDomain(domain);
-		List<Server> servers = new ArrayList<Server>();
+    private String buildRouterInfo(String ip, String domain, RouterConfig config) {
+        String group = m_configManager.queryServerGroupByIp(ip);
+        Domain domainConfig = m_configManager.getRouterConfig().findDomain(domain);
+        List<Server> servers = new ArrayList<Server>();
 
-		if (domainConfigNotExist(group, domainConfig)) {
-			if (config != null) {
-				Domain d = config.findDomain(domain);
+        if (domainConfigNotExist(group, domainConfig)) {
+            if (config != null) {
+                Domain d = config.findDomain(domain);
 
-				if (d != null && d.findGroup(group) != null) {
-					servers = d.findGroup(group).getServers();
+                if (d != null && d.findGroup(group) != null) {
+                    servers = d.findGroup(group).getServers();
 
-					if (servers.isEmpty()) {
-						Cat.logError(new RuntimeException("Error when build router config, domain: " + domain));
-					}
-				}
-			}
+                    if (servers.isEmpty()) {
+                        Cat.logError(new RuntimeException("Error when build router config, domain: " + domain));
+                    }
+                }
+            }
 
-			if (servers.isEmpty()) {
-				servers = m_configManager.queryServersByDomain(group, domain);
-			}
-		} else {
-			servers = domainConfig.findGroup(group).getServers();
-		}
-		return buildServerStr(servers);
-	}
+            if (servers.isEmpty()) {
+                servers = m_configManager.queryServersByDomain(group, domain);
+            }
+        } else {
+            servers = domainConfig.findGroup(group).getServers();
+        }
+        return buildServerStr(servers);
+    }
 
-	private double buildSampleInfo(String domain) {
-		double defaultValue = 1.0;
-		com.dianping.cat.sample.entity.Domain domainConfig = m_sampleConfigManager.getConfig().findDomain(domain);
+    private double buildSampleInfo(String domain) {
+        double defaultValue = 1.0;
+        com.dianping.cat.sample.entity.Domain domainConfig = m_sampleConfigManager.getConfig().findDomain(domain);
 
-		if (domainConfig != null) {
-			defaultValue = domainConfig.getSample();
-		}
-		return defaultValue;
-	}
+        if (domainConfig != null) {
+            defaultValue = domainConfig.getSample();
+        }
+        return defaultValue;
+    }
 
-	private String buildServerStr(List<Server> servers) {
-		StringBuilder sb = new StringBuilder();
+    private String buildServerStr(List<Server> servers) {
+        StringBuilder sb = new StringBuilder();
 
-		for (Server server : servers) {
-			sb.append(server.getId()).append(":").append(server.getPort()).append(";");
-		}
-		return sb.toString();
-	}
+        for (Server server : servers) {
+            sb.append(server.getId()).append(":").append(server.getPort()).append(";");
+        }
+        return sb.toString();
+    }
 
-	private boolean domainConfigNotExist(String group, Domain domainConfig) {
-		return domainConfig == null || domainConfig.findGroup(group) == null
-		      || domainConfig.findGroup(group).getServers().isEmpty();
-	}
+    private boolean domainConfigNotExist(String group, Domain domainConfig) {
+        return domainConfig == null || domainConfig.findGroup(group) == null
+                || domainConfig.findGroup(group).getServers().isEmpty();
+    }
 
-	@Override
-	@PayloadMeta(Payload.class)
-	@InboundActionMeta(name = "router")
-	public void handleInbound(Context ctx) throws ServletException, IOException {
-		// display only, no action here
-	}
+    @Override
+    @PayloadMeta(Payload.class)
+    @InboundActionMeta(name = "router")
+    public void handleInbound(Context ctx) throws ServletException, IOException {
+        // display only, no action here
+    }
 
-	@Override
-	@OutboundActionMeta(name = "router")
-	public void handleOutbound(Context ctx) throws ServletException, IOException {
-		Model model = new Model(ctx);
-		Payload payload = ctx.getPayload();
-		Action action = payload.getAction();
-		RouterConfig report = m_cachedReportService.queryLastRouterConfig();
-		String domain = payload.getDomain();
-		String ip = payload.getIp();
+    @Override
+    @OutboundActionMeta(name = "router")
+    public void handleOutbound(Context ctx) throws ServletException, IOException {
+        Model model = new Model(ctx);
+        Payload payload = ctx.getPayload();
+        Action action = payload.getAction();
+        RouterConfig report = m_cachedReportService.queryLastRouterConfig();
+        String domain = payload.getDomain();
+        String ip = payload.getIp();
 
-		switch (action) {
-		case API:
-			String routerInfo = buildRouterInfo(ip, domain, report);
+        switch (action) {
+            case API:
+                String routerInfo = buildRouterInfo(ip, domain, report);
 
-			model.setContent(routerInfo);
-			break;
-		case JSON:
-			Map<String, String> kvs = buildKvs(report, domain, ip);
+                model.setContent(routerInfo);
+                break;
+            case JSON:
+                Map<String, String> kvs = buildKvs(report, domain, ip);
 
-			KVConfig config = new KVConfig();
-			config.getKvs().putAll(kvs);
+                KVConfig config = new KVConfig();
+                config.getKvs().putAll(kvs);
 
-			model.setContent(m_jsonBuilder.toJson(config));
-			break;
-		case XML:
-			PropertyConfig property = new PropertyConfig();
-			kvs = buildKvs(report, domain, ip);
+                model.setContent(m_jsonBuilder.toJson(config));
+                break;
+            case XML:
+                PropertyConfig property = new PropertyConfig();
+                kvs = buildKvs(report, domain, ip);
 
-			for (Map.Entry<String, String> entry : kvs.entrySet()) {
-				Property p = new Property(entry.getKey());
-				p.setValue(entry.getValue());
-				property.addProperty(p);
-			}
-			model.setContent(property.toString());
-			break;
-		case BUILD:
-			Date period = TimeHelper.getCurrentDay(-1);
-			boolean ret = m_routerConfigHandler.updateRouterConfig(period);
+                for (Map.Entry<String, String> entry : kvs.entrySet()) {
+                    Property p = new Property(entry.getKey());
+                    p.setValue(entry.getValue());
+                    property.addProperty(p);
+                }
+                model.setContent(property.toString());
+                break;
+            case BUILD:
+                Date period = TimeHelper.getCurrentDay(-1);
+                boolean ret = m_routerConfigHandler.updateRouterConfig(period);
 
-			model.setContent(String.valueOf(ret));
-			break;
-		case MODEL:
-			if (report != null) {
-				model.setContent(report.toString());
-			}
-		}
+                model.setContent(String.valueOf(ret));
+                break;
+            case MODEL:
+                if (report != null) {
+                    model.setContent(report.toString());
+                }
+        }
 
-		ctx.getHttpServletResponse().getWriter().write(model.getContent());
-	}
+        ctx.getHttpServletResponse().getWriter().write(model.getContent());
+    }
 
-	private Map<String, String> buildKvs(RouterConfig report, String domain, String ip) {
-		Map<String, String> kvs = new HashMap<String, String>();
+    private Map<String, String> buildKvs(RouterConfig report, String domain, String ip) {
+        Map<String, String> kvs = new HashMap<String, String>();
 
-		kvs.put("block", String.valueOf(m_configManager.shouldBlock(ip)));
-		kvs.put("routers", buildRouterInfo(ip, domain, report));
-		kvs.put("sample", String.valueOf(buildSampleInfo(domain)));
-		kvs.put("startTransactionTypes", m_filterManager.getAtomicStartTypes());
-		kvs.put("matchTransactionTypes", m_filterManager.getAtomicMatchTypes());
+        kvs.put("block", String.valueOf(m_configManager.shouldBlock(ip)));
+        kvs.put("routers", buildRouterInfo(ip, domain, report));
+        kvs.put("sample", String.valueOf(buildSampleInfo(domain)));
+        kvs.put("startTransactionTypes", m_filterManager.getAtomicStartTypes());
+        kvs.put("matchTransactionTypes", m_filterManager.getAtomicMatchTypes());
 
-		return kvs;
-	}
+        return kvs;
+    }
 }

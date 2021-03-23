@@ -46,17 +46,20 @@ import java.util.Map;
 import java.util.ServiceLoader;
 
 public class Cat {
+    public final static String CLIENT_CONFIG = "cat-client-config";
+    public final static String UNKNOWN = "unknown";
+    private static final Cat instance = new Cat();
     private static MessageProducer producer;
     private static MessageManager manager;
     private static int errorCount;
-    private static final Cat instance = new Cat();
     private static volatile boolean init = false;
     private static volatile boolean enabled = true;
     private static volatile boolean JSTACK_ENABLED = true;
     private static volatile boolean MULTI_INSTANCES = false;
     private static volatile boolean DATASOURCE_MONITOR_ENABLED = true;
-    public final static String CLIENT_CONFIG = "cat-client-config";
-    public final static String UNKNOWN = "unknown";
+
+    private Cat() {
+    }
 
     public static boolean isJstackEnabled() {
         String enable = Properties.forString().fromEnv().fromSystem().getProperty("jstack_enable", "true");
@@ -67,33 +70,33 @@ public class Cat {
     private static void checkAndInitialize() {
         try {
             if (!init) {
-            	ClientConfig clientConfig = getSpiClientConfig();
-				if (clientConfig == null) {
-					initializeInternal();
-				} else {
-					initializeInternal(clientConfig);
-				}
+                ClientConfig clientConfig = getSpiClientConfig();
+                if (clientConfig == null) {
+                    initializeInternal();
+                } else {
+                    initializeInternal(clientConfig);
+                }
             }
         } catch (Exception e) {
             errorHandler(e);
         }
     }
-    
+
     private static ClientConfig getSpiClientConfig() {
-		ServiceLoader<ClientConfigProvider> clientConfigProviders = ServiceLoader.load(ClientConfigProvider.class);
-		if (clientConfigProviders == null) {
-			return null;
-		}
-		
-		Iterator<ClientConfigProvider> iterator = clientConfigProviders.iterator();
-		if (iterator.hasNext()){
-			//只支持一个ClientConfigProvider的实现，默认取查询结果第一个
-			ClientConfigProvider clientConfigProvider = (ClientConfigProvider)iterator.next();
-			return clientConfigProvider.getClientConfig();
-		} else {
-			return null;
-		}
-	}
+        ServiceLoader<ClientConfigProvider> clientConfigProviders = ServiceLoader.load(ClientConfigProvider.class);
+        if (clientConfigProviders == null) {
+            return null;
+        }
+
+        Iterator<ClientConfigProvider> iterator = clientConfigProviders.iterator();
+        if (iterator.hasNext()) {
+            //只支持一个ClientConfigProvider的实现，默认取查询结果第一个
+            ClientConfigProvider clientConfigProvider = (ClientConfigProvider) iterator.next();
+            return clientConfigProvider.getClientConfig();
+        } else {
+            return null;
+        }
+    }
 
     public static String createMessageId() {
         if (isEnabled()) {
@@ -675,9 +678,6 @@ public class Cat {
                 enabled = false;
             }
         }
-    }
-
-    private Cat() {
     }
 
     public interface Context {

@@ -18,20 +18,19 @@
  */
 package com.dianping.cat.consumer.transaction;
 
-import org.junit.Test;
-import org.unidal.helper.Files;
-
 import com.dianping.cat.consumer.TestHelper;
 import com.dianping.cat.consumer.transaction.model.entity.TransactionReport;
 import com.dianping.cat.consumer.transaction.model.transform.DefaultSaxParser;
+import org.junit.Test;
+import org.unidal.helper.Files;
 
 public class TransactionReportTest {
-	@Test
-	public void testXml() throws Exception {
-		String source = Files.forIO().readFrom(getClass().getResourceAsStream("transaction_report.xml"), "utf-8");
-		TransactionReport report = DefaultSaxParser.parse(source);
-		String expected = source;
+    @Test
+    public void testXml() throws Exception {
+        String source = Files.forIO().readFrom(getClass().getResourceAsStream("transaction_report.xml"), "utf-8");
+        TransactionReport report = DefaultSaxParser.parse(source);
+        String expected = source;
 
-		TestHelper.assertEquals("XML is not well parsed!", expected, report);
-	}
+        TestHelper.assertEquals("XML is not well parsed!", expected, report);
+    }
 }

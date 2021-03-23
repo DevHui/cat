@@ -25,11 +25,11 @@ import org.unidal.lookup.annotation.Named;
 @Named
 public class TransactionRuleConfigManager extends BaseRuleConfigManager implements Initializable {
 
-	private static final String CONFIG_NAME = "transactionRule";
+    private static final String CONFIG_NAME = "transactionRule";
 
-	@Override
-	protected String getConfigName() {
-		return CONFIG_NAME;
-	}
+    @Override
+    protected String getConfigName() {
+        return CONFIG_NAME;
+    }
 
 }

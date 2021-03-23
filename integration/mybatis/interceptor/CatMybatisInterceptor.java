@@ -39,44 +39,6 @@ public class CatMybatisInterceptor implements Interceptor {
         this.datasourceUrl = datasourceUrl;
     }
 
-    public Object intercept(Invocation invocation) throws Throwable {
-        //begin cat transaction
-        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-        String methodName = this.getMethodName(mappedStatement);
-        Transaction t = Cat.newTransaction(CatConstants.TYPE_SQL, methodName);
-
-        Cat.logEvent("SQL.Database", datasourceUrl);
-        Cat.logEvent("SQL.Method", mappedStatement.getSqlCommandType().name().toLowerCase(), Message.SUCCESS, getSql(invocation, mappedStatement));
-        try {
-            Object returnValue = invocation.proceed();
-            t.setStatus(Transaction.SUCCESS);
-            return returnValue;
-        } catch (Throwable e) {
-            Cat.logError(e);
-            t.setStatus(e);
-            throw e;
-        } finally {
-            t.complete();
-        }
-
-    }
-
-    private String getMethodName(MappedStatement mappedStatement) {
-        String[] strArr = mappedStatement.getId().split("\\.");
-        String methodName = strArr[strArr.length - 2] + "." + strArr[strArr.length - 1];
-        return methodName;
-    }
-
-    private String getSql(Invocation invocation, MappedStatement mappedStatement) {
-        Object parameter = null;
-        if (invocation.getArgs().length > 1) {
-            parameter = invocation.getArgs()[1];
-        }
-        BoundSql boundSql = mappedStatement.getBoundSql(parameter);
-        Configuration configuration = mappedStatement.getConfiguration();
-        return showSql(configuration, boundSql);
-    }
-
     private static String getParameterValue(Object obj) {
         StringBuilder retStringBuilder = new StringBuilder();
         if (obj instanceof String) {
@@ -120,6 +82,44 @@ public class CatMybatisInterceptor implements Interceptor {
             }
         }
         return sqlBuilder.toString();
+    }
+
+    public Object intercept(Invocation invocation) throws Throwable {
+        //begin cat transaction
+        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+        String methodName = this.getMethodName(mappedStatement);
+        Transaction t = Cat.newTransaction(CatConstants.TYPE_SQL, methodName);
+
+        Cat.logEvent("SQL.Database", datasourceUrl);
+        Cat.logEvent("SQL.Method", mappedStatement.getSqlCommandType().name().toLowerCase(), Message.SUCCESS, getSql(invocation, mappedStatement));
+        try {
+            Object returnValue = invocation.proceed();
+            t.setStatus(Transaction.SUCCESS);
+            return returnValue;
+        } catch (Throwable e) {
+            Cat.logError(e);
+            t.setStatus(e);
+            throw e;
+        } finally {
+            t.complete();
+        }
+
+    }
+
+    private String getMethodName(MappedStatement mappedStatement) {
+        String[] strArr = mappedStatement.getId().split("\\.");
+        String methodName = strArr[strArr.length - 2] + "." + strArr[strArr.length - 1];
+        return methodName;
+    }
+
+    private String getSql(Invocation invocation, MappedStatement mappedStatement) {
+        Object parameter = null;
+        if (invocation.getArgs().length > 1) {
+            parameter = invocation.getArgs()[1];
+        }
+        BoundSql boundSql = mappedStatement.getBoundSql(parameter);
+        Configuration configuration = mappedStatement.getConfiguration();
+        return showSql(configuration, boundSql);
     }
 
     public Object plugin(Object target) {

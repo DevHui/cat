@@ -1,0 +1,344 @@
+@startuml
+
+/' diagram meta data start
+config=CallConfiguration;
+{
+  "rootMethod": "com.dianping.cat.Cat#logHeartbeat(String,String,String,String)",
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showMethodParametersTypes": false,
+    "showMethodParametersNames": false,
+    "showMethodReturnType": false,
+    "showPackageLevels": 2,
+    "showCallOrder": false,
+    "edgeMode": "MethodsOnly", // TypesOnly, MethodsOnly, TypesAndMethods, MethodsAndDirectTypeUsage
+    "showDetailedClassStructure": false
+  },
+  "rootClass": "com.dianping.cat.Cat"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="LR"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_231963676 { 
+   	label=dianping
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1054235340 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_1171320324 { 
+   	label=DefaultMetric
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultMetric982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMetric
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1235525822 { 
+   	label=NullMessageManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   NullMessageManager982561799XXXadd1675388953[
+	label="+ add()"
+	style=filled
+	fillcolor=white
+	tooltip="NullMessageManager
+
+null"
+	fontcolor=darkgreen
+];
+
+NullMessageManager982561799XXXend485852482[
+	label="+ end()"
+	style=filled
+	fillcolor=white
+	tooltip="NullMessageManager
+
+&#10;		 Be triggered when a transaction ends, whatever it's the root transaction or nested transaction. However, if it's&#10;		 the root transaction then it will be flushed to back-end CAT server asynchronously.&#10;		 \<p\>&#10;		&#10;		 @param transaction&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1714593488 { 
+   	label=DefaultHeartbeat
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultHeartbeat982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultHeartbeat
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1723658738 { 
+   	label=DefaultMessageManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultMessageManager982561799XXXadd1675388953[
+	label="+ add()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageManager
+
+null"
+	fontcolor=darkgreen
+];
+
+DefaultMessageManager982561799XXXend485852482[
+	label="+ end()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageManager
+
+&#10;		 Be triggered when a transaction ends, whatever it's the root transaction or nested transaction. However, if it's&#10;		 the root transaction then it will be flushed to back-end CAT server asynchronously.&#10;		 \<p\>&#10;		&#10;		 @param transaction&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1808896656 { 
+   	label=AbstractMessage
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AbstractMessage982561799XXXaddData1808118735[
+	label="+ addData()"
+	style=filled
+	fillcolor=white
+	tooltip="AbstractMessage
+
+&#10;		 add one or multiple key-value pairs to the message.&#10;		&#10;		 @param keyValuePairs key-value pairs like 'a=1&b=2&...'&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_398883310 { 
+   	label=DefaultTransaction
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultTransaction982561799XXXaddChild1675388953[
+	label="+ addChild()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultTransaction
+
+&#10;		 Add one nested child message to current transaction.&#10;		&#10;		 @param message to be added&#10;		"
+	fontcolor=darkgreen
+];
+
+DefaultTransaction982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultTransaction
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_729580959 { 
+   	label=Cat
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Cat2002533913XXXlogHeartbeat2012146208[
+	label="+ logHeartbeat()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	penwidth=4
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_766785005 { 
+   	label=DefaultMessageProducer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultMessageProducer982561799XXXlogHeartbeat2012146208[
+	label="+ logHeartbeat()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageProducer
+
+&#10;		 Log a heartbeat in one shot.&#10;		&#10;		 @param type heartbeat type&#10;		 @param name heartbeat name&#10;		 @param status \"0\" means success, otherwise means error code&#10;		 @param nameValuePairs name value pairs in the format of \"a=1&b=2&...\"&#10;		"
+	fontcolor=darkgreen
+];
+
+DefaultMessageProducer982561799XXXnewHeartbeat2013066710[
+	label="+ newHeartbeat()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageProducer
+
+&#10;		 Create a new heartbeat with given type and name.&#10;		&#10;		 @param type heartbeat type&#10;		 @param name heartbeat name&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_773623139 { 
+   	label=NullMessageProducer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   NullMessageProducer982561799XXXlogHeartbeat2012146208[
+	label="+ logHeartbeat()"
+	style=filled
+	fillcolor=white
+	tooltip="NullMessageProducer
+
+&#10;		 Log a heartbeat in one shot.&#10;		&#10;		 @param type heartbeat type&#10;		 @param name heartbeat name&#10;		 @param status \"0\" means success, otherwise means error code&#10;		 @param nameValuePairs name value pairs in the format of \"a=1&b=2&...\"&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_786603214 { 
+   	label=DefaultEvent
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultEvent982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultEvent
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_800332665 { 
+   	label=DefaultTrace
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultTrace982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultTrace
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+'edges    
+Cat2002533913XXXlogHeartbeat2012146208 -> DefaultMessageProducer982561799XXXlogHeartbeat2012146208;
+Cat2002533913XXXlogHeartbeat2012146208 -> NullMessageProducer982561799XXXlogHeartbeat2012146208;
+DefaultMessageProducer982561799XXXlogHeartbeat2012146208 -> AbstractMessage982561799XXXaddData1808118735;
+DefaultMessageProducer982561799XXXlogHeartbeat2012146208 -> DefaultEvent982561799XXXcomplete0;
+DefaultMessageProducer982561799XXXlogHeartbeat2012146208 -> DefaultHeartbeat982561799XXXcomplete0;
+DefaultMessageProducer982561799XXXlogHeartbeat2012146208 -> DefaultMessageProducer982561799XXXnewHeartbeat2013066710;
+DefaultMessageProducer982561799XXXlogHeartbeat2012146208 -> DefaultMetric982561799XXXcomplete0;
+DefaultMessageProducer982561799XXXlogHeartbeat2012146208 -> DefaultTrace982561799XXXcomplete0;
+DefaultMessageProducer982561799XXXlogHeartbeat2012146208 -> DefaultTransaction982561799XXXcomplete0;
+DefaultTrace982561799XXXcomplete0 -> DefaultMessageManager982561799XXXadd1675388953;
+DefaultTrace982561799XXXcomplete0 -> NullMessageManager982561799XXXadd1675388953;
+DefaultTransaction982561799XXXcomplete0 -> DefaultEvent982561799XXXcomplete0;
+DefaultTransaction982561799XXXcomplete0 -> DefaultMessageManager982561799XXXend485852482;
+DefaultTransaction982561799XXXcomplete0 -> DefaultTransaction982561799XXXaddChild1675388953;
+DefaultTransaction982561799XXXcomplete0 -> NullMessageManager982561799XXXend485852482;
+    
+}
+@enduml

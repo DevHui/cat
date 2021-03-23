@@ -18,98 +18,97 @@
  */
 package com.dianping.cat.report.page.state;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.unidal.web.mvc.view.annotation.EntityMeta;
-import org.unidal.web.mvc.view.annotation.ModelMeta;
-
 import com.dianping.cat.consumer.state.StateAnalyzer;
 import com.dianping.cat.consumer.state.model.entity.StateReport;
 import com.dianping.cat.helper.SortHelper;
 import com.dianping.cat.mvc.AbstractReportModel;
 import com.dianping.cat.report.ReportPage;
+import org.unidal.web.mvc.view.annotation.EntityMeta;
+import org.unidal.web.mvc.view.annotation.ModelMeta;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @ModelMeta(StateAnalyzer.ID)
 public class Model extends AbstractReportModel<Action, ReportPage, Context> {
 
-	@EntityMeta
-	public StateReport m_report;
+    @EntityMeta
+    public StateReport m_report;
 
-	@EntityMeta
-	public StateDisplay m_state;
+    @EntityMeta
+    public StateDisplay m_state;
 
-	public String m_message;
+    public String m_message;
 
-	public String m_graph;
+    public String m_graph;
 
-	public String m_pieChart;
+    public String m_pieChart;
 
-	public Model(Context ctx) {
-		super(ctx);
-	}
+    public Model(Context ctx) {
+        super(ctx);
+    }
 
-	@Override
-	public Action getDefaultAction() {
-		return Action.HOURLY;
-	}
+    @Override
+    public Action getDefaultAction() {
+        return Action.HOURLY;
+    }
 
-	@Override
-	public String getDomain() {
-		return getDisplayDomain();
-	}
+    @Override
+    public String getDomain() {
+        return getDisplayDomain();
+    }
 
-	@Override
-	public Collection<String> getDomains() {
-		return new ArrayList<String>();
-	}
+    @Override
+    public Collection<String> getDomains() {
+        return new ArrayList<String>();
+    }
 
-	public String getGraph() {
-		return m_graph;
-	}
+    public String getGraph() {
+        return m_graph;
+    }
 
-	public void setGraph(String graph) {
-		m_graph = graph;
-	}
+    public void setGraph(String graph) {
+        m_graph = graph;
+    }
 
-	public List<String> getIps() {
-		if (m_report == null) {
-			return new ArrayList<String>();
-		}
-		return SortHelper.sortIpAddress(m_report.getMachines().keySet());
-	}
+    public List<String> getIps() {
+        if (m_report == null) {
+            return new ArrayList<String>();
+        }
+        return SortHelper.sortIpAddress(m_report.getMachines().keySet());
+    }
 
-	public String getMessage() {
-		return m_message;
-	}
+    public String getMessage() {
+        return m_message;
+    }
 
-	public void setMessage(String message) {
-		m_message = message;
-	}
+    public void setMessage(String message) {
+        m_message = message;
+    }
 
-	public String getPieChart() {
-		return m_pieChart;
-	}
+    public String getPieChart() {
+        return m_pieChart;
+    }
 
-	public void setPieChart(String pieChart) {
-		m_pieChart = pieChart;
-	}
+    public void setPieChart(String pieChart) {
+        m_pieChart = pieChart;
+    }
 
-	public StateReport getReport() {
-		return m_report;
-	}
+    public StateReport getReport() {
+        return m_report;
+    }
 
-	public void setReport(StateReport reports) {
-		m_report = reports;
-	}
+    public void setReport(StateReport reports) {
+        m_report = reports;
+    }
 
-	public StateDisplay getState() {
-		return m_state;
-	}
+    public StateDisplay getState() {
+        return m_state;
+    }
 
-	public void setState(StateDisplay state) {
-		m_state = state;
-	}
+    public void setState(StateDisplay state) {
+        m_state = state;
+    }
 
 }

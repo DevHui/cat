@@ -14,9 +14,9 @@ import static com.dianping.cat.status.model.Constants.ENTITY_EXTENSION;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Extension extends BaseEntity<Extension> {
+    private final Map<String, ExtensionDetail> details = new LinkedHashMap<String, ExtensionDetail>();
     private String id;
     private String description;
-    private final Map<String, ExtensionDetail> details = new LinkedHashMap<String, ExtensionDetail>();
     private Map<String, String> dynamicAttributes = new LinkedHashMap<String, String>();
 
     public Extension() {

@@ -20,44 +20,44 @@ package com.dianping.cat.alarm.spi;
 
 public enum AlertType {
 
-	Business("Business", "业务告警"),
+    Business("Business", "业务告警"),
 
-	Exception("Exception", "异常告警"),
+    Exception("Exception", "异常告警"),
 
-	HeartBeat("Heartbeat", "心跳告警"),
+    HeartBeat("Heartbeat", "心跳告警"),
 
-	Transaction("Transaction", "Transacation告警"),
+    Transaction("Transaction", "Transacation告警"),
 
-	Event("Event", "Event告警");
+    Event("Event", "Event告警");
 
-	private String m_name;
+    private String m_name;
 
-	private String m_title;
+    private String m_title;
 
-	private AlertType(String name, String title) {
-		m_name = name;
-		m_title = title;
-	}
+    private AlertType(String name, String title) {
+        m_name = name;
+        m_title = title;
+    }
 
-	public static AlertType getTypeByName(String name) {
-		for (AlertType type : AlertType.values()) {
-			if (type.getName().equals(name)) {
-				return type;
-			}
-		}
-		return null;
-	}
+    public static AlertType getTypeByName(String name) {
+        for (AlertType type : AlertType.values()) {
+            if (type.getName().equals(name)) {
+                return type;
+            }
+        }
+        return null;
+    }
 
-	public String getName() {
-		return m_name;
-	}
+    public String getName() {
+        return m_name;
+    }
 
-	public String getTitle() {
-		return m_title;
-	}
+    public String getTitle() {
+        return m_title;
+    }
 
-	public void setTitle(String title) {
-		m_title = title;
-	}
+    public void setTitle(String title) {
+        m_title = title;
+    }
 
 }

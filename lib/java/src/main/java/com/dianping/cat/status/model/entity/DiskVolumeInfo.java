@@ -41,16 +41,36 @@ public class DiskVolumeInfo extends BaseEntity<DiskVolumeInfo> {
         return free;
     }
 
+    public DiskVolumeInfo setFree(long free) {
+        this.free = free;
+        return this;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public DiskVolumeInfo setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public long getTotal() {
         return total;
     }
 
+    public DiskVolumeInfo setTotal(long total) {
+        this.total = total;
+        return this;
+    }
+
     public long getUsable() {
         return usable;
+    }
+
+    public DiskVolumeInfo setUsable(long usable) {
+        this.usable = usable;
+        return this;
     }
 
     @Override
@@ -71,26 +91,6 @@ public class DiskVolumeInfo extends BaseEntity<DiskVolumeInfo> {
         free = other.getFree();
 
         usable = other.getUsable();
-    }
-
-    public DiskVolumeInfo setFree(long free) {
-        this.free = free;
-        return this;
-    }
-
-    public DiskVolumeInfo setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public DiskVolumeInfo setTotal(long total) {
-        this.total = total;
-        return this;
-    }
-
-    public DiskVolumeInfo setUsable(long usable) {
-        this.usable = usable;
-        return this;
     }
 
 }

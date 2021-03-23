@@ -15,6 +15,7 @@ public class JettyHttpServerTransportModule extends AbstractModule {
     }
 
     @SuppressWarnings({"unchecked"})
-    @Override protected void configure() {
+    @Override
+    protected void configure() {
     }
 }

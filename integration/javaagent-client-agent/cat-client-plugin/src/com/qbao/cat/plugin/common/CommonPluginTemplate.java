@@ -30,33 +30,35 @@ import com.qbao.cat.plugin.DefaultPluginTemplate;
 @Aspect
 public abstract class CommonPluginTemplate extends DefaultPluginTemplate {
 
-	@Override
-	@Pointcut
-	public void scope() {}
-
-	
-	@Override
-	@Around(POINTCUT_NAME)
-	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		return super.doAround(pjp);
-	}
+    @Override
+    @Pointcut
+    public void scope() {
+    }
 
 
-	@Override
-	protected Transaction beginLog(ProceedingJoinPoint pjp) {
-		StringBuilder type = new StringBuilder();
-		String packageStr = pjp.getSignature().getDeclaringType().getPackage().getName();
-		StringTokenizer st = new StringTokenizer(packageStr, ".");
-		for(int i=0;i<2;i++){
-			type.append(st.nextToken());
-			type.append(".");
-		}
-		type.append("Method");
-		Transaction transaction = Cat.newTransaction(type.toString(),pjp.getSignature().toString());
-		return transaction;
-	}
-	
-	@Override
-	protected void endLog(Transaction transaction, Object retVal, Object... params) {}
+    @Override
+    @Around(POINTCUT_NAME)
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        return super.doAround(pjp);
+    }
+
+
+    @Override
+    protected Transaction beginLog(ProceedingJoinPoint pjp) {
+        StringBuilder type = new StringBuilder();
+        String packageStr = pjp.getSignature().getDeclaringType().getPackage().getName();
+        StringTokenizer st = new StringTokenizer(packageStr, ".");
+        for (int i = 0; i < 2; i++) {
+            type.append(st.nextToken());
+            type.append(".");
+        }
+        type.append("Method");
+        Transaction transaction = Cat.newTransaction(type.toString(), pjp.getSignature().toString());
+        return transaction;
+    }
+
+    @Override
+    protected void endLog(Transaction transaction, Object retVal, Object... params) {
+    }
 
 }

@@ -22,11 +22,11 @@ import java.util.Map;
 
 public interface DataExtractor {
 
-	public int calculateInterval(int length);
+    public int calculateInterval(int length);
 
-	public double[] extract(double[] values);
+    public double[] extract(double[] values);
 
-	public Map<String, double[]> extract(final Map<String, double[]> values);
+    public Map<String, double[]> extract(final Map<String, double[]> values);
 
-	public int getStep();
+    public int getStep();
 }

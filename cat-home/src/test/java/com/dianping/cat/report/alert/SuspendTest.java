@@ -18,40 +18,39 @@
  */
 package com.dianping.cat.report.alert;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
+import com.dianping.cat.alarm.spi.AlertEntity;
+import com.dianping.cat.alarm.spi.AlertManager;
+import com.dianping.cat.alarm.spi.AlertType;
 import junit.framework.Assert;
 import org.junit.Test;
 import org.unidal.lookup.ComponentTestCase;
 
-import com.dianping.cat.alarm.spi.AlertEntity;
-import com.dianping.cat.alarm.spi.AlertManager;
-import com.dianping.cat.alarm.spi.AlertType;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class SuspendTest extends ComponentTestCase {
 
-	@Test
-	public void test() {
-		AlertManager manager = lookup(AlertManager.class);
-		AlertEntity entity = new AlertEntity();
-		entity.setDate(new Date()).setContent("test").setLevel("error");
-		entity.setMetric("testMetric").setType(AlertType.Transaction.getName()).setGroup("testGroup");
+    @Test
+    public void test() {
+        AlertManager manager = lookup(AlertManager.class);
+        AlertEntity entity = new AlertEntity();
+        entity.setDate(new Date()).setContent("test").setLevel("error");
+        entity.setMetric("testMetric").setType(AlertType.Transaction.getName()).setGroup("testGroup");
 
-		try {
-			manager.addAlert(entity);
-			TimeUnit.SECONDS.sleep(1);
-		} catch (Exception ex) {
+        try {
+            manager.addAlert(entity);
+            TimeUnit.SECONDS.sleep(1);
+        } catch (Exception ex) {
 
-		}
+        }
 
-		Assert.assertTrue(manager.isSuspend(entity.getKey(), 1));
-		try {
-			TimeUnit.SECONDS.sleep(65);
-		} catch (InterruptedException e) {
-		}
+        Assert.assertTrue(manager.isSuspend(entity.getKey(), 1));
+        try {
+            TimeUnit.SECONDS.sleep(65);
+        } catch (InterruptedException e) {
+        }
 
-		Assert.assertFalse(manager.isSuspend(entity.getKey(), 1));
-	}
+        Assert.assertFalse(manager.isSuspend(entity.getKey(), 1));
+    }
 
 }

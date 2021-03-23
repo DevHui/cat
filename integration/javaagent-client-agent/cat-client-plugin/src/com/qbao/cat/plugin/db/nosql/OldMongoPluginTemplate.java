@@ -27,35 +27,35 @@ import com.mongodb.DBCollection;
 import com.qbao.cat.plugin.DefaultPluginTemplate;
 
 /**
- * ¸ù¾Ý <a href="https://stackoverflow.com/questions/29364787/mongocollection-versus-dbcollection-java">
- * https://stackoverflow.com/questions/29364787/mongocollection-versus-dbcollection-java</a>½éÉÜ£»
- * 3.0ÒÔºóµÄ¿Í»§¶Ë°æ±¾Ò»°ãÓÃMongoCollection, ¶ø²»ÔÙÓÃDbCollection
- * @author andersen
+ * ï¿½ï¿½ï¿½ï¿½ <a href="https://stackoverflow.com/questions/29364787/mongocollection-versus-dbcollection-java">
+ * https://stackoverflow.com/questions/29364787/mongocollection-versus-dbcollection-java</a>ï¿½ï¿½ï¿½Ü£ï¿½
+ * 3.0ï¿½Ôºï¿½Ä¿Í»ï¿½ï¿½Ë°æ±¾Ò»ï¿½ï¿½ï¿½ï¿½MongoCollection, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½DbCollection
  *
+ * @author andersen
  */
 @Aspect
 public abstract class OldMongoPluginTemplate extends DefaultPluginTemplate {
-	@Pointcut
-	public void scope() {
-	}
+    @Pointcut
+    public void scope() {
+    }
 
-	@Around(POINTCUT_NAME)
-	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		return super.doAround(pjp);
-	}
+    @Around(POINTCUT_NAME)
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        return super.doAround(pjp);
+    }
 
-	protected Transaction beginLog(ProceedingJoinPoint pjp) {
-		Transaction transaction = null;
-		transaction = newTransaction("MongoDB", String.valueOf(pjp.getSignature().toShortString()));
-		DBCollection collector = (DBCollection) pjp.getTarget();
-		Cat.logEvent("Host", collector.getDB().getMongo().getServerAddressList().toString());
-		Cat.logEvent("Connection", collector.toString());
-		Cat.logEvent("DB", collector.getDB().getName());
-		Cat.logEvent("Method", pjp.getSignature().toString());
-		return transaction;
-	}
+    protected Transaction beginLog(ProceedingJoinPoint pjp) {
+        Transaction transaction = null;
+        transaction = newTransaction("MongoDB", String.valueOf(pjp.getSignature().toShortString()));
+        DBCollection collector = (DBCollection) pjp.getTarget();
+        Cat.logEvent("Host", collector.getDB().getMongo().getServerAddressList().toString());
+        Cat.logEvent("Connection", collector.toString());
+        Cat.logEvent("DB", collector.getDB().getName());
+        Cat.logEvent("Method", pjp.getSignature().toString());
+        return transaction;
+    }
 
-	@Override
-	protected void endLog(Transaction transaction, Object retVal, Object... params) {
-	}
+    @Override
+    protected void endLog(Transaction transaction, Object retVal, Object... params) {
+    }
 }

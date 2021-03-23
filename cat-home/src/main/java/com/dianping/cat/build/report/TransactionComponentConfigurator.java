@@ -18,12 +18,6 @@
  */
 package com.dianping.cat.build.report;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.unidal.lookup.configuration.AbstractResourceConfigurator;
-import org.unidal.lookup.configuration.Component;
-
 import com.dianping.cat.alarm.spi.config.AlertConfigManager;
 import com.dianping.cat.alarm.spi.decorator.Decorator;
 import com.dianping.cat.alarm.spi.receiver.Contactor;
@@ -42,30 +36,35 @@ import com.dianping.cat.report.page.transaction.transform.TransactionMergeHelper
 import com.dianping.cat.report.server.RemoteServersManager;
 import com.dianping.cat.report.service.ModelService;
 import com.dianping.cat.service.ProjectService;
+import org.unidal.lookup.configuration.AbstractResourceConfigurator;
+import org.unidal.lookup.configuration.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionComponentConfigurator extends AbstractResourceConfigurator {
-	@Override
-	public List<Component> defineComponents() {
-		List<Component> all = new ArrayList<Component>();
+    @Override
+    public List<Component> defineComponents() {
+        List<Component> all = new ArrayList<Component>();
 
-		all.add(A(TransactionMergeHelper.class));
-		all.add(A(TransactionReportService.class));
-		all.add(A(TransactionRuleConfigManager.class));
+        all.add(A(TransactionMergeHelper.class));
+        all.add(A(TransactionReportService.class));
+        all.add(A(TransactionRuleConfigManager.class));
 
-		all.add(C(Contactor.class, TransactionContactor.ID, TransactionContactor.class)
-								.req(ProjectService.class,	AlertConfigManager.class));
-		all.add(C(Decorator.class, TransactionDecorator.ID, TransactionDecorator.class));
-		all.add(A(TransactionAlert.class));
+        all.add(C(Contactor.class, TransactionContactor.ID, TransactionContactor.class)
+                .req(ProjectService.class, AlertConfigManager.class));
+        all.add(C(Decorator.class, TransactionDecorator.ID, TransactionDecorator.class));
+        all.add(A(TransactionAlert.class));
 
-		all.add(A(LocalTransactionService.class));
-		all.add(C(ModelService.class, "transaction-historical", HistoricalTransactionService.class) //
-								.req(TransactionReportService.class, ServerConfigManager.class));
-		all.add(C(ModelService.class, TransactionAnalyzer.ID, CompositeTransactionService.class) //
-								.req(ServerConfigManager.class, RemoteServersManager.class) //
-								.req(ModelService.class, new String[] { "transaction-historical" }, "m_services"));
+        all.add(A(LocalTransactionService.class));
+        all.add(C(ModelService.class, "transaction-historical", HistoricalTransactionService.class) //
+                .req(TransactionReportService.class, ServerConfigManager.class));
+        all.add(C(ModelService.class, TransactionAnalyzer.ID, CompositeTransactionService.class) //
+                .req(ServerConfigManager.class, RemoteServersManager.class) //
+                .req(ModelService.class, new String[]{"transaction-historical"}, "m_services"));
 
-		all.add(A(TransactionReportBuilder.class));
+        all.add(A(TransactionReportBuilder.class));
 
-		return all;
-	}
+        return all;
+    }
 }

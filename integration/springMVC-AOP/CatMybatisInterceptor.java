@@ -22,37 +22,12 @@ import java.util.Locale;
 import java.util.Properties;
 
 @Intercepts({
-        @Signature(type = Executor.class, method = "update", args = { MappedStatement.class, Object.class }),
-        @Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
-                RowBounds.class, ResultHandler.class }) })
+        @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class}),
+        @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class,
+                RowBounds.class, ResultHandler.class})})
 public class CatMybatisInterceptor implements Interceptor {
 
     private Properties properties;
-
-    public Object intercept(Invocation invocation) throws Throwable {
-        //begin cat transaction
-        String datasourceUrl = properties.getProperty("datasourceUrl");
-
-        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-
-        String sqlId = mappedStatement.getId();
-
-        com.dianping.cat.message.Transaction t = Cat.newTransaction(CatConstants.TYPE_SQL, sqlId);
-        Cat.logEvent("SQL.Database", datasourceUrl);
-        Cat.logEvent("SQL.Method", invocation.getMethod().getName());
-        try {
-            Object returnValue = invocation.proceed();
-            t.setStatus(com.dianping.cat.message.Transaction.SUCCESS);
-            return returnValue;
-        } catch (Throwable e) {
-            Cat.logError(e);
-            t.setStatus(e);
-            throw e;
-        }finally{
-            t.complete();
-        }
-
-    }
 
     private static String getParameterValue(Object obj) {
         String value = null;
@@ -95,6 +70,31 @@ public class CatMybatisInterceptor implements Interceptor {
             }
         }
         return sql;
+    }
+
+    public Object intercept(Invocation invocation) throws Throwable {
+        //begin cat transaction
+        String datasourceUrl = properties.getProperty("datasourceUrl");
+
+        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+
+        String sqlId = mappedStatement.getId();
+
+        com.dianping.cat.message.Transaction t = Cat.newTransaction(CatConstants.TYPE_SQL, sqlId);
+        Cat.logEvent("SQL.Database", datasourceUrl);
+        Cat.logEvent("SQL.Method", invocation.getMethod().getName());
+        try {
+            Object returnValue = invocation.proceed();
+            t.setStatus(com.dianping.cat.message.Transaction.SUCCESS);
+            return returnValue;
+        } catch (Throwable e) {
+            Cat.logError(e);
+            t.setStatus(e);
+            throw e;
+        } finally {
+            t.complete();
+        }
+
     }
 
     public Object plugin(Object target) {

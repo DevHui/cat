@@ -27,8 +27,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StaticInfoCollector extends AbstractCollector {
-    private String jars;
     private static final String CLASSPATH = "system.java.classpath";
+    private String jars;
 
     private void buildClasspath() {
         ClassLoader loader = StaticInfoCollector.class.getClassLoader();

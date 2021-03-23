@@ -80,8 +80,16 @@ public class Pair<K, V> implements Tuple {
         return key;
     }
 
+    public void setKey(K key) {
+        this.key = key;
+    }
+
     public V getValue() {
         return value;
+    }
+
+    public void setValue(V value) {
+        this.value = value;
     }
 
     @Override
@@ -92,14 +100,6 @@ public class Pair<K, V> implements Tuple {
         hash = hash * 31 + (value == null ? 0 : value.hashCode());
 
         return hash;
-    }
-
-    public void setKey(K key) {
-        this.key = key;
-    }
-
-    public void setValue(V value) {
-        this.value = value;
     }
 
     @Override

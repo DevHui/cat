@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.qbao.cat.plugin.db.sql;
 
@@ -19,75 +19,75 @@ import com.mysql.jdbc.PreparedStatement;
 import com.qbao.cat.plugin.DefaultPluginTemplate;
 
 /**
- * ËµÃ÷£º
- * 1. ±¾pluginÖ»Õë¶ÔÓÃPreparedStatementÖ´ÐÐsqlµÄÇé¿ö£¬pointcut±í´ïÊ½ÖÐÈç¹ûÂñµ½ÆäËüÀàÖÐÔòÎÞÐ§
+ * Ëµï¿½ï¿½ï¿½ï¿½
+ * 1. ï¿½ï¿½pluginÖ»ï¿½ï¿½ï¿½ï¿½ï¿½PreparedStatementÖ´ï¿½ï¿½sqlï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pointcutï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§
  * @author andersen
  *
  */
 @Aspect
 public abstract class MySQLPreparedStatementPluginTemplate extends DefaultPluginTemplate {
-	
-	private volatile static boolean effective = true;
-	
-	private volatile static Field originalSqlField = null;
-	
-	public MySQLPreparedStatementPluginTemplate() {
-		try {
-			originalSqlField = PreparedStatement.class.getDeclaredField("originalSql");
-			if(isNotNull(originalSqlField)){
-				originalSqlField.setAccessible(true);
-			}else{
-				effective = false;
-			}
-		} catch (Exception e) {
-			effective = false;
-		}
-	}
-	
-	@Around(POINTCUT_NAME)
-	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		return super.doAround(pjp);
-	}
 
-	/* (non-Javadoc)
-	 * @see cat.qbao.cat.plugin.PluginTemplate#scope()
-	 */
-	@Pointcut
-	public void scope() {
-		// TODO Auto-generated method stub
-	}
+    private volatile static boolean effective = true;
 
-	/* (non-Javadoc)
-	 * @see cat.qbao.cat.plugin.DefaultPluginTemplate#beginLog(org.aspectj.lang.ProceedingJoinPoint)
-	 */
-	protected Transaction beginLog(ProceedingJoinPoint pjp) {
-		try {
-			if (effective && pjp.getTarget() instanceof PreparedStatement){
-				Transaction transaction = this.newTransaction(CatConstants.TYPE_SQL, (String)originalSqlField.get(pjp.getTarget()));
-				PreparedStatement ps = (PreparedStatement)pjp.getTarget();
-				if (ps.getConnection() instanceof ConnectionImpl){
-					Cat.logEvent(MyCatConstants.TYPE_SQL_DATABASE, ((ConnectionImpl)((PreparedStatement)pjp.getTarget()).getConnection()).getURL());
-				}			
-				if ("true".equals(config.getProperty("plugin.mysql.ps.includefullsql"))){
-					transaction.addData("FullSQL", ps.toString().split(":")[1]);
-				}
-				return transaction;
-			}else{
-				return null;
-			}
-		}catch (Exception e1) {
-			return null;
-		}
-		
-	}
+    private volatile static Field originalSqlField = null;
 
-	/* (non-Javadoc)
-	 * @see cat.qbao.cat.plugin.DefaultPluginTemplate#endLog(com.dianping.cat.message.Transaction, java.lang.Object, java.lang.Object[])
-	 */
-	@Override
-	protected void endLog(Transaction transaction, Object retVal, Object... params) {
-		// TODO Auto-generated method stub
+    public MySQLPreparedStatementPluginTemplate() {
+        try {
+            originalSqlField = PreparedStatement.class.getDeclaredField("originalSql");
+            if (isNotNull(originalSqlField)) {
+                originalSqlField.setAccessible(true);
+            } else {
+                effective = false;
+            }
+        } catch (Exception e) {
+            effective = false;
+        }
+    }
 
-	}
+    @Around(POINTCUT_NAME)
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        return super.doAround(pjp);
+    }
+
+    /* (non-Javadoc)
+     * @see cat.qbao.cat.plugin.PluginTemplate#scope()
+     */
+    @Pointcut
+    public void scope() {
+        // TODO Auto-generated method stub
+    }
+
+    /* (non-Javadoc)
+     * @see cat.qbao.cat.plugin.DefaultPluginTemplate#beginLog(org.aspectj.lang.ProceedingJoinPoint)
+     */
+    protected Transaction beginLog(ProceedingJoinPoint pjp) {
+        try {
+            if (effective && pjp.getTarget() instanceof PreparedStatement) {
+                Transaction transaction = this.newTransaction(CatConstants.TYPE_SQL, (String) originalSqlField.get(pjp.getTarget()));
+                PreparedStatement ps = (PreparedStatement) pjp.getTarget();
+                if (ps.getConnection() instanceof ConnectionImpl) {
+                    Cat.logEvent(MyCatConstants.TYPE_SQL_DATABASE, ((ConnectionImpl) ((PreparedStatement) pjp.getTarget()).getConnection()).getURL());
+                }
+                if ("true".equals(config.getProperty("plugin.mysql.ps.includefullsql"))) {
+                    transaction.addData("FullSQL", ps.toString().split(":")[1]);
+                }
+                return transaction;
+            } else {
+                return null;
+            }
+        } catch (Exception e1) {
+            return null;
+        }
+
+    }
+
+    /* (non-Javadoc)
+     * @see cat.qbao.cat.plugin.DefaultPluginTemplate#endLog(com.dianping.cat.message.Transaction, java.lang.Object, java.lang.Object[])
+     */
+    @Override
+    protected void endLog(Transaction transaction, Object retVal, Object... params) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

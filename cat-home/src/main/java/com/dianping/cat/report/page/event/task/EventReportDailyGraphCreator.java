@@ -18,112 +18,107 @@
  */
 package com.dianping.cat.report.page.event.task;
 
-import java.util.Date;
-
-import org.codehaus.plexus.util.StringUtils;
-
 import com.dianping.cat.consumer.GraphTrendUtil;
-import com.dianping.cat.consumer.event.model.entity.EventName;
-import com.dianping.cat.consumer.event.model.entity.EventReport;
-import com.dianping.cat.consumer.event.model.entity.EventType;
-import com.dianping.cat.consumer.event.model.entity.GraphTrend;
-import com.dianping.cat.consumer.event.model.entity.Machine;
+import com.dianping.cat.consumer.event.model.entity.*;
 import com.dianping.cat.consumer.event.model.transform.BaseVisitor;
 import com.dianping.cat.helper.TimeHelper;
+import org.codehaus.plexus.util.StringUtils;
+
+import java.util.Date;
 
 public class EventReportDailyGraphCreator {
 
-	private EventReport m_report;
+    private EventReport m_report;
 
-	private int m_length;
+    private int m_length;
 
-	private int m_duration = 1;
+    private int m_duration = 1;
 
-	private Date m_start;
+    private Date m_start;
 
-	public EventReportDailyGraphCreator(EventReport eventReport, int length, Date start) {
-		m_report = eventReport;
-		m_length = length;
-		m_start = start;
-	}
+    public EventReportDailyGraphCreator(EventReport eventReport, int length, Date start) {
+        m_report = eventReport;
+        m_length = length;
+        m_start = start;
+    }
 
-	public void createGraph(EventReport from) {
-		new EventReportVisitor().visitEventReport(from);
-	}
+    public void createGraph(EventReport from) {
+        new EventReportVisitor().visitEventReport(from);
+    }
 
-	class EventReportVisitor extends BaseVisitor {
+    class EventReportVisitor extends BaseVisitor {
 
-		private Machine m_currentMachine;
+        private Machine m_currentMachine;
 
-		private EventType m_currentType;
+        private EventType m_currentType;
 
-		private EventName m_currentName;
+        private EventName m_currentName;
 
-		private int m_day;
+        private int m_day;
 
-		private void buildGraphTrend(GraphTrend graph, long totalCount, long failCount) {
-			Long[] count = GraphTrendUtil.parseToLong(graph.getCount(), m_length);
-			Long[] fails = GraphTrendUtil.parseToLong(graph.getFails(), m_length);
+        private void buildGraphTrend(GraphTrend graph, long totalCount, long failCount) {
+            Long[] count = GraphTrendUtil.parseToLong(graph.getCount(), m_length);
+            Long[] fails = GraphTrendUtil.parseToLong(graph.getFails(), m_length);
 
-			count[m_day] = totalCount;
-			fails[m_day] = failCount;
+            count[m_day] = totalCount;
+            fails[m_day] = failCount;
 
-			graph.setCount(StringUtils.join(count, GraphTrendUtil.GRAPH_SPLITTER));
-			graph.setFails(StringUtils.join(fails, GraphTrendUtil.GRAPH_SPLITTER));
-		}
+            graph.setCount(StringUtils.join(count, GraphTrendUtil.GRAPH_SPLITTER));
+            graph.setFails(StringUtils.join(fails, GraphTrendUtil.GRAPH_SPLITTER));
+        }
 
-		@Override
-		public void visitMachine(Machine machine) {
-			String ip = machine.getIp();
-			m_currentMachine = m_report.findOrCreateMachine(ip);
-			super.visitMachine(machine);
-		}
+        @Override
+        public void visitMachine(Machine machine) {
+            String ip = machine.getIp();
+            m_currentMachine = m_report.findOrCreateMachine(ip);
+            super.visitMachine(machine);
+        }
 
-		@Override
-		public void visitName(EventName name) {
-			name.setGraphTrend(null);
+        @Override
+        public void visitName(EventName name) {
+            name.setGraphTrend(null);
 
-			String nameId = name.getId();
-			m_currentName = m_currentType.findOrCreateName(nameId);
+            String nameId = name.getId();
+            m_currentName = m_currentType.findOrCreateName(nameId);
 
-			GraphTrend graph = m_currentName.getGraphTrend();
+            GraphTrend graph = m_currentName.getGraphTrend();
 
-			if (graph == null) {
-				graph = new GraphTrend();
-				graph.setDuration(m_duration);
-				m_currentName.setGraphTrend(graph);
-			}
-			buildGraphTrend(graph, name.getTotalCount(), name.getFailCount());
+            if (graph == null) {
+                graph = new GraphTrend();
+                graph.setDuration(m_duration);
+                m_currentName.setGraphTrend(graph);
+            }
+            buildGraphTrend(graph, name.getTotalCount(), name.getFailCount());
 
-			super.visitName(name);
-		}
+            super.visitName(name);
+        }
 
-		@Override
-		public void visitEventReport(EventReport transactionReport) {
-			Date from = transactionReport.getStartTime();
+        @Override
+        public void visitEventReport(EventReport transactionReport) {
+            Date from = transactionReport.getStartTime();
 
-			m_day = (int) ((from.getTime() - m_start.getTime()) / TimeHelper.ONE_DAY);
-			super.visitEventReport(transactionReport);
-		}
+            m_day = (int) ((from.getTime() - m_start.getTime()) / TimeHelper.ONE_DAY);
+            super.visitEventReport(transactionReport);
+        }
 
-		@Override
-		public void visitType(EventType type) {
-			type.setGraphTrend(null);
+        @Override
+        public void visitType(EventType type) {
+            type.setGraphTrend(null);
 
-			String typeId = type.getId();
-			m_currentType = m_currentMachine.findOrCreateType(typeId);
+            String typeId = type.getId();
+            m_currentType = m_currentMachine.findOrCreateType(typeId);
 
-			GraphTrend graph = m_currentType.getGraphTrend();
+            GraphTrend graph = m_currentType.getGraphTrend();
 
-			if (graph == null) {
-				graph = new GraphTrend();
-				graph.setDuration(m_duration);
-				m_currentType.setGraphTrend(graph);
-			}
-			buildGraphTrend(graph, type.getTotalCount(), type.getFailCount());
+            if (graph == null) {
+                graph = new GraphTrend();
+                graph.setDuration(m_duration);
+                m_currentType.setGraphTrend(graph);
+            }
+            buildGraphTrend(graph, type.getTotalCount(), type.getFailCount());
 
-			super.visitType(type);
-		}
-	}
+            super.visitType(type);
+        }
+    }
 
 }

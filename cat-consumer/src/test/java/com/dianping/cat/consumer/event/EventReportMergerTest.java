@@ -18,29 +18,28 @@
  */
 package com.dianping.cat.consumer.event;
 
+import com.dianping.cat.consumer.TestHelper;
+import com.dianping.cat.consumer.event.model.entity.EventReport;
+import com.dianping.cat.consumer.event.model.transform.DefaultSaxParser;
 import org.junit.Assert;
 import org.junit.Test;
 import org.unidal.helper.Files;
 
-import com.dianping.cat.consumer.TestHelper;
-import com.dianping.cat.consumer.event.model.entity.EventReport;
-import com.dianping.cat.consumer.event.model.transform.DefaultSaxParser;
-
 public class EventReportMergerTest {
-	@Test
-	public void testEventReportMerge() throws Exception {
-		String oldXml = Files.forIO().readFrom(getClass().getResourceAsStream("event_report_old.xml"), "utf-8");
-		String newXml = Files.forIO().readFrom(getClass().getResourceAsStream("event_report_new.xml"), "utf-8");
-		EventReport reportOld = DefaultSaxParser.parse(oldXml);
-		EventReport reportNew = DefaultSaxParser.parse(newXml);
-		String expected = Files.forIO().readFrom(getClass().getResourceAsStream("event_report_mergeResult.xml"), "utf-8");
-		EventReportMerger merger = new EventReportMerger(new EventReport(reportOld.getDomain()));
+    @Test
+    public void testEventReportMerge() throws Exception {
+        String oldXml = Files.forIO().readFrom(getClass().getResourceAsStream("event_report_old.xml"), "utf-8");
+        String newXml = Files.forIO().readFrom(getClass().getResourceAsStream("event_report_new.xml"), "utf-8");
+        EventReport reportOld = DefaultSaxParser.parse(oldXml);
+        EventReport reportNew = DefaultSaxParser.parse(newXml);
+        String expected = Files.forIO().readFrom(getClass().getResourceAsStream("event_report_mergeResult.xml"), "utf-8");
+        EventReportMerger merger = new EventReportMerger(new EventReport(reportOld.getDomain()));
 
-		reportOld.accept(merger);
-		reportNew.accept(merger);
+        reportOld.accept(merger);
+        reportNew.accept(merger);
 
-		Assert.assertTrue("Check the merge result!", TestHelper.isEquals(DefaultSaxParser.parse(expected),merger.getEventReport()));
-		Assert.assertTrue("Source report is changed!", TestHelper.isEquals(DefaultSaxParser.parse(newXml),reportNew));
-		Assert.assertTrue("Source report is changed!",  TestHelper.isEquals(DefaultSaxParser.parse(oldXml),reportOld));
-	}
+        Assert.assertTrue("Check the merge result!", TestHelper.isEquals(DefaultSaxParser.parse(expected), merger.getEventReport()));
+        Assert.assertTrue("Source report is changed!", TestHelper.isEquals(DefaultSaxParser.parse(newXml), reportNew));
+        Assert.assertTrue("Source report is changed!", TestHelper.isEquals(DefaultSaxParser.parse(oldXml), reportOld));
+    }
 }

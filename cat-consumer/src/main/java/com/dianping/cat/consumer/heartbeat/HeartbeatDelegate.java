@@ -35,71 +35,71 @@ import java.util.Map;
 @Named(type = ReportDelegate.class, value = HeartbeatAnalyzer.ID)
 public class HeartbeatDelegate implements ReportDelegate<HeartbeatReport> {
 
-	@Inject
-	private TaskManager m_taskManager;
+    @Inject
+    private TaskManager m_taskManager;
 
-	@Inject
-	private ServerFilterConfigManager m_manager;
+    @Inject
+    private ServerFilterConfigManager m_manager;
 
-	@Override
-	public void afterLoad(Map<String, HeartbeatReport> reports) {
-	}
+    @Override
+    public void afterLoad(Map<String, HeartbeatReport> reports) {
+    }
 
-	@Override
-	public void beforeSave(Map<String, HeartbeatReport> reports) {
-	}
+    @Override
+    public void beforeSave(Map<String, HeartbeatReport> reports) {
+    }
 
-	@Override
-	public byte[] buildBinary(HeartbeatReport report) {
-		return DefaultNativeBuilder.build(report);
-	}
+    @Override
+    public byte[] buildBinary(HeartbeatReport report) {
+        return DefaultNativeBuilder.build(report);
+    }
 
-	@Override
-	public String buildXml(HeartbeatReport report) {
-		return report.toString();
-	}
+    @Override
+    public String buildXml(HeartbeatReport report) {
+        return report.toString();
+    }
 
-	@Override
-	public boolean createHourlyTask(HeartbeatReport report) {
-		String domain = report.getDomain();
+    @Override
+    public boolean createHourlyTask(HeartbeatReport report) {
+        String domain = report.getDomain();
 
-		if (m_manager.validateDomain(domain)) {
-			return m_taskManager.createTask(report.getStartTime(), domain, HeartbeatAnalyzer.ID, TaskProlicy.DAILY);
-		} else {
-			return true;
-		}
-	}
+        if (m_manager.validateDomain(domain)) {
+            return m_taskManager.createTask(report.getStartTime(), domain, HeartbeatAnalyzer.ID, TaskProlicy.DAILY);
+        } else {
+            return true;
+        }
+    }
 
-	@Override
-	public String getDomain(HeartbeatReport report) {
-		return report.getDomain();
-	}
+    @Override
+    public String getDomain(HeartbeatReport report) {
+        return report.getDomain();
+    }
 
-	@Override
-	public HeartbeatReport makeReport(String domain, long startTime, long duration) {
-		HeartbeatReport report = new HeartbeatReport(domain);
+    @Override
+    public HeartbeatReport makeReport(String domain, long startTime, long duration) {
+        HeartbeatReport report = new HeartbeatReport(domain);
 
-		report.setStartTime(new Date(startTime));
-		report.setEndTime(new Date(startTime + duration - 1));
+        report.setStartTime(new Date(startTime));
+        report.setEndTime(new Date(startTime + duration - 1));
 
-		return report;
-	}
+        return report;
+    }
 
-	@Override
-	public HeartbeatReport mergeReport(HeartbeatReport old, HeartbeatReport other) {
-		HeartbeatReportMerger merger = new HeartbeatReportMerger(old);
+    @Override
+    public HeartbeatReport mergeReport(HeartbeatReport old, HeartbeatReport other) {
+        HeartbeatReportMerger merger = new HeartbeatReportMerger(old);
 
-		other.accept(merger);
-		return old;
-	}
+        other.accept(merger);
+        return old;
+    }
 
-	@Override
-	public HeartbeatReport parseBinary(byte[] bytes) {
-		return DefaultNativeParser.parse(bytes);
-	}
+    @Override
+    public HeartbeatReport parseBinary(byte[] bytes) {
+        return DefaultNativeParser.parse(bytes);
+    }
 
-	@Override
-	public HeartbeatReport parseXml(String xml) throws Exception {
-		return DefaultSaxParser.parse(xml);
-	}
+    @Override
+    public HeartbeatReport parseXml(String xml) throws Exception {
+        return DefaultSaxParser.parse(xml);
+    }
 }

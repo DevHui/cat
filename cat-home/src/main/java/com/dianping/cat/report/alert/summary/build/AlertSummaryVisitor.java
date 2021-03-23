@@ -18,99 +18,94 @@
  */
 package com.dianping.cat.report.alert.summary.build;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.dianping.cat.alarm.spi.AlertType;
 import com.dianping.cat.home.alert.summary.entity.Alert;
 import com.dianping.cat.home.alert.summary.entity.AlertSummary;
 import com.dianping.cat.home.alert.summary.entity.Category;
 import com.dianping.cat.home.alert.summary.transform.BaseVisitor;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 public class AlertSummaryVisitor extends BaseVisitor {
 
-	public static final String LONG_CALL_NAME = "超时依赖调用";
+    public static final String LONG_CALL_NAME = "超时依赖调用";
 
-	private Map<Object, Object> m_result = new HashMap<Object, Object>();
+    private Map<Object, Object> m_result = new HashMap<Object, Object>();
 
-	private Map<Object, Object> m_categoryMap = new LinkedHashMap<Object, Object>();
+    private Map<Object, Object> m_categoryMap = new LinkedHashMap<Object, Object>();
 
-	private List<Map<Object, Object>> m_alertList;
+    private List<Map<Object, Object>> m_alertList;
 
-	private DateFormat m_fmt = new SimpleDateFormat("HH:mm");
+    private DateFormat m_fmt = new SimpleDateFormat("HH:mm");
 
-	private String m_domain;
+    private String m_domain;
 
-	public AlertSummaryVisitor(String domain) {
-		m_domain = domain;
-	}
+    public AlertSummaryVisitor(String domain) {
+        m_domain = domain;
+    }
 
-	private String convertNameToChinese(String name) {
-		if (name.equals(AlertType.Business.getName())) {
-			return "业务告警";
-		}
-		if (name.equals(AlertType.Exception.getName())) {
-			return "异常告警";
-		}
-		if (name.equals(AlertInfoBuilder.LONG_CALL)) {
-			return LONG_CALL_NAME;
-		}
-		if (name.equals(AlertInfoBuilder.PREFIX + AlertType.Exception.getName())) {
-			return "依赖异常告警";
-		}
+    private String convertNameToChinese(String name) {
+        if (name.equals(AlertType.Business.getName())) {
+            return "业务告警";
+        }
+        if (name.equals(AlertType.Exception.getName())) {
+            return "异常告警";
+        }
+        if (name.equals(AlertInfoBuilder.LONG_CALL)) {
+            return LONG_CALL_NAME;
+        }
+        if (name.equals(AlertInfoBuilder.PREFIX + AlertType.Exception.getName())) {
+            return "依赖异常告警";
+        }
 
-		return "";
-	}
+        return "";
+    }
 
-	public Map<Object, Object> getResult() {
-		return m_result;
-	}
+    public Map<Object, Object> getResult() {
+        return m_result;
+    }
 
-	@Override
-	public void visitAlert(Alert alert) {
-		Map<Object, Object> tmpALertMap = new HashMap<Object, Object>();
+    @Override
+    public void visitAlert(Alert alert) {
+        Map<Object, Object> tmpALertMap = new HashMap<Object, Object>();
 
-		String alertDomain = alert.getDomain();
-		if (alertDomain != null && alertDomain.equals(m_domain)) {
-			tmpALertMap.put("metric", alert.getMetric());
-		} else {
-			tmpALertMap.put("metric", alertDomain + "<br>" + alert.getMetric());
-		}
-		tmpALertMap.put("domain", alert.getDomain());
-		tmpALertMap.put("dateStr", m_fmt.format(alert.getAlertTime()));
-		tmpALertMap.put("type", alert.getType());
-		tmpALertMap.put("context", alert.getContext());
-		tmpALertMap.put("count", alert.getCount());
+        String alertDomain = alert.getDomain();
+        if (alertDomain != null && alertDomain.equals(m_domain)) {
+            tmpALertMap.put("metric", alert.getMetric());
+        } else {
+            tmpALertMap.put("metric", alertDomain + "<br>" + alert.getMetric());
+        }
+        tmpALertMap.put("domain", alert.getDomain());
+        tmpALertMap.put("dateStr", m_fmt.format(alert.getAlertTime()));
+        tmpALertMap.put("type", alert.getType());
+        tmpALertMap.put("context", alert.getContext());
+        tmpALertMap.put("count", alert.getCount());
 
-		m_alertList.add(tmpALertMap);
-	}
+        m_alertList.add(tmpALertMap);
+    }
 
-	@Override
-	public void visitAlertSummary(AlertSummary alertSummary) {
-		Date date = alertSummary.getAlertDate();
-		m_result.put("domain", alertSummary.getDomain());
-		m_result.put("dateStr", m_fmt.format(date));
-		m_result.put("categories", m_categoryMap);
+    @Override
+    public void visitAlertSummary(AlertSummary alertSummary) {
+        Date date = alertSummary.getAlertDate();
+        m_result.put("domain", alertSummary.getDomain());
+        m_result.put("dateStr", m_fmt.format(date));
+        m_result.put("categories", m_categoryMap);
 
-		for (Category category : alertSummary.getCategories().values()) {
-			visitCategory(category);
-		}
-	}
+        for (Category category : alertSummary.getCategories().values()) {
+            visitCategory(category);
+        }
+    }
 
-	@Override
-	public void visitCategory(Category category) {
-		m_alertList = new ArrayList<Map<Object, Object>>();
+    @Override
+    public void visitCategory(Category category) {
+        m_alertList = new ArrayList<Map<Object, Object>>();
 
-		for (Alert alert : category.getAlerts()) {
-			visitAlert(alert);
-		}
+        for (Alert alert : category.getAlerts()) {
+            visitAlert(alert);
+        }
 
-		m_categoryMap.put(convertNameToChinese(category.getName()), m_alertList);
-	}
+        m_categoryMap.put(convertNameToChinese(category.getName()), m_alertList);
+    }
 }

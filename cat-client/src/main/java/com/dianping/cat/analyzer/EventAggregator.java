@@ -30,158 +30,158 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class EventAggregator {
 
-	private static EventAggregator s_instance = new EventAggregator();
+    private static EventAggregator s_instance = new EventAggregator();
 
-	private volatile ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>> m_events = new ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>>();
+    private volatile ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>> m_events = new ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>>();
 
-	public static EventAggregator getInstance() {
-		return s_instance;
-	}
+    public static EventAggregator getInstance() {
+        return s_instance;
+    }
 
-	private EventData createEventData(String type, String name) {
-		return new EventData(type, name);
-	}
+    private EventData createEventData(String type, String name) {
+        return new EventData(type, name);
+    }
 
-	public ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>> getAndResetEvents() {
-		ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>> cloned = m_events;
+    public ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>> getAndResetEvents() {
+        ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>> cloned = m_events;
 
-		m_events = new ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>>();
+        m_events = new ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>>();
 
-		for (Map.Entry<String, ConcurrentHashMap<String, EventData>> entry : cloned.entrySet()) {
-			String type = entry.getKey();
+        for (Map.Entry<String, ConcurrentHashMap<String, EventData>> entry : cloned.entrySet()) {
+            String type = entry.getKey();
 
-			m_events.putIfAbsent(type, new ConcurrentHashMap<String, EventData>());
-		}
+            m_events.putIfAbsent(type, new ConcurrentHashMap<String, EventData>());
+        }
 
-		return cloned;
-	}
+        return cloned;
+    }
 
-	public String getDomain(MessageTree tree) {
-		return Cat.getManager().getDomain();
-	}
+    public String getDomain(MessageTree tree) {
+        return Cat.getManager().getDomain();
+    }
 
-	public void logBatchEvent(String type, String name, int total, int fail) {
-		makeSureEventExist(type, name).add(total, fail);
-	}
+    public void logBatchEvent(String type, String name, int total, int fail) {
+        makeSureEventExist(type, name).add(total, fail);
+    }
 
-	public void logEvent(Event e) {
-		makeSureEventExist(e.getType(), e.getName()).add(e);
-	}
+    public void logEvent(Event e) {
+        makeSureEventExist(e.getType(), e.getName()).add(e);
+    }
 
-	private EventData makeSureEventExist(String type, String name) {
-		ConcurrentHashMap<String, EventData> item = m_events.get(type);
+    private EventData makeSureEventExist(String type, String name) {
+        ConcurrentHashMap<String, EventData> item = m_events.get(type);
 
-		if (null == item) {
-			item = new ConcurrentHashMap<String, EventData>();
+        if (null == item) {
+            item = new ConcurrentHashMap<String, EventData>();
 
-			ConcurrentHashMap<String, EventData> oldValue = m_events.putIfAbsent(type, item);
+            ConcurrentHashMap<String, EventData> oldValue = m_events.putIfAbsent(type, item);
 
-			if (oldValue != null) {
-				item = oldValue;
-			}
-		}
+            if (oldValue != null) {
+                item = oldValue;
+            }
+        }
 
-		EventData data = item.get(name);
+        EventData data = item.get(name);
 
-		if (null == data) {
-			data = createEventData(type, name);
+        if (null == data) {
+            data = createEventData(type, name);
 
-			EventData oldValue = item.putIfAbsent(name, data);
+            EventData oldValue = item.putIfAbsent(name, data);
 
-			if (oldValue == null) {
-				return data;
-			} else {
-				return oldValue;
-			}
-		}
+            if (oldValue == null) {
+                return data;
+            } else {
+                return oldValue;
+            }
+        }
 
-		return data;
-	}
+        return data;
+    }
 
-	public void sendEventData() {
-		ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>> events = getAndResetEvents();
-		boolean hasData = false;
+    public void sendEventData() {
+        ConcurrentHashMap<String, ConcurrentHashMap<String, EventData>> events = getAndResetEvents();
+        boolean hasData = false;
 
-		for (Map<String, EventData> entry : events.values()) {
-			for (EventData data : entry.values()) {
-				if (data.getCount() > 0) {
-					hasData = true;
-					break;
-				}
-			}
-		}
+        for (Map<String, EventData> entry : events.values()) {
+            for (EventData data : entry.values()) {
+                if (data.getCount() > 0) {
+                    hasData = true;
+                    break;
+                }
+            }
+        }
 
-		if (hasData) {
-			Transaction t = Cat.newTransaction(CatConstants.CAT_SYSTEM, this.getClass().getSimpleName());
-			MessageTree tree = Cat.getManager().getThreadLocalMessageTree();
+        if (hasData) {
+            Transaction t = Cat.newTransaction(CatConstants.CAT_SYSTEM, this.getClass().getSimpleName());
+            MessageTree tree = Cat.getManager().getThreadLocalMessageTree();
 
-			tree.setDomain(getDomain(tree));
-			tree.setDiscardPrivate(false);
+            tree.setDomain(getDomain(tree));
+            tree.setDiscardPrivate(false);
 
-			for (Map<String, EventData> entry : events.values()) {
-				for (EventData data : entry.values()) {
-					if (data.getCount() > 0) {
-						Event tmp = Cat.newEvent(data.getType(), data.getName());
-						StringBuilder sb = new StringBuilder(32);
+            for (Map<String, EventData> entry : events.values()) {
+                for (EventData data : entry.values()) {
+                    if (data.getCount() > 0) {
+                        Event tmp = Cat.newEvent(data.getType(), data.getName());
+                        StringBuilder sb = new StringBuilder(32);
 
-						sb.append(CatConstants.BATCH_FLAG).append(data.getCount()).append(CatConstants.SPLIT).append(data.getError());
-						tmp.addData(sb.toString());
-						tmp.setSuccessStatus();
-						tmp.complete();
-					}
-				}
-			}
+                        sb.append(CatConstants.BATCH_FLAG).append(data.getCount()).append(CatConstants.SPLIT).append(data.getError());
+                        tmp.addData(sb.toString());
+                        tmp.setSuccessStatus();
+                        tmp.complete();
+                    }
+                }
+            }
 
-			t.setSuccessStatus();
-			t.complete();
-		}
-	}
+            t.setSuccessStatus();
+            t.complete();
+        }
+    }
 
-	public class EventData {
+    public class EventData {
 
-		private String m_type;
+        private String m_type;
 
-		private String m_name;
+        private String m_name;
 
-		private AtomicInteger m_count = new AtomicInteger();
+        private AtomicInteger m_count = new AtomicInteger();
 
-		private AtomicInteger m_error = new AtomicInteger();
+        private AtomicInteger m_error = new AtomicInteger();
 
-		public EventData(String type, String name) {
-			m_type = type;
-			m_name = name;
-		}
+        public EventData(String type, String name) {
+            m_type = type;
+            m_name = name;
+        }
 
-		public EventData add(Event e) {
-			m_count.incrementAndGet();
+        public EventData add(Event e) {
+            m_count.incrementAndGet();
 
-			if (!e.isSuccess()) {
-				m_error.incrementAndGet();
-			}
-			return this;
-		}
+            if (!e.isSuccess()) {
+                m_error.incrementAndGet();
+            }
+            return this;
+        }
 
-		public EventData add(int count, int fail) {
-			m_count.addAndGet(count);
-			m_error.addAndGet(fail);
-			return this;
-		}
+        public EventData add(int count, int fail) {
+            m_count.addAndGet(count);
+            m_error.addAndGet(fail);
+            return this;
+        }
 
-		public int getCount() {
-			return m_count.get();
-		}
+        public int getCount() {
+            return m_count.get();
+        }
 
-		public int getError() {
-			return m_error.get();
-		}
+        public int getError() {
+            return m_error.get();
+        }
 
-		public String getName() {
-			return m_name;
-		}
+        public String getName() {
+            return m_name;
+        }
 
-		public String getType() {
-			return m_type;
-		}
-	}
+        public String getType() {
+            return m_type;
+        }
+    }
 
 }

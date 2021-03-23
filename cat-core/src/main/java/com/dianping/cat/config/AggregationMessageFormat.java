@@ -26,37 +26,37 @@ import java.util.regex.Pattern;
 
 public class AggregationMessageFormat {
 
-	private List<String> m_formatTokens = new ArrayList<String>();
+    private List<String> m_formatTokens = new ArrayList<String>();
 
-	private MessageFormat m_messageFormat;
+    private MessageFormat m_messageFormat;
 
-	public AggregationMessageFormat(String pattern) {
-		m_messageFormat = new MessageFormat(build(pattern));
-	}
+    public AggregationMessageFormat(String pattern) {
+        m_messageFormat = new MessageFormat(build(pattern));
+    }
 
-	private String build(String pattern) {
-		int index = 0;
-		Pattern p = Pattern.compile("\\{(.*?)\\}");
-		Matcher matcher = p.matcher(pattern);
-		StringBuffer output = new StringBuffer();
+    private String build(String pattern) {
+        int index = 0;
+        Pattern p = Pattern.compile("\\{(.*?)\\}");
+        Matcher matcher = p.matcher(pattern);
+        StringBuffer output = new StringBuffer();
 
-		while (matcher.find()) {
-			m_formatTokens.add(matcher.group(1).trim());
-			matcher.appendReplacement(output, "{" + index + "}");
-			if (index < 9) {
-				index++;
-			}
-		}
-		matcher.appendTail(output);
-		return output.toString();
-	}
+        while (matcher.find()) {
+            m_formatTokens.add(matcher.group(1).trim());
+            matcher.appendReplacement(output, "{" + index + "}");
+            if (index < 9) {
+                index++;
+            }
+        }
+        matcher.appendTail(output);
+        return output.toString();
+    }
 
-	public List<String> getFormatTokens() {
-		return m_formatTokens;
-	}
+    public List<String> getFormatTokens() {
+        return m_formatTokens;
+    }
 
-	public MessageFormat getMessageFormat() {
-		return (MessageFormat) m_messageFormat.clone();
-	}
+    public MessageFormat getMessageFormat() {
+        return (MessageFormat) m_messageFormat.clone();
+    }
 
 }

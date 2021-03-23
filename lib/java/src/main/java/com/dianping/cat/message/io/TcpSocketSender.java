@@ -51,6 +51,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class TcpSocketSender implements Threads.Task, MessageSender {
+    private static final int SIZE = 5000;
+    private static final long HOUR = 1000 * 60 * 60L;
+    private static CatLogger LOGGER = CatLogger.getInstance();
+    private static TcpSocketSender INSTANCE = new TcpSocketSender();
     private MessageCodec nativeCodec = new NativeMessageCodec();
     private MessageStatistics statistics = new DefaultMessageStatistics();
     private ClientConfigService configService = DefaultClientConfigService.getInstance();
@@ -58,16 +62,7 @@ public class TcpSocketSender implements Threads.Task, MessageSender {
     private MessageIdFactory factory = MessageIdFactory.getInstance();
     private AtomicMessageManager atomicQueueManager = new AtomicMessageManager(SIZE);
     private ChannelManager channelManager = ChannelManager.getInstance();
-
     private boolean active;
-    private static final int SIZE = 5000;
-    private static final long HOUR = 1000 * 60 * 60L;
-    private static CatLogger LOGGER = CatLogger.getInstance();
-    private static TcpSocketSender INSTANCE = new TcpSocketSender();
-
-    public static TcpSocketSender getInstance() {
-        return INSTANCE;
-    }
 
     private TcpSocketSender() {
         List<Server> servers = configService.getServers();
@@ -80,6 +75,10 @@ public class TcpSocketSender implements Threads.Task, MessageSender {
         }
 
         initialize(addresses);
+    }
+
+    public static TcpSocketSender getInstance() {
+        return INSTANCE;
     }
 
     @Override
@@ -274,10 +273,10 @@ public class TcpSocketSender implements Threads.Task, MessageSender {
     }
 
     public class AtomicMessageManager {
-        private MessageQueue smallMessages;
         private static final long HOUR = 1000 * 60 * 60L;
         private static final int MAX_CHILD_NUMBER = 200;
         private static final int MAX_DURATION = 1000 * 30;
+        private MessageQueue smallMessages;
 
         public AtomicMessageManager(int size) {
             smallMessages = new DefaultMessageQueue(size);

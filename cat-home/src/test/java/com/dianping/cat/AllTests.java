@@ -18,14 +18,6 @@
  */
 package com.dianping.cat;
 
-import java.util.Locale;
-import java.util.TimeZone;
-
-import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-
 import com.dianping.cat.report.alert.ExtractDataTest;
 import com.dianping.cat.report.alert.JudgeTimeTest;
 import com.dianping.cat.report.alert.MetricIdAndRuleMappingTest;
@@ -53,77 +45,84 @@ import com.dianping.cat.report.task.service.ServiceReportMergerTest;
 import com.dianping.cat.report.task.storage.HistoryStorageReportMergerTest;
 import com.dianping.cat.report.task.transaction.HistoryTransactionMergerTest;
 import com.dianping.cat.report.task.transaction.TransactionReportGraphCreatorTest;
+import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+import java.util.Locale;
+import java.util.TimeZone;
 
 @RunWith(Suite.class)
 @SuiteClasses({
 
-/* .report.graph */
-						ValueTranslaterTest.class,
+        /* .report.graph */
+        ValueTranslaterTest.class,
 
-/* .report.page.model */
-						EventReportFilterTest.class,
+        /* .report.page.model */
+        EventReportFilterTest.class,
 
-						TransactionReportFilterTest.class,
+        TransactionReportFilterTest.class,
 
-						ProblemReportMergerTest.class,
+        ProblemReportMergerTest.class,
 
-/* . report.page.transcation */
-						PayloadTest.class,
+        /* . report.page.transcation */
+        PayloadTest.class,
 
-/* . report.page.cross */
-						CrossReportMergerTest.class,
+        /* . report.page.cross */
+        CrossReportMergerTest.class,
 
-/* .report.task */
-						TaskConsumerTest.class,
+        /* .report.task */
+        TaskConsumerTest.class,
 
-						TaskHelperTest.class,
+        TaskHelperTest.class,
 
-						HistoryEventMergerTest.class,
+        HistoryEventMergerTest.class,
 
-						HistoryTransactionMergerTest.class,
+        HistoryTransactionMergerTest.class,
 
-						ProblemReportHourlyGraphCreatorTest.class,
+        ProblemReportHourlyGraphCreatorTest.class,
 
-						ProblemReportDailyGraphCreatorTest.class,
+        ProblemReportDailyGraphCreatorTest.class,
 
-						TransactionReportGraphCreatorTest.class,
+        TransactionReportGraphCreatorTest.class,
 
-						EventGraphCreatorTest.class,
+        EventGraphCreatorTest.class,
 
-						StateReportMergerTest.class,
+        StateReportMergerTest.class,
 
-/* Graph */
-						EventTrendGraphBuilderTest.class,
+        /* Graph */
+        EventTrendGraphBuilderTest.class,
 
-						ProblemTrendGraphBuilderTest.class,
+        ProblemTrendGraphBuilderTest.class,
 
-						TransactionTrendGraphBuilderTest.class,
+        TransactionTrendGraphBuilderTest.class,
 
-/* service */
-						ServiceReportMergerTest.class,
+        /* service */
+        ServiceReportMergerTest.class,
 
-						HistoryStorageReportMergerTest.class,
+        HistoryStorageReportMergerTest.class,
 
-						AlertConfigTest.class,
+        AlertConfigTest.class,
 
-						HeavyReportBuilderTest.class,
+        HeavyReportBuilderTest.class,
 
-						RuleConfigTest.class,
+        RuleConfigTest.class,
 
-						AlertConfigTest.class,
+        AlertConfigTest.class,
 
-						HeartbeatDailyMergerTest.class,
+        HeartbeatDailyMergerTest.class,
 
-						MetricIdAndRuleMappingTest.class,
+        MetricIdAndRuleMappingTest.class,
 
-						ExtractDataTest.class,
+        ExtractDataTest.class,
 
-						JudgeTimeTest.class })
+        JudgeTimeTest.class})
 public class AllTests {
 
-	@BeforeClass
-	public static void setUp() {
-		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
-		Locale.setDefault(Locale.CHINESE);
-	}
+    @BeforeClass
+    public static void setUp() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Shanghai"));
+        Locale.setDefault(Locale.CHINESE);
+    }
 }

@@ -19,46 +19,46 @@
 package com.dianping.cat.report.page.problem;
 
 public enum Action implements org.unidal.web.mvc.Action {
-	DETAIL("detail"),
+    DETAIL("detail"),
 
-	GROUP("group"),
+    GROUP("group"),
 
-	THREAD("thread"),
+    THREAD("thread"),
 
-	HOUR_GRAPH("hourlyGraph"),
+    HOUR_GRAPH("hourlyGraph"),
 
-	HISTORY_REPORT("history"),
+    HISTORY_REPORT("history"),
 
-	HISTORY_GRAPH("historyGraph"),
+    HISTORY_GRAPH("historyGraph"),
 
-	HOULY_REPORT("view"),
+    HOULY_REPORT("view"),
 
-	GROUP_GRAPHS("groupGraphs"),
+    GROUP_GRAPHS("groupGraphs"),
 
-	HISTORY_GROUP_GRAPH("historyGroupGraph"),
+    HISTORY_GROUP_GRAPH("historyGroupGraph"),
 
-	HISTORY_GROUP_REPORT("historyGroupReport"),
+    HISTORY_GROUP_REPORT("historyGroupReport"),
 
-	HOURLY_GROUP_REPORT("groupReport");
+    HOURLY_GROUP_REPORT("groupReport");
 
-	private String m_name;
+    private String m_name;
 
-	private Action(String name) {
-		m_name = name;
-	}
+    private Action(String name) {
+        m_name = name;
+    }
 
-	public static Action getByName(String name, Action defaultAction) {
-		for (Action action : Action.values()) {
-			if (action.getName().equals(name)) {
-				return action;
-			}
-		}
+    public static Action getByName(String name, Action defaultAction) {
+        for (Action action : Action.values()) {
+            if (action.getName().equals(name)) {
+                return action;
+            }
+        }
 
-		return defaultAction;
-	}
+        return defaultAction;
+    }
 
-	@Override
-	public String getName() {
-		return m_name;
-	}
+    @Override
+    public String getName() {
+        return m_name;
+    }
 }

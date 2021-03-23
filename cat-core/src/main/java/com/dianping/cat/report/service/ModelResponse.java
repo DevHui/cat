@@ -19,29 +19,29 @@
 package com.dianping.cat.report.service;
 
 public class ModelResponse<M> {
-	private Exception m_exception;
+    private Exception m_exception;
 
-	private M m_model;
+    private M m_model;
 
-	public Exception getException() {
-		return m_exception;
-	}
+    public Exception getException() {
+        return m_exception;
+    }
 
-	public void setException(Exception exception) {
-		m_exception = exception;
-	}
+    public void setException(Exception exception) {
+        m_exception = exception;
+    }
 
-	public M getModel() {
-		return m_model;
-	}
+    public M getModel() {
+        return m_model;
+    }
 
-	public void setModel(M model) {
-		m_model = model;
-	}
+    public void setModel(M model) {
+        m_model = model;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("ModelResponse[model=%s, exception=%s]", m_model, m_exception);
-	}
+    @Override
+    public String toString() {
+        return String.format("ModelResponse[model=%s, exception=%s]", m_model, m_exception);
+    }
 
 }

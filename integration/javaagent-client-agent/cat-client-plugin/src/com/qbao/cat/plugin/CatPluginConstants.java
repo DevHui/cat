@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.qbao.cat.plugin;
 
@@ -9,93 +9,93 @@ package com.qbao.cat.plugin;
  *
  */
 public interface CatPluginConstants {
-	/**
-	 * µ÷ÓÃÕßµØÖ·²ÎÊýÃû
-	 */
-	public static final String D_CLIENT_ADDR ="X-CAT-CLIENT-ADDR";
-	/**
-	 * µ÷ÓÃÕßdomain²ÎÊýÃû
-	 */
-	public static final String D_CLIENT_DOMAIN ="X-CAT-CLIENT-DOMAIN";
-	/**
-	 * ·þÎñÕßµØÖ·²ÎÊýÃû
-	 */
-	public static final String D_CALL_SERVER_ADDR ="X-CAT-SERVER-ADDR";
-	/**
-	 * ·þÎñÕßdomain²ÎÊýÃû
-	 */
-	public static final String D_CALL_SERVER_DOMAIN ="X-CAT-SERVER-DOMAIN";
-	
-	/**
-	 *  Ô¶³Ì·þÎñÕßDomain
-	 */
-	public static final String E_CALLEE_APP="Callee.app";
-	/**
-	 * ·¢Æðµ÷ÓÃÕßDomain
-	 */
-	public static final String E_CALL_APP="Call.app";
-	/**
-	 * Ô¶³Ì·þÎñÕßÖ÷»úAddr
-	 */
-	public static final String E_CALLEE_ADDR="Callee.Addr";
-	
-	/**
-	 * Ô¶³Ìµ÷ÓÃ±ê¼Ç²ÎÊýÃû
-	 */
-	public static final String D_CALL_TRACE_MODE = "X-CAT-TRACE-MODE";
-	
-	/**
-	 * dubbo·þÎñ¶Ëtransaction-type
-	 */
-	public static final String TYPE_DUBBO_SERVER = "Call.Dubbo.Server";
-	
-	/**
-	 * dubbo¿Í»§¶Ëtransaction-type
-	 */
-	public static final String TYPE_DUBBO_CLIENT = "Call.Dubbo.Client";
-	
-	/**
-	 * http·þÎñ¶Ëtransaction-type
-	 */
-	public static final String TYPE_HTTP_SERVER = "Call.Http.Server";
-	
-	/**
-	 * htt¿Í»§¶Ëtransaction-type
-	 */
-	public static final String TYPE_HTTP_CLIENT = "Call.Http.Client";
-	
-	/**
-	 * http·þÎñ¶Ë·µ»ØÂë
-	 */
-	public static final String TYPE_URL_SERVER_RESOPONSE_CODE = "URL.Server.Response.Code"; 
-	
-	/**
-	 * http¿Í»§¶Ë´úÀíÐÅÏ¢£¬È¡×Ôx-forwarded-for
-	 */
-	public static final String TYPE_URL_SERVER = "URL.Server";
-	
-	/**
-	 * http¿Í»§¶ËreferÐÅÏ¢
-	 */
-	public static final String TYPE_URL_SERVER_REFERER = "URL.Server.Referer";
-	
-	/**
-	 * http¿Í»§¶Ëuser-agentÐÅÏ¢
-	 */
-	public static final String TYPE_URL_SERVER_AGENT = "URL.Server.Agent";
-	
-	/**
-	 * http¿Í»§¶ËÇëÇó·½Ê½
-	 */
-	public static final String TYPE_URL_METHOD = "URL.Method";
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    public static final String D_CLIENT_ADDR = "X-CAT-CLIENT-ADDR";
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½domainï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    public static final String D_CLIENT_DOMAIN = "X-CAT-CLIENT-DOMAIN";
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    public static final String D_CALL_SERVER_ADDR = "X-CAT-SERVER-ADDR";
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½domainï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    public static final String D_CALL_SERVER_DOMAIN = "X-CAT-SERVER-DOMAIN";
 
-	/**
-	 * Êý¾Ý¿âÁ¬½Ó´®
-	 */
-	public static final String TYPE_SQL_DATABASE = "SQL.Database";
+    /**
+     *  Ô¶ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½Domain
+     */
+    public static final String E_CALLEE_APP = "Callee.app";
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Domain
+     */
+    public static final String E_CALL_APP = "Call.app";
+    /**
+     * Ô¶ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Addr
+     */
+    public static final String E_CALLEE_ADDR = "Callee.Addr";
 
-	/**
-	 * µ÷ÓÃ·½µØÖ·
-	 */
-	public static final String E_CLIENT_ADDR = "Client.addr";
+    /**
+     * Ô¶ï¿½Ìµï¿½ï¿½Ã±ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    public static final String D_CALL_TRACE_MODE = "X-CAT-TRACE-MODE";
+
+    /**
+     * dubboï¿½ï¿½ï¿½ï¿½ï¿½transaction-type
+     */
+    public static final String TYPE_DUBBO_SERVER = "Call.Dubbo.Server";
+
+    /**
+     * dubboï¿½Í»ï¿½ï¿½ï¿½transaction-type
+     */
+    public static final String TYPE_DUBBO_CLIENT = "Call.Dubbo.Client";
+
+    /**
+     * httpï¿½ï¿½ï¿½ï¿½ï¿½transaction-type
+     */
+    public static final String TYPE_HTTP_SERVER = "Call.Http.Server";
+
+    /**
+     * httï¿½Í»ï¿½ï¿½ï¿½transaction-type
+     */
+    public static final String TYPE_HTTP_CLIENT = "Call.Http.Client";
+
+    /**
+     * httpï¿½ï¿½ï¿½ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    public static final String TYPE_URL_SERVER_RESOPONSE_CODE = "URL.Server.Response.Code";
+
+    /**
+     * httpï¿½Í»ï¿½ï¿½Ë´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½È¡ï¿½ï¿½x-forwarded-for
+     */
+    public static final String TYPE_URL_SERVER = "URL.Server";
+
+    /**
+     * httpï¿½Í»ï¿½ï¿½ï¿½referï¿½ï¿½Ï¢
+     */
+    public static final String TYPE_URL_SERVER_REFERER = "URL.Server.Referer";
+
+    /**
+     * httpï¿½Í»ï¿½ï¿½ï¿½user-agentï¿½ï¿½Ï¢
+     */
+    public static final String TYPE_URL_SERVER_AGENT = "URL.Server.Agent";
+
+    /**
+     * httpï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½
+     */
+    public static final String TYPE_URL_METHOD = "URL.Method";
+
+    /**
+     * ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½Ó´ï¿½
+     */
+    public static final String TYPE_SQL_DATABASE = "SQL.Database";
+
+    /**
+     * ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½Ö·
+     */
+    public static final String E_CLIENT_ADDR = "Client.addr";
 }

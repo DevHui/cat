@@ -31,59 +31,59 @@ import java.util.Map;
 @Named(type = ReportDelegate.class, value = TopAnalyzer.ID)
 public class TopDelegate implements ReportDelegate<TopReport> {
 
-	@Override
-	public void afterLoad(Map<String, TopReport> reports) {
-	}
+    @Override
+    public void afterLoad(Map<String, TopReport> reports) {
+    }
 
-	@Override
-	public void beforeSave(Map<String, TopReport> reports) {
-	}
+    @Override
+    public void beforeSave(Map<String, TopReport> reports) {
+    }
 
-	@Override
-	public byte[] buildBinary(TopReport report) {
-		return DefaultNativeBuilder.build(report);
-	}
+    @Override
+    public byte[] buildBinary(TopReport report) {
+        return DefaultNativeBuilder.build(report);
+    }
 
-	@Override
-	public String buildXml(TopReport report) {
-		return report.toString();
-	}
+    @Override
+    public String buildXml(TopReport report) {
+        return report.toString();
+    }
 
-	@Override
-	public boolean createHourlyTask(TopReport report) {
-		return true;
-	}
+    @Override
+    public boolean createHourlyTask(TopReport report) {
+        return true;
+    }
 
-	@Override
-	public String getDomain(TopReport report) {
-		return report.getDomain();
-	}
+    @Override
+    public String getDomain(TopReport report) {
+        return report.getDomain();
+    }
 
-	@Override
-	public TopReport makeReport(String domain, long startTime, long duration) {
-		TopReport report = new TopReport(domain);
+    @Override
+    public TopReport makeReport(String domain, long startTime, long duration) {
+        TopReport report = new TopReport(domain);
 
-		report.setStartTime(new Date(startTime));
-		report.setEndTime(new Date(startTime + duration - 1));
+        report.setStartTime(new Date(startTime));
+        report.setEndTime(new Date(startTime + duration - 1));
 
-		return report;
-	}
+        return report;
+    }
 
-	@Override
-	public TopReport mergeReport(TopReport old, TopReport other) {
-		TopReportMerger merger = new TopReportMerger(old);
+    @Override
+    public TopReport mergeReport(TopReport old, TopReport other) {
+        TopReportMerger merger = new TopReportMerger(old);
 
-		other.accept(merger);
-		return old;
-	}
+        other.accept(merger);
+        return old;
+    }
 
-	@Override
-	public TopReport parseBinary(byte[] bytes) {
-		return DefaultNativeParser.parse(bytes);
-	}
+    @Override
+    public TopReport parseBinary(byte[] bytes) {
+        return DefaultNativeParser.parse(bytes);
+    }
 
-	@Override
-	public TopReport parseXml(String xml) throws Exception {
-		return DefaultSaxParser.parse(xml);
-	}
+    @Override
+    public TopReport parseXml(String xml) throws Exception {
+        return DefaultSaxParser.parse(xml);
+    }
 }

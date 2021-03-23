@@ -19,32 +19,32 @@
 package com.dianping.cat.report.page.storage;
 
 public enum Action implements org.unidal.web.mvc.Action {
-	HOURLY_STORAGE("view"),
+    HOURLY_STORAGE("view"),
 
-	HOURLY_STORAGE_GRAPH("hourlyGraph"),
+    HOURLY_STORAGE_GRAPH("hourlyGraph"),
 
-	HISTORY_STORAGE("history"),
+    HISTORY_STORAGE("history"),
 
-	DASHBOARD("dashboard");
+    DASHBOARD("dashboard");
 
-	private String m_name;
+    private String m_name;
 
-	private Action(String name) {
-		m_name = name;
-	}
+    private Action(String name) {
+        m_name = name;
+    }
 
-	public static Action getByName(String name, Action defaultAction) {
-		for (Action action : Action.values()) {
-			if (action.getName().equals(name)) {
-				return action;
-			}
-		}
+    public static Action getByName(String name, Action defaultAction) {
+        for (Action action : Action.values()) {
+            if (action.getName().equals(name)) {
+                return action;
+            }
+        }
 
-		return defaultAction;
-	}
+        return defaultAction;
+    }
 
-	@Override
-	public String getName() {
-		return m_name;
-	}
+    @Override
+    public String getName() {
+        return m_name;
+    }
 }

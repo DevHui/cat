@@ -30,134 +30,134 @@ import org.unidal.lookup.annotation.Inject;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class AbstractMessageAnalyzer<R> extends ContainerHolder implements MessageAnalyzer {
-	public static final long MINUTE = 60 * 1000L;
+    public static final long MINUTE = 60 * 1000L;
 
-	public static final long ONE_HOUR = 60 * 60 * 1000L;
+    public static final long ONE_HOUR = 60 * 60 * 1000L;
 
-	public static final long ONE_DAY = 24 * ONE_HOUR;
+    public static final long ONE_DAY = 24 * ONE_HOUR;
 
-	@Inject
-	protected ServerConfigManager m_serverConfigManager;
+    @Inject
+    protected ServerConfigManager m_serverConfigManager;
 
-	protected long m_startTime;
+    protected long m_startTime;
 
-	protected long m_duration;
+    protected long m_duration;
 
-	protected Logger m_logger;
+    protected Logger m_logger;
 
-	protected int m_index;
+    protected int m_index;
 
-	private long m_extraTime;
+    private long m_extraTime;
 
-	private long m_errors = 0;
+    private long m_errors = 0;
 
-	private AtomicBoolean m_active = new AtomicBoolean(true);
+    private AtomicBoolean m_active = new AtomicBoolean(true);
 
-	@Override
-	public void analyze(MessageQueue queue) {
-		while (!isTimeout() && isActive()) {
-			MessageTree tree = queue.poll();
+    @Override
+    public void analyze(MessageQueue queue) {
+        while (!isTimeout() && isActive()) {
+            MessageTree tree = queue.poll();
 
-			if (tree != null) {
-				try {
-					process(tree);
-				} catch (Throwable e) {
-					m_errors++;
+            if (tree != null) {
+                try {
+                    process(tree);
+                } catch (Throwable e) {
+                    m_errors++;
 
-					if (m_errors == 1 || m_errors % 10000 == 0) {
-						Cat.logError(e);
-					}
-				}
-			}
-		}
+                    if (m_errors == 1 || m_errors % 10000 == 0) {
+                        Cat.logError(e);
+                    }
+                }
+            }
+        }
 
-		while (true) {
-			MessageTree tree = queue.poll();
+        while (true) {
+            MessageTree tree = queue.poll();
 
-			if (tree != null) {
-				try {
-					process(tree);
-				} catch (Throwable e) {
-					m_errors++;
+            if (tree != null) {
+                try {
+                    process(tree);
+                } catch (Throwable e) {
+                    m_errors++;
 
-					if (m_errors == 1 || m_errors % 10000 == 0) {
-						Cat.logError(e);
-					}
-				}
-			} else {
-				break;
-			}
-		}
-	}
+                    if (m_errors == 1 || m_errors % 10000 == 0) {
+                        Cat.logError(e);
+                    }
+                }
+            } else {
+                break;
+            }
+        }
+    }
 
-	@Override
-	public void destroy() {
-		super.release(this);
-		ReportManager<?> manager = this.getReportManager();
+    @Override
+    public void destroy() {
+        super.release(this);
+        ReportManager<?> manager = this.getReportManager();
 
-		if (manager != null) {
-			manager.destory();
-		}
-	}
+        if (manager != null) {
+            manager.destory();
+        }
+    }
 
-	@Override
-	public abstract void doCheckpoint(boolean atEnd);
+    @Override
+    public abstract void doCheckpoint(boolean atEnd);
 
-	@Override
-	public int getAnanlyzerCount(String name) {
-		return m_serverConfigManager.getThreadsOfRealtimeAnalyzer(name);
-	}
+    @Override
+    public int getAnanlyzerCount(String name) {
+        return m_serverConfigManager.getThreadsOfRealtimeAnalyzer(name);
+    }
 
-	protected long getExtraTime() {
-		return m_extraTime;
-	}
+    protected long getExtraTime() {
+        return m_extraTime;
+    }
 
-	public abstract R getReport(String domain);
+    public abstract R getReport(String domain);
 
-	@Override
-	public long getStartTime() {
-		return m_startTime;
-	}
+    @Override
+    public long getStartTime() {
+        return m_startTime;
+    }
 
-	@Override
-	public void initialize(long startTime, long duration, long extraTime) {
-		m_extraTime = extraTime;
-		m_startTime = startTime;
-		m_duration = duration;
+    @Override
+    public void initialize(long startTime, long duration, long extraTime) {
+        m_extraTime = extraTime;
+        m_startTime = startTime;
+        m_duration = duration;
 
-		loadReports();
-	}
+        loadReports();
+    }
 
-	protected boolean isActive() {
-		return m_active.get();
-	}
+    protected boolean isActive() {
+        return m_active.get();
+    }
 
-	@Override
-	public boolean isEligable(MessageTree tree) {
-		return true;
-	}
+    @Override
+    public boolean isEligable(MessageTree tree) {
+        return true;
+    }
 
-	protected boolean isLocalMode() {
-		return m_serverConfigManager.isLocalMode();
-	}
+    protected boolean isLocalMode() {
+        return m_serverConfigManager.isLocalMode();
+    }
 
-	protected boolean isTimeout() {
-		long currentTime = System.currentTimeMillis();
-		long endTime = m_startTime + m_duration + m_extraTime;
+    protected boolean isTimeout() {
+        long currentTime = System.currentTimeMillis();
+        long endTime = m_startTime + m_duration + m_extraTime;
 
-		return currentTime > endTime;
-	}
+        return currentTime > endTime;
+    }
 
-	protected abstract void loadReports();
+    protected abstract void loadReports();
 
-	protected abstract void process(MessageTree tree);
+    protected abstract void process(MessageTree tree);
 
-	public void setIndex(int index) {
-		m_index = index;
-	}
+    public void setIndex(int index) {
+        m_index = index;
+    }
 
-	public void shutdown() {
-		m_active.set(false);
-	}
+    public void shutdown() {
+        m_active.set(false);
+    }
 
 }

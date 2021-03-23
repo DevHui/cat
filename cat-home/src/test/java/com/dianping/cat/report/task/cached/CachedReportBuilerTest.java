@@ -18,13 +18,6 @@
  */
 package com.dianping.cat.report.task.cached;
 
-import java.io.File;
-import java.util.Date;
-
-import junit.framework.Assert;
-import org.junit.Test;
-import org.unidal.lookup.ComponentTestCase;
-
 import com.dianping.cat.Cat;
 import com.dianping.cat.config.server.ServerConfigManager;
 import com.dianping.cat.helper.TimeHelper;
@@ -32,41 +25,47 @@ import com.dianping.cat.report.task.TaskBuilder;
 import com.dianping.cat.report.task.current.CurrentReportBuilder;
 import com.dianping.cat.report.task.current.CurrentWeeklyMonthlyReportTask;
 import com.dianping.cat.report.task.current.CurrentWeeklyMonthlyReportTask.CurrentWeeklyMonthlyTask;
+import junit.framework.Assert;
+import org.junit.Test;
+import org.unidal.lookup.ComponentTestCase;
+
+import java.io.File;
+import java.util.Date;
 
 public class CachedReportBuilerTest extends ComponentTestCase {
 
-	private int m_index = 0;
+    private int m_index = 0;
 
-	@Test
-	public void test() throws Exception {
-		ServerConfigManager manager = (ServerConfigManager) lookup(ServerConfigManager.class);
+    @Test
+    public void test() throws Exception {
+        ServerConfigManager manager = (ServerConfigManager) lookup(ServerConfigManager.class);
 
-		manager.initialize(new File(Cat.getCatHome(),"server.xml"));
+        manager.initialize(new File(Cat.getCatHome(), "server.xml"));
 
-		TaskBuilder builder = lookup(TaskBuilder.class, CurrentReportBuilder.ID);
-		CurrentWeeklyMonthlyReportTask.getInstance().register(new CurrentWeeklyMonthlyTask() {
+        TaskBuilder builder = lookup(TaskBuilder.class, CurrentReportBuilder.ID);
+        CurrentWeeklyMonthlyReportTask.getInstance().register(new CurrentWeeklyMonthlyTask() {
 
-			@Override
-			public String getReportName() {
-				return "Test";
-			}
+            @Override
+            public String getReportName() {
+                return "Test";
+            }
 
-			@Override
-			public void buildCurrentWeeklyTask(String name, String domain, Date start) {
-				m_index++;
-			}
+            @Override
+            public void buildCurrentWeeklyTask(String name, String domain, Date start) {
+                m_index++;
+            }
 
-			@Override
-			public void buildCurrentMonthlyTask(String name, String domain, Date start) {
-				m_index++;
-			}
-		});
+            @Override
+            public void buildCurrentMonthlyTask(String name, String domain, Date start) {
+                m_index++;
+            }
+        });
 
-		builder.buildDailyTask("test", "test", TimeHelper.getCurrentDay());
+        builder.buildDailyTask("test", "test", TimeHelper.getCurrentDay());
 
-		Thread.sleep(1000 * 5);
+        Thread.sleep(1000 * 5);
 
-		Assert.assertEquals(true, m_index > 0);
-	}
+        Assert.assertEquals(true, m_index > 0);
+    }
 
 }

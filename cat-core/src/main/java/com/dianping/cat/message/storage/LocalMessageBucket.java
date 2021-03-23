@@ -18,165 +18,160 @@
  */
 package com.dianping.cat.message.storage;
 
-import java.io.ByteArrayOutputStream;
-import java.io.EOFException;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Date;
-import java.util.concurrent.atomic.AtomicBoolean;
-
+import com.dianping.cat.message.CodecHandler;
+import com.dianping.cat.message.internal.MessageId;
+import com.dianping.cat.message.spi.MessageTree;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import org.unidal.lookup.annotation.Named;
 import org.xerial.snappy.SnappyOutputStream;
 
-import com.dianping.cat.message.CodecHandler;
-import com.dianping.cat.message.internal.MessageId;
-import com.dianping.cat.message.spi.MessageTree;
+import java.io.*;
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Named(type = MessageBucket.class, value = LocalMessageBucket.ID, instantiationStrategy = Named.PER_LOOKUP)
 public class LocalMessageBucket implements MessageBucket {
-	public static final String ID = "local";
+    public static final String ID = "local";
 
-	private static final int MAX_BLOCK_SIZE = 1 << 16; // 64K
+    private static final int MAX_BLOCK_SIZE = 1 << 16; // 64K
 
-	private File m_baseDir = new File(".");
+    private File m_baseDir = new File(".");
 
-	private MessageBlockWriter m_writer;
+    private MessageBlockWriter m_writer;
 
-	private AtomicBoolean m_dirty = new AtomicBoolean();
+    private AtomicBoolean m_dirty = new AtomicBoolean();
 
-	private String m_dataFile;
+    private String m_dataFile;
 
-	private long m_lastAccessTime;
+    private long m_lastAccessTime;
 
-	private OutputStream m_out;
+    private OutputStream m_out;
 
-	private ByteArrayOutputStream m_buf;
+    private ByteArrayOutputStream m_buf;
 
-	private MessageBlock m_block;
+    private MessageBlock m_block;
 
-	private int m_blockSize;
+    private int m_blockSize;
 
-	@Override
-	public void close() throws IOException {
-		synchronized (this) {
-			if (m_writer != null) {
-				m_writer.close();
-				m_out.close();
-				m_buf.close();
-				m_out = null;
-				m_buf = null;
-				m_writer = null;
-			}
-		}
-	}
+    @Override
+    public void close() throws IOException {
+        synchronized (this) {
+            if (m_writer != null) {
+                m_writer.close();
+                m_out.close();
+                m_buf.close();
+                m_out = null;
+                m_buf = null;
+                m_writer = null;
+            }
+        }
+    }
 
-	@Override
-	public MessageTree findById(String messageId) throws IOException {
-		int index = MessageId.parse(messageId).getIndex();
+    @Override
+    public MessageTree findById(String messageId) throws IOException {
+        int index = MessageId.parse(messageId).getIndex();
 
-		return findByIndex(index);
-	}
+        return findByIndex(index);
+    }
 
-	public MessageTree findByIndex(int index) throws IOException {
-		File file = new File(m_baseDir, m_dataFile);
-		MessageBlockReader reader = new MessageBlockReader(file);
+    public MessageTree findByIndex(int index) throws IOException {
+        File file = new File(m_baseDir, m_dataFile);
+        MessageBlockReader reader = new MessageBlockReader(file);
 
-		try {
-			m_lastAccessTime = System.currentTimeMillis();
+        try {
+            m_lastAccessTime = System.currentTimeMillis();
 
-			byte[] data = reader.readMessage(index);
+            byte[] data = reader.readMessage(index);
 
-			if (data != null) {
-				ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(data.length);
+            if (data != null) {
+                ByteBuf buf = ByteBufAllocator.DEFAULT.buffer(data.length);
 
-				buf.writeBytes(data);
-				return CodecHandler.decode(buf);
-			} else {
-				return null;
-			}
-		} catch (EOFException e) {
-			return null;
-		} finally {
-			reader.close();
-			CodecHandler.reset();
-		}
-	}
+                buf.writeBytes(data);
+                return CodecHandler.decode(buf);
+            } else {
+                return null;
+            }
+        } catch (EOFException e) {
+            return null;
+        } finally {
+            reader.close();
+            CodecHandler.reset();
+        }
+    }
 
-	public MessageBlock flushBlock() throws IOException {
-		if (m_dirty.get()) {
-			synchronized (this) {
-				m_out.close();
-				byte[] data = m_buf.toByteArray();
+    public MessageBlock flushBlock() throws IOException {
+        if (m_dirty.get()) {
+            synchronized (this) {
+                m_out.close();
+                byte[] data = m_buf.toByteArray();
 
-				try {
-					m_block.setData(data);
-					m_blockSize = 0;
-					m_buf.reset();
-					m_out = new SnappyOutputStream(m_buf);
-					m_dirty.set(false);
+                try {
+                    m_block.setData(data);
+                    m_blockSize = 0;
+                    m_buf.reset();
+                    m_out = new SnappyOutputStream(m_buf);
+                    m_dirty.set(false);
 
-					return m_block;
-				} finally {
-					m_block = new MessageBlock(m_dataFile);
-				}
-			}
-		}
-		return null;
-	}
+                    return m_block;
+                } finally {
+                    m_block = new MessageBlock(m_dataFile);
+                }
+            }
+        }
+        return null;
+    }
 
-	@Override
-	public long getLastAccessTime() {
-		return m_lastAccessTime;
-	}
+    @Override
+    public long getLastAccessTime() {
+        return m_lastAccessTime;
+    }
 
-	public MessageBlockWriter getWriter() {
-		return m_writer;
-	}
+    public MessageBlockWriter getWriter() {
+        return m_writer;
+    }
 
-	@Override
-	public void initialize(String dataFile) throws IOException {
-		m_dataFile = dataFile;
+    @Override
+    public void initialize(String dataFile) throws IOException {
+        m_dataFile = dataFile;
 
-		File file = new File(m_baseDir, dataFile);
+        File file = new File(m_baseDir, dataFile);
 
-		m_writer = new MessageBlockWriter(file);
-		m_block = new MessageBlock(m_dataFile);
-		m_buf = new ByteArrayOutputStream(16384);
-		m_out = new SnappyOutputStream(m_buf);
-	}
+        m_writer = new MessageBlockWriter(file);
+        m_block = new MessageBlock(m_dataFile);
+        m_buf = new ByteArrayOutputStream(16384);
+        m_out = new SnappyOutputStream(m_buf);
+    }
 
-	public void setBaseDir(File baseDir) {
-		m_baseDir = baseDir;
-	}
+    public void setBaseDir(File baseDir) {
+        m_baseDir = baseDir;
+    }
 
-	public MessageBlock storeMessage(final ByteBuf buf, final MessageId id) throws IOException {
-		synchronized (this) {
-			try {
-				int size = buf.readableBytes();
+    public MessageBlock storeMessage(final ByteBuf buf, final MessageId id) throws IOException {
+        synchronized (this) {
+            try {
+                int size = buf.readableBytes();
 
-				m_dirty.set(true);
-				m_lastAccessTime = System.currentTimeMillis();
-				m_blockSize += size;
-				m_block.addIndex(id.getIndex(), size);
-				buf.getBytes(0, m_out, size); // write buffer and compress it
+                m_dirty.set(true);
+                m_lastAccessTime = System.currentTimeMillis();
+                m_blockSize += size;
+                m_block.addIndex(id.getIndex(), size);
+                buf.getBytes(0, m_out, size); // write buffer and compress it
 
-				if (m_blockSize >= MAX_BLOCK_SIZE) {
-					return flushBlock();
-				} else {
-					return null;
-				}
-			} finally {
-				// buf.release();
-			}
-		}
-	}
+                if (m_blockSize >= MAX_BLOCK_SIZE) {
+                    return flushBlock();
+                } else {
+                    return null;
+                }
+            } finally {
+                // buf.release();
+            }
+        }
+    }
 
-	@Override
-	public void initialize(String dataFile, Date date) throws IOException {
-		initialize(dataFile);
-	}
+    @Override
+    public void initialize(String dataFile, Date date) throws IOException {
+        initialize(dataFile);
+    }
 
 }

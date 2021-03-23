@@ -37,13 +37,13 @@ import java.util.List;
 import java.util.Properties;
 
 public class ApplicationEnvironment {
+    public static final String ENVIRONMENT;
+    public static final String CELL;
+    public static final String VERSION = "2.0.1";
     private static final String HOST = "org.cat";
     private static final String PROPERTIES_FILE = "/META-INF/app.properties";
     private static final String CACHE_FILE = "client_cache.xml";
     private static final String CLIENT_FILE = "client.xml";
-    public static final String ENVIRONMENT;
-    public static final String CELL;
-    public static final String VERSION = "2.0.1";
 
     static {
         String env;

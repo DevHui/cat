@@ -39,105 +39,105 @@ import java.util.List;
 @Named
 public class SenderConfigManager implements Initializable {
 
-	private static final String CONFIG_NAME = "senderConfig";
+    private static final String CONFIG_NAME = "senderConfig";
 
-	@Inject
-	private ConfigDao m_configDao;
+    @Inject
+    private ConfigDao m_configDao;
 
-	@Inject
-	private ContentFetcher m_fetcher;
+    @Inject
+    private ContentFetcher m_fetcher;
 
-	private int m_configId;
+    private int m_configId;
 
-	private SenderConfig m_senderConfig;
+    private SenderConfig m_senderConfig;
 
-	public SenderConfig getConfig() {
-		return m_senderConfig;
-	}
+    public SenderConfig getConfig() {
+        return m_senderConfig;
+    }
 
-	@Override
-	public void initialize() throws InitializationException {
-		try {
-			Config config = m_configDao.findByName(CONFIG_NAME, ConfigEntity.READSET_FULL);
-			String content = config.getContent();
+    @Override
+    public void initialize() throws InitializationException {
+        try {
+            Config config = m_configDao.findByName(CONFIG_NAME, ConfigEntity.READSET_FULL);
+            String content = config.getContent();
 
-			m_senderConfig = DefaultSaxParser.parse(content);
-			m_configId = config.getId();
-		} catch (DalNotFoundException e) {
-			try {
-				String content = m_fetcher.getConfigContent(CONFIG_NAME);
-				Config config = m_configDao.createLocal();
+            m_senderConfig = DefaultSaxParser.parse(content);
+            m_configId = config.getId();
+        } catch (DalNotFoundException e) {
+            try {
+                String content = m_fetcher.getConfigContent(CONFIG_NAME);
+                Config config = m_configDao.createLocal();
 
-				config.setName(CONFIG_NAME);
-				config.setContent(content);
-				m_configDao.insert(config);
+                config.setName(CONFIG_NAME);
+                config.setContent(content);
+                m_configDao.insert(config);
 
-				m_senderConfig = DefaultSaxParser.parse(content);
-				m_configId = config.getId();
-			} catch (Exception ex) {
-				Cat.logError(ex);
-			}
-		} catch (Exception e) {
-			Cat.logError(e);
-		}
-		if (m_senderConfig == null) {
-			m_senderConfig = new SenderConfig();
-		}
-	}
+                m_senderConfig = DefaultSaxParser.parse(content);
+                m_configId = config.getId();
+            } catch (Exception ex) {
+                Cat.logError(ex);
+            }
+        } catch (Exception e) {
+            Cat.logError(e);
+        }
+        if (m_senderConfig == null) {
+            m_senderConfig = new SenderConfig();
+        }
+    }
 
-	public boolean insert(String xml) {
-		try {
-			m_senderConfig = DefaultSaxParser.parse(xml);
+    public boolean insert(String xml) {
+        try {
+            m_senderConfig = DefaultSaxParser.parse(xml);
 
-			return storeConfig();
-		} catch (Exception e) {
-			Cat.logError(e);
-			return false;
-		}
-	}
+            return storeConfig();
+        } catch (Exception e) {
+            Cat.logError(e);
+            return false;
+        }
+    }
 
-	public boolean insert(Sender sender) {
-		m_senderConfig.getSenders().put(sender.getId(), sender);
+    public boolean insert(Sender sender) {
+        m_senderConfig.getSenders().put(sender.getId(), sender);
 
-		return storeConfig();
-	}
+        return storeConfig();
+    }
 
-	public boolean remove(String id) {
-		m_senderConfig.removeSender(id);
+    public boolean remove(String id) {
+        m_senderConfig.removeSender(id);
 
-		return storeConfig();
-	}
+        return storeConfig();
+    }
 
-	public Sender querySender(String id) {
-		return m_senderConfig.getSenders().get(id);
-	}
+    public Sender querySender(String id) {
+        return m_senderConfig.getSenders().get(id);
+    }
 
-	public String queryParString(Sender sender) {
-		List<Par> pars = sender.getPars();
-		String[] s = new String[pars.size()];
-		int i = 0;
+    public String queryParString(Sender sender) {
+        List<Par> pars = sender.getPars();
+        String[] s = new String[pars.size()];
+        int i = 0;
 
-		for (Par par : pars) {
-			s[i++] = par.getId();
-		}
-		return StringUtils.join(s, "&");
-	}
+        for (Par par : pars) {
+            s[i++] = par.getId();
+        }
+        return StringUtils.join(s, "&");
+    }
 
-	private boolean storeConfig() {
-		synchronized (this) {
-			try {
-				Config config = m_configDao.createLocal();
+    private boolean storeConfig() {
+        synchronized (this) {
+            try {
+                Config config = m_configDao.createLocal();
 
-				config.setId(m_configId);
-				config.setKeyId(m_configId);
-				config.setName(CONFIG_NAME);
-				config.setContent(m_senderConfig.toString());
-				m_configDao.updateByPK(config, ConfigEntity.UPDATESET_FULL);
-			} catch (Exception e) {
-				Cat.logError(e);
-				return false;
-			}
-		}
-		return true;
-	}
+                config.setId(m_configId);
+                config.setKeyId(m_configId);
+                config.setName(CONFIG_NAME);
+                config.setContent(m_senderConfig.toString());
+                m_configDao.updateByPK(config, ConfigEntity.UPDATESET_FULL);
+            } catch (Exception e) {
+                Cat.logError(e);
+                return false;
+            }
+        }
+        return true;
+    }
 }

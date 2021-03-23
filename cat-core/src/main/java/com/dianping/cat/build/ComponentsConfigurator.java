@@ -18,13 +18,6 @@
  */
 package com.dianping.cat.build;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.unidal.dal.jdbc.configuration.AbstractJdbcResourceConfigurator;
-import org.unidal.lookup.configuration.Component;
-
 import com.dianping.cat.Cat;
 import com.dianping.cat.CatCoreModule;
 import com.dianping.cat.analysis.DefaultMessageAnalyzerManager;
@@ -51,70 +44,76 @@ import com.dianping.cat.service.IpService;
 import com.dianping.cat.service.IpService2;
 import com.dianping.cat.statistic.ServerStatisticManager;
 import com.dianping.cat.task.TaskManager;
+import org.unidal.dal.jdbc.configuration.AbstractJdbcResourceConfigurator;
+import org.unidal.lookup.configuration.Component;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ComponentsConfigurator extends AbstractJdbcResourceConfigurator {
-	public static void main(String[] args) {
-		generatePlexusComponentsXmlFile(new ComponentsConfigurator());
-	}
+    public static void main(String[] args) {
+        generatePlexusComponentsXmlFile(new ComponentsConfigurator());
+    }
 
-	@Override
-	public List<Component> defineComponents() {
-		List<Component> all = new ArrayList<Component>();
+    @Override
+    public List<Component> defineComponents() {
+        List<Component> all = new ArrayList<Component>();
 
-		all.add(A(RealtimeConsumer.class));
+        all.add(A(RealtimeConsumer.class));
 
-		all.add(A(ServerConfigManager.class));
-		all.add(A(HostinfoService.class));
-		all.add(A(IpService.class));
-		all.add(A(IpService2.class));
-		all.add(A(TaskManager.class));
-		all.add(A(ServerStatisticManager.class));
-		all.add(A(DomainValidator.class));
-		all.add(A(LocalResourceContentFetcher.class));
-		all.add(A(ServerFilterConfigManager.class));
+        all.add(A(ServerConfigManager.class));
+        all.add(A(HostinfoService.class));
+        all.add(A(IpService.class));
+        all.add(A(IpService2.class));
+        all.add(A(TaskManager.class));
+        all.add(A(ServerStatisticManager.class));
+        all.add(A(DomainValidator.class));
+        all.add(A(LocalResourceContentFetcher.class));
+        all.add(A(ServerFilterConfigManager.class));
 
-		all.add(A(DefaultPathBuilder.class));
+        all.add(A(DefaultPathBuilder.class));
 
-		all.add(A(DefaultMessageAnalyzerManager.class));
+        all.add(A(DefaultMessageAnalyzerManager.class));
 
-		all.add(A(TcpSocketReceiver.class));
+        all.add(A(TcpSocketReceiver.class));
 
-		all.add(A(DefaultMessageHandler.class));
+        all.add(A(DefaultMessageHandler.class));
 
-		all.add(A(SampleConfigManager.class));
-		all.add(A(BusinessConfigManager.class));
-		all.add(A(ReportReloadConfigManager.class));
+        all.add(A(SampleConfigManager.class));
+        all.add(A(BusinessConfigManager.class));
+        all.add(A(ReportReloadConfigManager.class));
 
-		all.add(A(CatCoreModule.class));
+        all.add(A(CatCoreModule.class));
 
-		all.addAll(defineStorageComponents());
+        all.addAll(defineStorageComponents());
 
-		all.add(A(RemoteServersManager.class));
-		all.add(A(ServersUpdaterManager.class));
+        all.add(A(RemoteServersManager.class));
+        all.add(A(ServersUpdaterManager.class));
 
-		all.add(A(TpValueStatisticConfigManager.class));
-		all.add(A(AtomicMessageConfigManager.class));
+        all.add(A(TpValueStatisticConfigManager.class));
+        all.add(A(AtomicMessageConfigManager.class));
 
-		String catHome = Cat.getCatHome();
-		if(catHome.charAt(catHome.length()-1) != '/') {
-			catHome += '/';
-		}
-		all.add(defineJdbcDataSourceConfigurationManagerComponent(catHome +"datasources.xml"));
+        String catHome = Cat.getCatHome();
+        if (catHome.charAt(catHome.length() - 1) != '/') {
+            catHome += '/';
+        }
+        all.add(defineJdbcDataSourceConfigurationManagerComponent(catHome + "datasources.xml"));
 
-		all.addAll(new CatCoreDatabaseConfigurator().defineComponents());
-		all.addAll(new CatDatabaseConfigurator().defineComponents());
+        all.addAll(new CatCoreDatabaseConfigurator().defineComponents());
+        all.addAll(new CatDatabaseConfigurator().defineComponents());
 
-		return all;
-	}
+        return all;
+    }
 
-	private Collection<Component> defineStorageComponents() {
-		List<Component> all = new ArrayList<Component>();
+    private Collection<Component> defineStorageComponents() {
+        List<Component> all = new ArrayList<Component>();
 
-		all.add(A(DefaultReportBucketManager.class));
-		all.add(A(LocalReportBucket.class));
-		all.add(A(LocalMessageBucket.class));
+        all.add(A(DefaultReportBucketManager.class));
+        all.add(A(LocalReportBucket.class));
+        all.add(A(LocalMessageBucket.class));
 
-		return all;
-	}
+        return all;
+    }
 
 }

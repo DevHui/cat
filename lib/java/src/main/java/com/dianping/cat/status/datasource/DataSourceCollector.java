@@ -27,14 +27,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class DataSourceCollector extends AbstractCollector {
-    private Map<String, Object> lastValueMap = new HashMap<String, Object>();
-    protected MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
-    protected DatabaseParserHelper databaseParser = new DatabaseParserHelper();
-
     protected static final char SPLIT = '.';
     private static final Integer ERROR_INT = -1;
     private static final Long ERROR_LONG = -1L;
     private static final String ERROR_ATTRIBUTE = "unknown";
+    protected MBeanServer mbeanServer = ManagementFactory.getPlatformMBeanServer();
+    protected DatabaseParserHelper databaseParser = new DatabaseParserHelper();
+    private Map<String, Object> lastValueMap = new HashMap<String, Object>();
 
     private Integer diffLast(String key, Integer value) {
         Object lastValue = lastValueMap.get(key);

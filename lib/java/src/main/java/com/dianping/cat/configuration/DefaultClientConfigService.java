@@ -41,6 +41,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DefaultClientConfigService implements ClientConfigService {
+    private static CatLogger LOGGER = CatLogger.getInstance();
+    private static DefaultClientConfigService instance = new DefaultClientConfigService();
     private ClientConfig config;
     private String routers;
     private volatile double samplingRate = 1d;
@@ -48,12 +50,6 @@ public class DefaultClientConfigService implements ClientConfigService {
     private volatile int timeout = 1000;
     private MessageTreeTypeParser treeParser = new MessageTreeTypeParser();
     private Map<String, List<Integer>> longConfigs = new LinkedHashMap<String, List<Integer>>();
-    private static CatLogger LOGGER = CatLogger.getInstance();
-    private static DefaultClientConfigService instance = new DefaultClientConfigService();
-
-    public static DefaultClientConfigService getInstance() {
-        return instance;
-    }
 
     private DefaultClientConfigService() {
         String config = System.getProperty(Cat.CLIENT_CONFIG);
@@ -75,6 +71,10 @@ public class DefaultClientConfigService implements ClientConfigService {
             this.config = defaultConfig;
             LOGGER.info("setup cat with default configuration:" + this.config);
         }
+    }
+
+    public static DefaultClientConfigService getInstance() {
+        return instance;
     }
 
     @Override

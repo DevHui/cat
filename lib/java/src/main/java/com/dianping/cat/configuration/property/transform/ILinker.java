@@ -5,5 +5,5 @@ import com.dianping.cat.configuration.property.entity.PropertyConfig;
 
 public interface ILinker {
 
-   boolean onProperty(PropertyConfig parent, Property property);
+    boolean onProperty(PropertyConfig parent, Property property);
 }

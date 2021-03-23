@@ -260,7 +260,7 @@ public class CatFilter implements Filter {
             Cat.logError(e);
             throw e;
         } catch (IOException e) {
-        	status = 500;
+            status = 500;
             t.setStatus(e);
             Cat.logError(e);
             throw e;

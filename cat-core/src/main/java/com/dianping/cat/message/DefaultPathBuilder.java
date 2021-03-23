@@ -18,25 +18,25 @@
  */
 package com.dianping.cat.message;
 
+import org.unidal.lookup.annotation.Named;
+
 import java.text.MessageFormat;
 import java.util.Date;
-
-import org.unidal.lookup.annotation.Named;
 
 @Named(type = PathBuilder.class)
 public class DefaultPathBuilder implements PathBuilder {
 
-	@Override
-	public String getLogviewPath(Date timestamp, String name) {
-		MessageFormat format = new MessageFormat("{0,date,yyyyMMdd}/{0,date,HH}/{1}");
+    @Override
+    public String getLogviewPath(Date timestamp, String name) {
+        MessageFormat format = new MessageFormat("{0,date,yyyyMMdd}/{0,date,HH}/{1}");
 
-		return format.format(new Object[] { timestamp, name });
-	}
+        return format.format(new Object[]{timestamp, name});
+    }
 
-	@Override
-	public String getReportPath(String name, Date timestamp, int index) {
-		MessageFormat format = new MessageFormat("{0,date,yyyyMMdd}/{0,date,HH}/{1}/report-{2}");
+    @Override
+    public String getReportPath(String name, Date timestamp, int index) {
+        MessageFormat format = new MessageFormat("{0,date,yyyyMMdd}/{0,date,HH}/{1}/report-{2}");
 
-		return format.format(new Object[] { timestamp, index, name });
-	}
+        return format.format(new Object[]{timestamp, index, name});
+    }
 }

@@ -62,6 +62,9 @@ public class JvmInfoCollector {
         }
     };
 
+    private JvmInfoCollector() {
+    }
+
     public static Map<String, String> convert(Map<String, Number> map) {
         Map<String, String> result = new LinkedHashMap<String, String>();
 
@@ -73,9 +76,6 @@ public class JvmInfoCollector {
 
     public static JvmInfoCollector getInstance() {
         return collector;
-    }
-
-    private JvmInfoCollector() {
     }
 
     private Map<String, Number> doGcCollect() {

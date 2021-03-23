@@ -1,0 +1,585 @@
+@startuml
+
+/' diagram meta data start
+config=CallConfiguration;
+{
+  "rootMethod": "com.dianping.cat.Cat#getCatHome()",
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showMethodParametersTypes": false,
+    "showMethodParametersNames": false,
+    "showMethodReturnType": false,
+    "showPackageLevels": 2,
+    "showCallOrder": false,
+    "edgeMode": "MethodsOnly", // TypesOnly, MethodsOnly, TypesAndMethods, MethodsAndDirectTypeUsage
+    "showDetailedClassStructure": false
+  },
+  "rootClass": "com.dianping.cat.Cat"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="LR"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_231963676 { 
+   	label=dianping
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1054235340 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_109443359 { 
+   	label=LocalEventService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalEventService324698713XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalEventService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1201051041 { 
+   	label=LocalHeartbeatService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalHeartbeatService1256167671XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalHeartbeatService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1577120129 { 
+   	label=LocalStateService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalStateService1634735970XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalStateService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1627452372 { 
+   	label=ServerConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ServerConfigManager1348150182XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="ServerConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1723658738 { 
+   	label=DefaultMessageManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultMessageManager982561799XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1757278497 { 
+   	label=LocalCrossService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalCrossService218981043XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalCrossService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1824915805 { 
+   	label=DefaultReportManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultReportManager1062576471XXXloadHourlyReports1893863326[
+	label="+ loadHourlyReports()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultReportManager
+
+null"
+	fontcolor=darkgreen
+];
+
+DefaultReportManager1062576471XXXloadLocalReports78517503[
+	label="+ loadLocalReports()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultReportManager
+
+null"
+	fontcolor=darkgreen
+];
+
+DefaultReportManager1062576471XXXstoreHourlyReports1893863326[
+	label="+ storeHourlyReports()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultReportManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1827880093 { 
+   	label=MessageIdFactory
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   MessageIdFactory982561799XXXinitialize1808118735[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="MessageIdFactory
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1911759116 { 
+   	label=CatListener
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   CatListener1985546384XXXcontextInitialized2079444752[
+	label="+ contextInitialized()"
+	style=filled
+	fillcolor=white
+	tooltip="CatListener
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1931760353 { 
+   	label=LocalTransactionService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalTransactionService62328171XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalTransactionService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1976360884 { 
+   	label=DefaultClientConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultClientConfigManager1502793185XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultClientConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_2036387711 { 
+   	label=LocalDependencyService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalDependencyService1423065972XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalDependencyService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_223834753 { 
+   	label=LocalProblemService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalProblemService988840148XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalProblemService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_392070948 { 
+   	label=LocalReportBucket
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalReportBucket1062576471XXXinitialize532919080[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalReportBucket
+
+&#10;		 Initialize the bucket after its creation.&#10;		&#10;		 @param type&#10;		 @param name&#10;		 @param timestamp&#10;		 @throws IOException&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_417579689 { 
+   	label=LocalBusinessService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalBusinessService798456449XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalBusinessService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_617425088 { 
+   	label=ComponentsConfigurator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ComponentsConfigurator1018414503XXXdefineComponents0[
+	label="+ defineComponents()"
+	style=filled
+	fillcolor=white
+	tooltip="ComponentsConfigurator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_729580959 { 
+   	label=Cat
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Cat2002533913XXXgetCatHome0[
+	label="+ getCatHome()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	penwidth=4
+	fontcolor=darkgreen
+];
+
+Cat2002533913XXXinitializeByDomain1308468536[
+	label="+ initializeByDomain()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	fontcolor=darkgreen
+];
+
+Cat2002533913XXXinitializeByDomain642049240[
+	label="+ initializeByDomain()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_755636190 { 
+   	label=CatPropertyProviderDefaultImpl
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   CatPropertyProviderDefaultImpl1141029675XXXgetProperty2013066710[
+	label="+ getProperty()"
+	style=filled
+	fillcolor=white
+	tooltip="CatPropertyProviderDefaultImpl
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_761553471 { 
+   	label=LocalTopService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalTopService1235043614XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalTopService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_778883053 { 
+   	label=DefaultReportBucketManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultReportBucketManager1062576471XXXgetReportBucket1301628282[
+	label="+ getReportBucket()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultReportBucketManager
+
+null"
+	fontcolor=darkgreen
+];
+
+DefaultReportBucketManager1062576471XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultReportBucketManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_814881791 { 
+   	label=LocalStorageService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalStorageService233610488XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalStorageService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_950088597 { 
+   	label=LocalMatrixService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalMatrixService408516610XXXbuildReport1340167043[
+	label="+ buildReport()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalMatrixService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+subgraph cluster_840542049 { 
+   	label=unidal
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1272011271 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_1746636883 { 
+   	label=DefaultStorageConfiguration
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultStorageConfiguration1268439265XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultStorageConfiguration
+
+null"
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+'edges    
+Cat2002533913XXXgetCatHome0 -> CatPropertyProviderDefaultImpl1141029675XXXgetProperty2013066710;
+Cat2002533913XXXinitializeByDomain1308468536 -> Cat2002533913XXXgetCatHome0;
+Cat2002533913XXXinitializeByDomain642049240 -> Cat2002533913XXXinitializeByDomain1308468536;
+CatListener1985546384XXXcontextInitialized2079444752 -> Cat2002533913XXXgetCatHome0;
+ComponentsConfigurator1018414503XXXdefineComponents0 -> Cat2002533913XXXgetCatHome0;
+DefaultClientConfigManager1502793185XXXinitialize0 -> Cat2002533913XXXgetCatHome0;
+DefaultMessageManager982561799XXXinitialize0 -> MessageIdFactory982561799XXXinitialize1808118735;
+DefaultReportBucketManager1062576471XXXgetReportBucket1301628282 -> LocalReportBucket1062576471XXXinitialize532919080;
+DefaultReportBucketManager1062576471XXXinitialize0 -> Cat2002533913XXXgetCatHome0;
+DefaultReportManager1062576471XXXloadHourlyReports1893863326 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+DefaultReportManager1062576471XXXloadLocalReports78517503 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+DefaultReportManager1062576471XXXstoreHourlyReports1893863326 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+DefaultStorageConfiguration1268439265XXXinitialize0 -> Cat2002533913XXXgetCatHome0;
+LocalBusinessService798456449XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalCrossService218981043XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalDependencyService1423065972XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalEventService324698713XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalHeartbeatService1256167671XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalMatrixService408516610XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalProblemService988840148XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalReportBucket1062576471XXXinitialize532919080 -> Cat2002533913XXXgetCatHome0;
+LocalStateService1634735970XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalStorageService233610488XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalTopService1235043614XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+LocalTransactionService62328171XXXbuildReport1340167043 -> DefaultReportBucketManager1062576471XXXgetReportBucket1301628282;
+MessageIdFactory982561799XXXinitialize1808118735 -> Cat2002533913XXXgetCatHome0;
+MessageIdFactory982561799XXXinitialize1808118735 -> MessageIdFactory982561799XXXinitialize1808118735;
+ServerConfigManager1348150182XXXinitialize0 -> Cat2002533913XXXgetCatHome0;
+    
+}
+@enduml

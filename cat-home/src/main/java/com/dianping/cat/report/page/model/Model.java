@@ -18,47 +18,46 @@
  */
 package com.dianping.cat.report.page.model;
 
+import com.dianping.cat.report.ReportPage;
 import org.unidal.web.mvc.ViewModel;
 
-import com.dianping.cat.report.ReportPage;
-
 public class Model extends ViewModel<ReportPage, Action, Context> {
-	private Throwable m_exception;
+    private Throwable m_exception;
 
-	private Object m_model;
+    private Object m_model;
 
-	private String m_modelInXml;
+    private String m_modelInXml;
 
-	public Model(Context ctx) {
-		super(ctx);
-	}
+    public Model(Context ctx) {
+        super(ctx);
+    }
 
-	@Override
-	public Action getDefaultAction() {
-		return Action.XML;
-	}
+    @Override
+    public Action getDefaultAction() {
+        return Action.XML;
+    }
 
-	public Throwable getException() {
-		return m_exception;
-	}
+    public Throwable getException() {
+        return m_exception;
+    }
 
-	public void setException(Throwable exception) {
-		m_exception = exception;
-	}
+    public void setException(Throwable exception) {
+        m_exception = exception;
+    }
 
-	public Object getModel() {
-		return m_model;
-	}
+    public Object getModel() {
+        return m_model;
+    }
 
-	public void setModel(Object model) {
-		m_model = model;
-	}
+    public void setModel(Object model) {
+        m_model = model;
+    }
 
-	public String getModelInXml() {
-		return m_modelInXml;
-	}
+    public String getModelInXml() {
+        return m_modelInXml;
+    }
 
-	public void setModelInXml(String modelInXml) {
-		m_modelInXml = modelInXml;
-	}
+    public void setModelInXml(String modelInXml) {
+        m_modelInXml = modelInXml;
+    }
 }

@@ -42,6 +42,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChannelManager implements Threads.Task {
+    private static CatLogger LOGGER = CatLogger.getInstance();
+    private static ChannelManager instance = new ChannelManager();
     private ClientConfigService configService = DefaultClientConfigService.getInstance();
     private Bootstrap bootstrap;
     private boolean active = true;
@@ -50,12 +52,6 @@ public class ChannelManager implements Threads.Task {
     private MessageIdFactory idFactory = MessageIdFactory.getInstance();
     private AtomicInteger attempts = new AtomicInteger();
     private int reconnectCount;
-    private static CatLogger LOGGER = CatLogger.getInstance();
-    private static ChannelManager instance = new ChannelManager();
-
-    public static ChannelManager getInstance() {
-        return instance;
-    }
 
     private ChannelManager() {
         List<Server> servers = configService.getServers();
@@ -110,6 +106,10 @@ public class ChannelManager implements Threads.Task {
                 activeChannelHolder.setServerAddresses(addresses);
             }
         }
+    }
+
+    public static ChannelManager getInstance() {
+        return instance;
     }
 
     public ChannelFuture channel() {
@@ -404,29 +404,13 @@ public class ChannelManager implements Threads.Task {
             return activeFuture;
         }
 
-        public int getActiveIndex() {
-            return activeIndex;
-        }
-
-        public String getActiveServerConfig() {
-            return activeServerConfig;
-        }
-
-        public String getIp() {
-            return ip;
-        }
-
-        public List<InetSocketAddress> getServerAddresses() {
-            return serverAddresses;
-        }
-
-        public boolean isConnectChanged() {
-            return connectChanged;
-        }
-
         public ChannelHolder setActiveFuture(ChannelFuture activeFuture) {
             this.activeFuture = activeFuture;
             return this;
+        }
+
+        public int getActiveIndex() {
+            return activeIndex;
         }
 
         public ChannelHolder setActiveIndex(int activeIndex) {
@@ -434,14 +418,17 @@ public class ChannelManager implements Threads.Task {
             return this;
         }
 
+        public String getActiveServerConfig() {
+            return activeServerConfig;
+        }
+
         public ChannelHolder setActiveServerConfig(String activeServerConfig) {
             this.activeServerConfig = activeServerConfig;
             return this;
         }
 
-        public ChannelHolder setConnectChanged(boolean connectChanged) {
-            this.connectChanged = connectChanged;
-            return this;
+        public String getIp() {
+            return ip;
         }
 
         public ChannelHolder setIp(String ip) {
@@ -449,8 +436,21 @@ public class ChannelManager implements Threads.Task {
             return this;
         }
 
+        public List<InetSocketAddress> getServerAddresses() {
+            return serverAddresses;
+        }
+
         public ChannelHolder setServerAddresses(List<InetSocketAddress> serverAddresses) {
             this.serverAddresses = serverAddresses;
+            return this;
+        }
+
+        public boolean isConnectChanged() {
+            return connectChanged;
+        }
+
+        public ChannelHolder setConnectChanged(boolean connectChanged) {
+            this.connectChanged = connectChanged;
             return this;
         }
 

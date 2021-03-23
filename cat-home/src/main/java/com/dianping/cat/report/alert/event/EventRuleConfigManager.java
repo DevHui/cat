@@ -25,11 +25,11 @@ import org.unidal.lookup.annotation.Named;
 @Named
 public class EventRuleConfigManager extends BaseRuleConfigManager implements Initializable {
 
-	private static final String CONFIG_NAME = "eventRule";
+    private static final String CONFIG_NAME = "eventRule";
 
-	@Override
-	protected String getConfigName() {
-		return CONFIG_NAME;
-	}
+    @Override
+    protected String getConfigName() {
+        return CONFIG_NAME;
+    }
 
 }

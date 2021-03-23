@@ -26,6 +26,13 @@ public class MessageId {
     private int hour;
     private int index;
 
+    public MessageId(String domain, String ipAddressInHex, int hour, int index) {
+        this.domain = domain;
+        this.ipAddressInHex = ipAddressInHex;
+        this.hour = hour;
+        this.index = index;
+    }
+
     public static MessageId parse(String messageId) {
         int index = -1;
         int hour = -1;
@@ -66,13 +73,6 @@ public class MessageId {
         } else {
             return new MessageId(domain, ipAddressInHex, hour, index);
         }
-    }
-
-    public MessageId(String domain, String ipAddressInHex, int hour, int index) {
-        this.domain = domain;
-        this.ipAddressInHex = ipAddressInHex;
-        this.hour = hour;
-        this.index = index;
     }
 
     @Override

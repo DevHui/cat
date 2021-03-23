@@ -32,9 +32,9 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class MetricTagAggregator {
     private static final MetricTagAggregator instance = new MetricTagAggregator();
-    public static int MAX_KEY_SIZE = 1000;
     private static final String OTHERS = "others";
     private static final String EMPTY = "empty";
+    public static int MAX_KEY_SIZE = 1000;
     private volatile ConcurrentHashMap<String, Map<String, MetricTagItem>> metrics = new ConcurrentHashMap<String, Map<String, MetricTagItem>>();
     private ConcurrentHashMap<String, Integer> metricThresholds = new ConcurrentHashMap<String, Integer>();
 
@@ -271,8 +271,16 @@ public class MetricTagAggregator {
             return count;
         }
 
+        void setCount(AtomicInteger count) {
+            this.count = count;
+        }
+
         String getKey() {
             return key;
+        }
+
+        void setKey(String key) {
+            this.key = key;
         }
 
         AtomicLong getSum() {
@@ -285,14 +293,6 @@ public class MetricTagAggregator {
 
         int getSlowThreshold() {
             return slowThreshold;
-        }
-
-        void setCount(AtomicInteger count) {
-            this.count = count;
-        }
-
-        void setKey(String key) {
-            this.key = key;
         }
 
         void setSlowThreshold(int slowThreshold) {

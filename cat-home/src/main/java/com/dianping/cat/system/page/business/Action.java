@@ -19,44 +19,44 @@
 package com.dianping.cat.system.page.business;
 
 public enum Action implements org.unidal.web.mvc.Action {
-	LIST("list"),
+    LIST("list"),
 
-	ADD("add"),
+    ADD("add"),
 
-	AddSubmit("addSubmit"),
+    AddSubmit("addSubmit"),
 
-	DELETE("delete"),
+    DELETE("delete"),
 
-	TagConfig("tagConfig"),
+    TagConfig("tagConfig"),
 
-	AlertRuleAdd("alertRuleAdd"),
+    AlertRuleAdd("alertRuleAdd"),
 
-	AlertRuleAddSubmit("alertRuleAddSubmit"),
+    AlertRuleAddSubmit("alertRuleAddSubmit"),
 
-	CustomAdd("customAdd"),
+    CustomAdd("customAdd"),
 
-	CustomAddSubmit("customAddSubmit"),
+    CustomAddSubmit("customAddSubmit"),
 
-	CustomDelete("customDelete");
+    CustomDelete("customDelete");
 
-	private String m_name;
+    private String m_name;
 
-	private Action(String name) {
-		m_name = name;
-	}
+    private Action(String name) {
+        m_name = name;
+    }
 
-	public static Action getByName(String name, Action defaultAction) {
-		for (Action action : Action.values()) {
-			if (action.getName().equals(name)) {
-				return action;
-			}
-		}
+    public static Action getByName(String name, Action defaultAction) {
+        for (Action action : Action.values()) {
+            if (action.getName().equals(name)) {
+                return action;
+            }
+        }
 
-		return defaultAction;
-	}
+        return defaultAction;
+    }
 
-	@Override
-	public String getName() {
-		return m_name;
-	}
+    @Override
+    public String getName() {
+        return m_name;
+    }
 }

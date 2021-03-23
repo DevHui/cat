@@ -39,89 +39,89 @@ import java.util.Map;
 @Named(type = ReportDelegate.class, value = TransactionAnalyzer.ID)
 public class TransactionDelegate implements ReportDelegate<TransactionReport> {
 
-	@Inject
-	private TaskManager m_taskManager;
+    @Inject
+    private TaskManager m_taskManager;
 
-	@Inject
-	private ServerFilterConfigManager m_configManager;
+    @Inject
+    private ServerFilterConfigManager m_configManager;
 
-	@Inject
-	private AllReportConfigManager m_transactionManager;
+    @Inject
+    private AllReportConfigManager m_transactionManager;
 
-	@Inject
-	private ServerConfigManager m_serverConfigManager;
+    @Inject
+    private ServerConfigManager m_serverConfigManager;
 
-	@Inject
-	private AtomicMessageConfigManager m_atomicMessageConfigManager;
+    @Inject
+    private AtomicMessageConfigManager m_atomicMessageConfigManager;
 
-	private TransactionStatisticsComputer m_computer = new TransactionStatisticsComputer();
+    private TransactionStatisticsComputer m_computer = new TransactionStatisticsComputer();
 
-	@Override
-	public void afterLoad(Map<String, TransactionReport> reports) {
-	}
+    @Override
+    public void afterLoad(Map<String, TransactionReport> reports) {
+    }
 
-	@Override
-	public void beforeSave(Map<String, TransactionReport> reports) {
-	}
+    @Override
+    public void beforeSave(Map<String, TransactionReport> reports) {
+    }
 
-	@Override
-	public byte[] buildBinary(TransactionReport report) {
-		return DefaultNativeBuilder.build(report);
-	}
+    @Override
+    public byte[] buildBinary(TransactionReport report) {
+        return DefaultNativeBuilder.build(report);
+    }
 
-	@Override
-	public String buildXml(TransactionReport report) {
-		report.accept(m_computer);
+    @Override
+    public String buildXml(TransactionReport report) {
+        report.accept(m_computer);
 
-		new TransactionReportCountFilter(m_serverConfigManager.getMaxTypeThreshold(),
-								m_atomicMessageConfigManager.getMaxNameThreshold(report.getDomain()),
-								m_serverConfigManager.getTypeNameLengthLimit()).visitTransactionReport(report);
+        new TransactionReportCountFilter(m_serverConfigManager.getMaxTypeThreshold(),
+                m_atomicMessageConfigManager.getMaxNameThreshold(report.getDomain()),
+                m_serverConfigManager.getTypeNameLengthLimit()).visitTransactionReport(report);
 
-		return report.toString();
-	}
+        return report.toString();
+    }
 
-	@Override
-	public boolean createHourlyTask(TransactionReport report) {
-		String domain = report.getDomain();
+    @Override
+    public boolean createHourlyTask(TransactionReport report) {
+        String domain = report.getDomain();
 
-		if (domain.equals(Constants.ALL) || m_configManager.validateDomain(domain)) {
-			return m_taskManager.createTask(report.getStartTime(), domain, TransactionAnalyzer.ID,
-			      TaskProlicy.ALL_EXCLUED_HOURLY);
-		} else {
-			return true;
-		}
-	}
+        if (domain.equals(Constants.ALL) || m_configManager.validateDomain(domain)) {
+            return m_taskManager.createTask(report.getStartTime(), domain, TransactionAnalyzer.ID,
+                    TaskProlicy.ALL_EXCLUED_HOURLY);
+        } else {
+            return true;
+        }
+    }
 
-	@Override
-	public String getDomain(TransactionReport report) {
-		return report.getDomain();
-	}
+    @Override
+    public String getDomain(TransactionReport report) {
+        return report.getDomain();
+    }
 
-	@Override
-	public TransactionReport makeReport(String domain, long startTime, long duration) {
-		TransactionReport report = new TransactionReport(domain);
+    @Override
+    public TransactionReport makeReport(String domain, long startTime, long duration) {
+        TransactionReport report = new TransactionReport(domain);
 
-		report.setStartTime(new Date(startTime));
-		report.setEndTime(new Date(startTime + duration - 1));
+        report.setStartTime(new Date(startTime));
+        report.setEndTime(new Date(startTime + duration - 1));
 
-		return report;
-	}
+        return report;
+    }
 
-	@Override
-	public TransactionReport mergeReport(TransactionReport old, TransactionReport other) {
-		TransactionReportMerger merger = new TransactionReportMerger(old);
+    @Override
+    public TransactionReport mergeReport(TransactionReport old, TransactionReport other) {
+        TransactionReportMerger merger = new TransactionReportMerger(old);
 
-		other.accept(merger);
-		return old;
-	}
+        other.accept(merger);
+        return old;
+    }
 
-	@Override
-	public TransactionReport parseBinary(byte[] bytes) {
-		return DefaultNativeParser.parse(bytes);
-	}
+    @Override
+    public TransactionReport parseBinary(byte[] bytes) {
+        return DefaultNativeParser.parse(bytes);
+    }
 
-	@Override
-	public TransactionReport parseXml(String xml) throws Exception {
-		return DefaultSaxParser.parse(xml);
-	}
+    @Override
+    public TransactionReport parseXml(String xml) throws Exception {
+        return DefaultSaxParser.parse(xml);
+    }
 }

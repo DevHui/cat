@@ -50,9 +50,9 @@ public interface MessageManager {
 
     boolean isTraceMode();
 
-    void reset();
-
     void setTraceMode(boolean traceMode);
+
+    void reset();
 
     void setup();
 

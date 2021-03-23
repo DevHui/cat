@@ -18,57 +18,56 @@
  */
 package com.dianping.cat.report.alert.summary.build;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.unidal.dal.jdbc.DalException;
-import org.unidal.lookup.annotation.Inject;
-import org.unidal.lookup.annotation.Named;
-
 import com.dianping.cat.Cat;
 import com.dianping.cat.home.dal.report.Alteration;
 import com.dianping.cat.home.dal.report.AlterationDao;
 import com.dianping.cat.home.dal.report.AlterationEntity;
 import com.dianping.cat.report.alert.summary.AlertSummaryExecutor;
+import org.unidal.dal.jdbc.DalException;
+import org.unidal.lookup.annotation.Inject;
+import org.unidal.lookup.annotation.Named;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Named(type = SummaryBuilder.class, value = AlterationSummaryBuilder.ID)
 public class AlterationSummaryBuilder extends SummaryBuilder {
 
-	public static final String ID = "AlterationSummaryContentGenerator";
+    public static final String ID = "AlterationSummaryContentGenerator";
 
-	@Inject
-	private AlterationDao m_alterationDao;
+    @Inject
+    private AlterationDao m_alterationDao;
 
-	@Override
-	public Map<Object, Object> generateModel(String domain, Date date) {
-		Map<Object, Object> dataMap = new HashMap<Object, Object>();
+    @Override
+    public Map<Object, Object> generateModel(String domain, Date date) {
+        Map<Object, Object> dataMap = new HashMap<Object, Object>();
 
-		try {
-			List<Alteration> alterations = m_alterationDao
-									.findByDomainAndTime(getStartDate(date), date, domain,	AlterationEntity.READSET_FULL);
+        try {
+            List<Alteration> alterations = m_alterationDao
+                    .findByDomainAndTime(getStartDate(date), date, domain, AlterationEntity.READSET_FULL);
 
-			dataMap.put("count", alterations.size());
-			dataMap.put("items", alterations);
-		} catch (DalException e) {
-			Cat.logError(e);
-		}
-		return dataMap;
-	}
+            dataMap.put("count", alterations.size());
+            dataMap.put("items", alterations);
+        } catch (DalException e) {
+            Cat.logError(e);
+        }
+        return dataMap;
+    }
 
-	@Override
-	public String getID() {
-		return ID;
-	}
+    @Override
+    public String getID() {
+        return ID;
+    }
 
-	private Date getStartDate(Date date) {
-		return new Date(date.getTime() - AlertSummaryExecutor.ALTERATION_DURATION);
-	}
+    private Date getStartDate(Date date) {
+        return new Date(date.getTime() - AlertSummaryExecutor.ALTERATION_DURATION);
+    }
 
-	@Override
-	protected String getTemplateAddress() {
-		return "alterationInfo.ftl";
-	}
+    @Override
+    protected String getTemplateAddress() {
+        return "alterationInfo.ftl";
+    }
 
 }

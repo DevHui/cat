@@ -18,27 +18,26 @@
  */
 package com.dianping.cat.report.alert;
 
-import java.io.InputStream;
-
+import com.dianping.cat.alarm.rule.entity.Rule;
+import com.dianping.cat.alarm.rule.transform.DefaultJsonParser;
 import junit.framework.Assert;
 import org.junit.Test;
 
-import com.dianping.cat.alarm.rule.entity.Rule;
-import com.dianping.cat.alarm.rule.transform.DefaultJsonParser;
+import java.io.InputStream;
 
 public class FrontEndJsonTest {
 
-	String jsonPath = "rule.json";
+    String jsonPath = "rule.json";
 
-	@Test
-	public void testJson() {
-		try {
-			InputStream is = this.getClass().getResourceAsStream(jsonPath);
-			Rule rule = DefaultJsonParser.parse(Rule.class, is);
+    @Test
+    public void testJson() {
+        try {
+            InputStream is = this.getClass().getResourceAsStream(jsonPath);
+            Rule rule = DefaultJsonParser.parse(Rule.class, is);
 
-			Assert.assertNotNull(rule);
-		} catch (Exception e) {
-			Assert.assertNotNull(null);
-		}
-	}
+            Assert.assertNotNull(rule);
+        } catch (Exception e) {
+            Assert.assertNotNull(null);
+        }
+    }
 }

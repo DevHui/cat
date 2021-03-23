@@ -1,0 +1,170 @@
+@startuml
+
+/' diagram meta data start
+config=CallConfiguration;
+{
+  "rootMethod": "com.dianping.cat.Cat#initialize(File)",
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showMethodParametersTypes": false,
+    "showMethodParametersNames": false,
+    "showMethodReturnType": false,
+    "showPackageLevels": 2,
+    "showCallOrder": false,
+    "edgeMode": "MethodsOnly", // TypesOnly, MethodsOnly, TypesAndMethods, MethodsAndDirectTypeUsage
+    "showDetailedClassStructure": false
+  },
+  "rootClass": "com.dianping.cat.Cat"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="LR"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_231963676 { 
+   	label=dianping
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1054235340 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_1911759116 { 
+   	label=CatListener
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   CatListener1985546384XXXcontextInitialized2079444752[
+	label="+ contextInitialized()"
+	style=filled
+	fillcolor=white
+	tooltip="CatListener
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_729580959 { 
+   	label=Cat
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Cat2002533913XXXinitialize1814637725[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	fontcolor=darkgreen
+];
+
+Cat2002533913XXXinitialize2189724[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	penwidth=4
+	fontcolor=darkgreen
+];
+
+Cat2002533913XXXinitializeByDomain1308468536[
+	label="+ initializeByDomain()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	fontcolor=darkgreen
+];
+
+Cat2002533913XXXinitializeByDomain642049240[
+	label="+ initializeByDomain()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+'edges    
+Cat2002533913XXXinitialize1814637725 -> Cat2002533913XXXinitialize2189724;
+Cat2002533913XXXinitializeByDomain1308468536 -> Cat2002533913XXXinitialize2189724;
+Cat2002533913XXXinitializeByDomain642049240 -> Cat2002533913XXXinitializeByDomain1308468536;
+CatListener1985546384XXXcontextInitialized2079444752 -> Cat2002533913XXXinitialize2189724;
+    
+}
+@enduml

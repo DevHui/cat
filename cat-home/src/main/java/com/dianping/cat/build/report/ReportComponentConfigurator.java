@@ -18,13 +18,6 @@
  */
 package com.dianping.cat.build.report;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.unidal.cat.message.storage.hdfs.HdfsBucketManager;
-import org.unidal.lookup.configuration.AbstractResourceConfigurator;
-import org.unidal.lookup.configuration.Component;
-
 import com.dianping.cat.config.server.ServerConfigManager;
 import com.dianping.cat.consumer.cross.CrossAnalyzer;
 import com.dianping.cat.consumer.matrix.MatrixAnalyzer;
@@ -51,11 +44,7 @@ import com.dianping.cat.report.page.state.service.HistoricalStateService;
 import com.dianping.cat.report.page.state.service.LocalStateService;
 import com.dianping.cat.report.page.state.service.StateReportService;
 import com.dianping.cat.report.page.state.task.StateReportBuilder;
-import com.dianping.cat.report.page.statistics.service.ClientReportService;
-import com.dianping.cat.report.page.statistics.service.HeavyReportService;
-import com.dianping.cat.report.page.statistics.service.JarReportService;
-import com.dianping.cat.report.page.statistics.service.ServiceReportService;
-import com.dianping.cat.report.page.statistics.service.UtilizationReportService;
+import com.dianping.cat.report.page.statistics.service.*;
 import com.dianping.cat.report.page.statistics.task.heavy.HeavyReportBuilder;
 import com.dianping.cat.report.page.statistics.task.jar.JarReportBuilder;
 import com.dianping.cat.report.page.statistics.task.service.ClientReportBuilder;
@@ -73,87 +62,93 @@ import com.dianping.cat.system.page.router.config.RouterConfigManager;
 import com.dianping.cat.system.page.router.service.CachedRouterConfigService;
 import com.dianping.cat.system.page.router.service.RouterConfigService;
 import com.dianping.cat.system.page.router.task.RouterConfigBuilder;
+import org.unidal.cat.message.storage.hdfs.HdfsBucketManager;
+import org.unidal.lookup.configuration.AbstractResourceConfigurator;
+import org.unidal.lookup.configuration.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReportComponentConfigurator extends AbstractResourceConfigurator {
-	@Override
-	public List<Component> defineComponents() {
-		List<Component> all = new ArrayList<Component>();
+    @Override
+    public List<Component> defineComponents() {
+        List<Component> all = new ArrayList<Component>();
 
-		all.add(A(UtilizationReportService.class));
-		all.add(A(UtilizationReportBuilder.class));
+        all.add(A(UtilizationReportService.class));
+        all.add(A(UtilizationReportBuilder.class));
 
-		all.add(A(ServiceReportService.class));
-		all.add(A(ServiceReportBuilder.class));
+        all.add(A(ServiceReportService.class));
+        all.add(A(ServiceReportBuilder.class));
 
-		all.add(A(HeavyReportService.class));
-		all.add(A(HeavyReportBuilder.class));
+        all.add(A(HeavyReportService.class));
+        all.add(A(HeavyReportBuilder.class));
 
-		all.add(A(RouterConfigManager.class));
-		all.add(A(RouterConfigHandler.class));
-		all.add(A(RouterConfigService.class));
-		all.add(A(CachedRouterConfigService.class));
-		all.add(A(RouterConfigAdjustor.class));
-		all.add(A(RouterConfigBuilder.class));
+        all.add(A(RouterConfigManager.class));
+        all.add(A(RouterConfigHandler.class));
+        all.add(A(RouterConfigService.class));
+        all.add(A(CachedRouterConfigService.class));
+        all.add(A(RouterConfigAdjustor.class));
+        all.add(A(RouterConfigBuilder.class));
 
-		all.add(A(JarReportService.class));
-		all.add(A(JarReportBuilder.class));
+        all.add(A(JarReportService.class));
+        all.add(A(JarReportBuilder.class));
 
-		all.add(A(ClientReportService.class));
-		all.add(A(ClientReportBuilder.class));
+        all.add(A(ClientReportService.class));
+        all.add(A(ClientReportBuilder.class));
 
-		// cross report
-		all.add(A(CrossReportService.class));
-		all.add(A(CrossReportBuilder.class));
+        // cross report
+        all.add(A(CrossReportService.class));
+        all.add(A(CrossReportBuilder.class));
 
-		all.add(A(LocalCrossService.class));
-		all.add(C(ModelService.class, "cross-historical", HistoricalCrossService.class) //
-								.req(CrossReportService.class, ServerConfigManager.class));
-		all.add(C(ModelService.class, CrossAnalyzer.ID, CompositeCrossService.class) //
-								.req(ServerConfigManager.class, RemoteServersManager.class) //
-								.req(ModelService.class, new String[] { "cross-historical" }, "m_services"));
+        all.add(A(LocalCrossService.class));
+        all.add(C(ModelService.class, "cross-historical", HistoricalCrossService.class) //
+                .req(CrossReportService.class, ServerConfigManager.class));
+        all.add(C(ModelService.class, CrossAnalyzer.ID, CompositeCrossService.class) //
+                .req(ServerConfigManager.class, RemoteServersManager.class) //
+                .req(ModelService.class, new String[]{"cross-historical"}, "m_services"));
 
-		// matrix report
-		all.add(A(MatrixReportService.class));
-		all.add(A(MatrixReportBuilder.class));
+        // matrix report
+        all.add(A(MatrixReportService.class));
+        all.add(A(MatrixReportBuilder.class));
 
-		all.add(A(LocalMatrixService.class));
-		all.add(C(ModelService.class, "matrix-historical", HistoricalMatrixService.class) //
-								.req(MatrixReportService.class, ServerConfigManager.class));
-		all.add(C(ModelService.class, MatrixAnalyzer.ID, CompositeMatrixService.class) //
-								.req(ServerConfigManager.class, RemoteServersManager.class) //
-								.req(ModelService.class, new String[] { "matrix-historical" }, "m_services"));
+        all.add(A(LocalMatrixService.class));
+        all.add(C(ModelService.class, "matrix-historical", HistoricalMatrixService.class) //
+                .req(MatrixReportService.class, ServerConfigManager.class));
+        all.add(C(ModelService.class, MatrixAnalyzer.ID, CompositeMatrixService.class) //
+                .req(ServerConfigManager.class, RemoteServersManager.class) //
+                .req(ModelService.class, new String[]{"matrix-historical"}, "m_services"));
 
-		// state report
-		all.add(A(StateReportService.class));
-		all.add(A(StateReportBuilder.class));
-		all.add(A(StateGraphBuilder.class));
+        // state report
+        all.add(A(StateReportService.class));
+        all.add(A(StateReportBuilder.class));
+        all.add(A(StateGraphBuilder.class));
 
-		all.add(A(LocalStateService.class));
-		all.add(C(ModelService.class, "state-historical", HistoricalStateService.class) //
-								.req(StateReportService.class, ServerConfigManager.class));
-		all.add(C(ModelService.class, StateAnalyzer.ID, CompositeStateService.class) //
-								.req(ServerConfigManager.class, RemoteServersManager.class) //
-								.req(ModelService.class, new String[] { "state-historical" }, "m_services"));
+        all.add(A(LocalStateService.class));
+        all.add(C(ModelService.class, "state-historical", HistoricalStateService.class) //
+                .req(StateReportService.class, ServerConfigManager.class));
+        all.add(C(ModelService.class, StateAnalyzer.ID, CompositeStateService.class) //
+                .req(ServerConfigManager.class, RemoteServersManager.class) //
+                .req(ModelService.class, new String[]{"state-historical"}, "m_services"));
 
-		// top report
-		all.add(A(TopReportService.class));
+        // top report
+        all.add(A(TopReportService.class));
 
-		all.add(A(LocalTopService.class));
-		all.add(C(ModelService.class, "top-historical", HistoricalTopService.class) //
-								.req(TopReportService.class, ServerConfigManager.class));
-		all.add(C(ModelService.class, TopAnalyzer.ID, CompositeTopService.class) //
-								.req(ServerConfigManager.class, RemoteServersManager.class) //
-								.req(ModelService.class, new String[] { "top-historical" }, "m_services"));
+        all.add(A(LocalTopService.class));
+        all.add(C(ModelService.class, "top-historical", HistoricalTopService.class) //
+                .req(TopReportService.class, ServerConfigManager.class));
+        all.add(C(ModelService.class, TopAnalyzer.ID, CompositeTopService.class) //
+                .req(ServerConfigManager.class, RemoteServersManager.class) //
+                .req(ModelService.class, new String[]{"top-historical"}, "m_services"));
 
-		// message service
-		all.add(A(LocalMessageService.class));
-		all.add(C(ModelService.class, "logview-historical", HistoricalMessageService.class) //
-								.req(MessageBucketManager.class, HdfsMessageBucketManager.ID) //
-								.req(HdfsBucketManager.class).req(ServerConfigManager.class));
-		all.add(C(ModelService.class, "logview", CompositeLogViewService.class) //
-								.req(ServerConfigManager.class, RemoteServersManager.class) //
-								.req(ModelService.class, new String[] { "logview-historical" }, "m_services"));
+        // message service
+        all.add(A(LocalMessageService.class));
+        all.add(C(ModelService.class, "logview-historical", HistoricalMessageService.class) //
+                .req(MessageBucketManager.class, HdfsMessageBucketManager.ID) //
+                .req(HdfsBucketManager.class).req(ServerConfigManager.class));
+        all.add(C(ModelService.class, "logview", CompositeLogViewService.class) //
+                .req(ServerConfigManager.class, RemoteServersManager.class) //
+                .req(ModelService.class, new String[]{"logview-historical"}, "m_services"));
 
-		return all;
-	}
+        return all;
+    }
 }

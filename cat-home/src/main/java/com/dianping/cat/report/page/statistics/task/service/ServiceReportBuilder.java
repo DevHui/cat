@@ -18,15 +18,6 @@
  */
 package com.dianping.cat.report.page.statistics.task.service;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-import org.unidal.lookup.annotation.Inject;
-import org.unidal.lookup.annotation.Named;
-
 import com.dianping.cat.Cat;
 import com.dianping.cat.Constants;
 import com.dianping.cat.config.server.ServerFilterConfigManager;
@@ -47,159 +38,163 @@ import com.dianping.cat.report.page.cross.service.CrossReportService;
 import com.dianping.cat.report.page.statistics.service.ServiceReportService;
 import com.dianping.cat.report.task.TaskBuilder;
 import com.dianping.cat.report.task.TaskHelper;
+import org.unidal.lookup.annotation.Inject;
+import org.unidal.lookup.annotation.Named;
+
+import java.util.*;
 
 @Named(type = TaskBuilder.class, value = ServiceReportBuilder.ID)
 public class ServiceReportBuilder implements TaskBuilder {
 
-	public static final String ID = Constants.REPORT_SERVICE;
+    public static final String ID = Constants.REPORT_SERVICE;
 
-	@Inject
-	protected ServiceReportService m_reportService;
+    @Inject
+    protected ServiceReportService m_reportService;
 
-	@Inject
-	protected CrossReportService m_crossReportService;
+    @Inject
+    protected CrossReportService m_crossReportService;
 
-	Map<String, Domain> stat = new HashMap<String, Domain>();
+    Map<String, Domain> stat = new HashMap<String, Domain>();
 
-	@Inject
-	private ServerFilterConfigManager m_configManger;
+    @Inject
+    private ServerFilterConfigManager m_configManger;
 
-	@Override
-	public boolean buildDailyTask(String name, String domain, Date period) {
-		ServiceReport serviceReport = queryHourlyReportsByDuration(name, domain, period, TaskHelper.tomorrowZero(period));
-		DailyReport report = new DailyReport();
+    @Override
+    public boolean buildDailyTask(String name, String domain, Date period) {
+        ServiceReport serviceReport = queryHourlyReportsByDuration(name, domain, period, TaskHelper.tomorrowZero(period));
+        DailyReport report = new DailyReport();
 
-		report.setCreationDate(new Date());
-		report.setDomain(domain);
-		report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
-		report.setName(name);
-		report.setPeriod(period);
-		report.setType(1);
-		byte[] binaryContent = DefaultNativeBuilder.build(serviceReport);
+        report.setCreationDate(new Date());
+        report.setDomain(domain);
+        report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
+        report.setName(name);
+        report.setPeriod(period);
+        report.setType(1);
+        byte[] binaryContent = DefaultNativeBuilder.build(serviceReport);
 
-		return m_reportService.insertDailyReport(report, binaryContent);
-	}
+        return m_reportService.insertDailyReport(report, binaryContent);
+    }
 
-	@Override
-	public boolean buildHourlyTask(String name, String domain, Date start) {
-		ServiceReport serviceReport = new ServiceReport(Constants.CAT);
-		Date end = new Date(start.getTime() + TimeHelper.ONE_HOUR);
-		Set<String> domains = m_reportService.queryAllDomainNames(start, end, CrossAnalyzer.ID);
+    @Override
+    public boolean buildHourlyTask(String name, String domain, Date start) {
+        ServiceReport serviceReport = new ServiceReport(Constants.CAT);
+        Date end = new Date(start.getTime() + TimeHelper.ONE_HOUR);
+        Set<String> domains = m_reportService.queryAllDomainNames(start, end, CrossAnalyzer.ID);
 
-		for (String domainName : domains) {
-			if (m_configManger.validateDomain(domainName)) {
-				CrossReport crossReport = m_crossReportService.queryReport(domainName, start, end);
-				ProjectInfo projectInfo = new ProjectInfo(TimeHelper.ONE_HOUR);
+        for (String domainName : domains) {
+            if (m_configManger.validateDomain(domainName)) {
+                CrossReport crossReport = m_crossReportService.queryReport(domainName, start, end);
+                ProjectInfo projectInfo = new ProjectInfo(TimeHelper.ONE_HOUR);
 
-				projectInfo.setClientIp(Constants.ALL);
-				projectInfo.visitCrossReport(crossReport);
-				Collection<TypeDetailInfo> callInfos = projectInfo.getCallProjectsInfo();
+                projectInfo.setClientIp(Constants.ALL);
+                projectInfo.visitCrossReport(crossReport);
+                Collection<TypeDetailInfo> callInfos = projectInfo.getCallProjectsInfo();
 
-				for (TypeDetailInfo typeInfo : callInfos) {
-					if (!validataService(typeInfo)) {
-						merge(serviceReport.findOrCreateDomain(typeInfo.getProjectName()), typeInfo);
-					}
-				}
-			}
-		}
-		HourlyReport report = new HourlyReport();
+                for (TypeDetailInfo typeInfo : callInfos) {
+                    if (!validataService(typeInfo)) {
+                        merge(serviceReport.findOrCreateDomain(typeInfo.getProjectName()), typeInfo);
+                    }
+                }
+            }
+        }
+        HourlyReport report = new HourlyReport();
 
-		report.setCreationDate(new Date());
-		report.setDomain(domain);
-		report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
-		report.setName(name);
-		report.setPeriod(start);
-		report.setType(1);
-		byte[] binaryContent = DefaultNativeBuilder.build(serviceReport);
-		return m_reportService.insertHourlyReport(report, binaryContent);
-	}
+        report.setCreationDate(new Date());
+        report.setDomain(domain);
+        report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
+        report.setName(name);
+        report.setPeriod(start);
+        report.setType(1);
+        byte[] binaryContent = DefaultNativeBuilder.build(serviceReport);
+        return m_reportService.insertHourlyReport(report, binaryContent);
+    }
 
-	@Override
-	public boolean buildMonthlyTask(String name, String domain, Date period) {
-		ServiceReport serviceReport = queryDailyReportsByDuration(domain, period, TaskHelper.nextMonthStart(period));
-		MonthlyReport report = new MonthlyReport();
+    @Override
+    public boolean buildMonthlyTask(String name, String domain, Date period) {
+        ServiceReport serviceReport = queryDailyReportsByDuration(domain, period, TaskHelper.nextMonthStart(period));
+        MonthlyReport report = new MonthlyReport();
 
-		report.setCreationDate(new Date());
-		report.setDomain(domain);
-		report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
-		report.setName(name);
-		report.setPeriod(period);
-		report.setType(1);
-		byte[] binaryContent = DefaultNativeBuilder.build(serviceReport);
-		return m_reportService.insertMonthlyReport(report, binaryContent);
-	}
+        report.setCreationDate(new Date());
+        report.setDomain(domain);
+        report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
+        report.setName(name);
+        report.setPeriod(period);
+        report.setType(1);
+        byte[] binaryContent = DefaultNativeBuilder.build(serviceReport);
+        return m_reportService.insertMonthlyReport(report, binaryContent);
+    }
 
-	@Override
-	public boolean buildWeeklyTask(String name, String domain, Date period) {
-		ServiceReport serviceReport = queryDailyReportsByDuration(domain, period,
-								new Date(period.getTime()	+ TimeHelper.ONE_WEEK));
-		WeeklyReport report = new WeeklyReport();
+    @Override
+    public boolean buildWeeklyTask(String name, String domain, Date period) {
+        ServiceReport serviceReport = queryDailyReportsByDuration(domain, period,
+                new Date(period.getTime() + TimeHelper.ONE_WEEK));
+        WeeklyReport report = new WeeklyReport();
 
-		report.setCreationDate(new Date());
-		report.setDomain(domain);
-		report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
-		report.setName(name);
-		report.setPeriod(period);
-		report.setType(1);
-		byte[] binaryContent = DefaultNativeBuilder.build(serviceReport);
-		return m_reportService.insertWeeklyReport(report, binaryContent);
-	}
+        report.setCreationDate(new Date());
+        report.setDomain(domain);
+        report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
+        report.setName(name);
+        report.setPeriod(period);
+        report.setType(1);
+        byte[] binaryContent = DefaultNativeBuilder.build(serviceReport);
+        return m_reportService.insertWeeklyReport(report, binaryContent);
+    }
 
-	public void merge(Domain domain, TypeDetailInfo info) {
-		domain.setTotalCount(domain.getTotalCount() + info.getTotalCount());
-		domain.setFailureCount(domain.getFailureCount() + info.getFailureCount());
-		domain.setSum(domain.getSum() + info.getSum());
+    public void merge(Domain domain, TypeDetailInfo info) {
+        domain.setTotalCount(domain.getTotalCount() + info.getTotalCount());
+        domain.setFailureCount(domain.getFailureCount() + info.getFailureCount());
+        domain.setSum(domain.getSum() + info.getSum());
 
-		if (domain.getTotalCount() > 0) {
-			domain.setAvg(domain.getSum() / domain.getTotalCount());
-			domain.setFailurePercent(domain.getFailureCount() * 1.0 / domain.getTotalCount());
-		}
-	}
+        if (domain.getTotalCount() > 0) {
+            domain.setAvg(domain.getSum() / domain.getTotalCount());
+            domain.setFailurePercent(domain.getFailureCount() * 1.0 / domain.getTotalCount());
+        }
+    }
 
-	private ServiceReport queryDailyReportsByDuration(String domain, Date start, Date end) {
-		long startTime = start.getTime();
-		long endTime = end.getTime();
-		ServiceReportMerger merger = new ServiceReportMerger(new ServiceReport(domain));
+    private ServiceReport queryDailyReportsByDuration(String domain, Date start, Date end) {
+        long startTime = start.getTime();
+        long endTime = end.getTime();
+        ServiceReportMerger merger = new ServiceReportMerger(new ServiceReport(domain));
 
-		for (; startTime < endTime; startTime += TimeHelper.ONE_DAY) {
-			try {
-				ServiceReport reportModel = m_reportService
-										.queryReport(domain, new Date(startTime), new Date(startTime	+ TimeHelper.ONE_DAY));
-				reportModel.accept(merger);
-			} catch (Exception e) {
-				Cat.logError(e);
-			}
-		}
-		ServiceReport serviceReport = merger.getServiceReport();
+        for (; startTime < endTime; startTime += TimeHelper.ONE_DAY) {
+            try {
+                ServiceReport reportModel = m_reportService
+                        .queryReport(domain, new Date(startTime), new Date(startTime + TimeHelper.ONE_DAY));
+                reportModel.accept(merger);
+            } catch (Exception e) {
+                Cat.logError(e);
+            }
+        }
+        ServiceReport serviceReport = merger.getServiceReport();
 
-		serviceReport.setStartTime(start);
-		serviceReport.setEndTime(end);
-		return serviceReport;
-	}
+        serviceReport.setStartTime(start);
+        serviceReport.setEndTime(end);
+        return serviceReport;
+    }
 
-	private ServiceReport queryHourlyReportsByDuration(String name, String domain, Date start, Date end) {
-		long startTime = start.getTime();
-		long endTime = end.getTime();
-		ServiceReportMerger merger = new ServiceReportMerger(new ServiceReport(domain));
+    private ServiceReport queryHourlyReportsByDuration(String name, String domain, Date start, Date end) {
+        long startTime = start.getTime();
+        long endTime = end.getTime();
+        ServiceReportMerger merger = new ServiceReportMerger(new ServiceReport(domain));
 
-		for (; startTime < endTime; startTime = startTime + TimeHelper.ONE_HOUR) {
-			Date date = new Date(startTime);
-			ServiceReport reportModel = m_reportService
-									.queryReport(domain, date, new Date(date.getTime()	+ TimeHelper.ONE_HOUR));
+        for (; startTime < endTime; startTime = startTime + TimeHelper.ONE_HOUR) {
+            Date date = new Date(startTime);
+            ServiceReport reportModel = m_reportService
+                    .queryReport(domain, date, new Date(date.getTime() + TimeHelper.ONE_HOUR));
 
-			reportModel.accept(merger);
-		}
+            reportModel.accept(merger);
+        }
 
-		ServiceReport serviceReport = merger.getServiceReport();
+        ServiceReport serviceReport = merger.getServiceReport();
 
-		serviceReport.setStartTime(start);
-		serviceReport.setEndTime(end);
-		return serviceReport;
-	}
+        serviceReport.setStartTime(start);
+        serviceReport.setEndTime(end);
+        return serviceReport;
+    }
 
-	private boolean validataService(TypeDetailInfo typeInfo) {
-		return typeInfo.getProjectName().equalsIgnoreCase(ProjectInfo.ALL_SERVER)	|| typeInfo.getProjectName()
-								.equalsIgnoreCase("UnknownProject");
-	}
+    private boolean validataService(TypeDetailInfo typeInfo) {
+        return typeInfo.getProjectName().equalsIgnoreCase(ProjectInfo.ALL_SERVER) || typeInfo.getProjectName()
+                .equalsIgnoreCase("UnknownProject");
+    }
 
 }

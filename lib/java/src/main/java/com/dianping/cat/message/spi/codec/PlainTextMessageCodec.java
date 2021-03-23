@@ -416,6 +416,29 @@ public class PlainTextMessageCodec implements MessageCodec {
         bufferHelper = new BufferHelper(this.writer);
     }
 
+    protected enum Policy {
+        DEFAULT,
+
+        WITHOUT_STATUS,
+
+        WITH_DURATION;
+
+        public static Policy getByMessageIdentifier(byte identifier) {
+            switch (identifier) {
+                case 't':
+                    return WITHOUT_STATUS;
+                case 'T':
+                case 'A':
+                    return WITH_DURATION;
+                case 'E':
+                case 'H':
+                    return DEFAULT;
+                default:
+                    return DEFAULT;
+            }
+        }
+    }
+
     protected static class BufferHelper {
         private BufferWriter m_writer;
 
@@ -539,13 +562,13 @@ public class PlainTextMessageCodec implements MessageCodec {
             return m_buffer;
         }
 
-        public char[] getData() {
-            return m_data;
-        }
-
         public Context setBuffer(ByteBuf buffer) {
             m_buffer = buffer;
             return this;
+        }
+
+        public char[] getData() {
+            return m_data;
         }
 
         public void removeBuf() {
@@ -612,29 +635,6 @@ public class PlainTextMessageCodec implements MessageCodec {
                 }
             }
             return time;
-        }
-    }
-
-    protected enum Policy {
-        DEFAULT,
-
-        WITHOUT_STATUS,
-
-        WITH_DURATION;
-
-        public static Policy getByMessageIdentifier(byte identifier) {
-            switch (identifier) {
-                case 't':
-                    return WITHOUT_STATUS;
-                case 'T':
-                case 'A':
-                    return WITH_DURATION;
-                case 'E':
-                case 'H':
-                    return DEFAULT;
-                default:
-                    return DEFAULT;
-            }
         }
     }
 

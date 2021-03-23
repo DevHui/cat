@@ -18,13 +18,6 @@
  */
 package com.dianping.cat.report.page.statistics;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.unidal.web.mvc.view.annotation.EntityMeta;
-import org.unidal.web.mvc.view.annotation.ModelMeta;
-
 import com.dianping.cat.Constants;
 import com.dianping.cat.home.heavy.entity.HeavyReport;
 import com.dianping.cat.home.heavy.entity.Service;
@@ -36,222 +29,228 @@ import com.dianping.cat.home.service.entity.ServiceReport;
 import com.dianping.cat.home.utilization.entity.UtilizationReport;
 import com.dianping.cat.mvc.AbstractReportModel;
 import com.dianping.cat.report.ReportPage;
+import org.unidal.web.mvc.view.annotation.EntityMeta;
+import org.unidal.web.mvc.view.annotation.ModelMeta;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @ModelMeta("statistics")
 public class Model extends AbstractReportModel<Action, ReportPage, Context> {
 
-	private String m_browserChart;
+    private String m_browserChart;
 
-	private String m_osChart;
+    private String m_osChart;
 
-	private String m_summaryContent;
+    private String m_summaryContent;
 
-	@EntityMeta
-	private ServiceReport m_serviceReport;
+    @EntityMeta
+    private ServiceReport m_serviceReport;
 
-	@EntityMeta
-	private HeavyReport m_heavyReport;
+    @EntityMeta
+    private HeavyReport m_heavyReport;
 
-	@EntityMeta
-	private JarReport m_jarReport;
+    @EntityMeta
+    private JarReport m_jarReport;
 
-	@EntityMeta
-	private ClientReport m_clientReport;
+    @EntityMeta
+    private ClientReport m_clientReport;
 
-	@EntityMeta
-	private UtilizationReport m_utilizationReport;
+    @EntityMeta
+    private UtilizationReport m_utilizationReport;
 
-	private List<String> m_jars;
+    private List<String> m_jars;
 
-	private List<String> m_keys;
+    private List<String> m_keys;
 
-	private List<Domain> m_serviceList;
+    private List<Domain> m_serviceList;
 
-	private List<Url> m_callUrls;
+    private List<Url> m_callUrls;
 
-	private List<Service> m_callServices;
+    private List<Service> m_callServices;
 
-	private List<Url> m_sqlUrls;
+    private List<Url> m_sqlUrls;
 
-	private List<Service> m_sqlServices;
+    private List<Service> m_sqlServices;
 
-	private List<Url> m_cacheUrls;
+    private List<Url> m_cacheUrls;
 
-	private List<Service> m_cacheServices;
+    private List<Service> m_cacheServices;
 
-	private List<com.dianping.cat.home.utilization.entity.Domain> m_utilizationWebList;
+    private List<com.dianping.cat.home.utilization.entity.Domain> m_utilizationWebList;
 
-	private List<com.dianping.cat.home.utilization.entity.Domain> m_utilizationServiceList;
+    private List<com.dianping.cat.home.utilization.entity.Domain> m_utilizationServiceList;
 
-	public Model(Context ctx) {
-		super(ctx);
-	}
+    public Model(Context ctx) {
+        super(ctx);
+    }
 
-	public String getBrowserChart() {
-		return m_browserChart;
-	}
+    public String getBrowserChart() {
+        return m_browserChart;
+    }
 
-	public void setBrowserChart(String browserChart) {
-		m_browserChart = browserChart;
-	}
+    public void setBrowserChart(String browserChart) {
+        m_browserChart = browserChart;
+    }
 
-	public List<Service> getCacheServices() {
-		return m_cacheServices;
-	}
+    public List<Service> getCacheServices() {
+        return m_cacheServices;
+    }
 
-	public void setCacheServices(List<Service> cacheServices) {
-		m_cacheServices = cacheServices;
-	}
+    public void setCacheServices(List<Service> cacheServices) {
+        m_cacheServices = cacheServices;
+    }
 
-	public List<Url> getCacheUrls() {
-		return m_cacheUrls;
-	}
+    public List<Url> getCacheUrls() {
+        return m_cacheUrls;
+    }
 
-	public void setCacheUrls(List<Url> cacheUrls) {
-		m_cacheUrls = cacheUrls;
-	}
+    public void setCacheUrls(List<Url> cacheUrls) {
+        m_cacheUrls = cacheUrls;
+    }
 
-	public List<Service> getCallServices() {
-		return m_callServices;
-	}
+    public List<Service> getCallServices() {
+        return m_callServices;
+    }
 
-	public void setCallServices(List<Service> callServices) {
-		m_callServices = callServices;
-	}
+    public void setCallServices(List<Service> callServices) {
+        m_callServices = callServices;
+    }
 
-	public List<Url> getCallUrls() {
-		return m_callUrls;
-	}
+    public List<Url> getCallUrls() {
+        return m_callUrls;
+    }
 
-	public void setCallUrls(List<Url> callUrls) {
-		m_callUrls = callUrls;
-	}
+    public void setCallUrls(List<Url> callUrls) {
+        m_callUrls = callUrls;
+    }
 
-	public ClientReport getClientReport() {
-		return m_clientReport;
-	}
+    public ClientReport getClientReport() {
+        return m_clientReport;
+    }
 
-	public void setClientReport(ClientReport clientReport) {
-		m_clientReport = clientReport;
-	}
+    public void setClientReport(ClientReport clientReport) {
+        m_clientReport = clientReport;
+    }
 
-	@Override
-	public Action getDefaultAction() {
-		return Action.SERVICE_REPORT;
-	}
+    @Override
+    public Action getDefaultAction() {
+        return Action.SERVICE_REPORT;
+    }
 
-	@Override
-	public String getDomain() {
-		return Constants.CAT;
-	}
+    @Override
+    public String getDomain() {
+        return Constants.CAT;
+    }
 
-	@Override
-	public Collection<String> getDomains() {
-		return new ArrayList<String>();
-	}
+    @Override
+    public Collection<String> getDomains() {
+        return new ArrayList<String>();
+    }
 
-	public HeavyReport getHeavyReport() {
-		return m_heavyReport;
-	}
+    public HeavyReport getHeavyReport() {
+        return m_heavyReport;
+    }
 
-	public void setHeavyReport(HeavyReport heavyReport) {
-		m_heavyReport = heavyReport;
-	}
+    public void setHeavyReport(HeavyReport heavyReport) {
+        m_heavyReport = heavyReport;
+    }
 
-	public JarReport getJarReport() {
-		return m_jarReport;
-	}
+    public JarReport getJarReport() {
+        return m_jarReport;
+    }
 
-	public void setJarReport(JarReport jarReport) {
-		m_jarReport = jarReport;
-	}
+    public void setJarReport(JarReport jarReport) {
+        m_jarReport = jarReport;
+    }
 
-	public List<String> getJars() {
-		return m_jars;
-	}
+    public List<String> getJars() {
+        return m_jars;
+    }
 
-	public void setJars(List<String> jars) {
-		m_jars = jars;
-	}
+    public void setJars(List<String> jars) {
+        m_jars = jars;
+    }
 
-	public List<String> getKeys() {
-		return m_keys;
-	}
+    public List<String> getKeys() {
+        return m_keys;
+    }
 
-	public void setKeys(List<String> keys) {
-		m_keys = keys;
-	}
+    public void setKeys(List<String> keys) {
+        m_keys = keys;
+    }
 
-	public String getOsChart() {
-		return m_osChart;
-	}
+    public String getOsChart() {
+        return m_osChart;
+    }
 
-	public void setOsChart(String osChart) {
-		m_osChart = osChart;
-	}
+    public void setOsChart(String osChart) {
+        m_osChart = osChart;
+    }
 
-	public List<com.dianping.cat.home.service.entity.Domain> getServiceList() {
-		return m_serviceList;
-	}
+    public List<com.dianping.cat.home.service.entity.Domain> getServiceList() {
+        return m_serviceList;
+    }
 
-	public void setServiceList(List<com.dianping.cat.home.service.entity.Domain> serviceList) {
-		this.m_serviceList = serviceList;
-	}
+    public void setServiceList(List<com.dianping.cat.home.service.entity.Domain> serviceList) {
+        this.m_serviceList = serviceList;
+    }
 
-	public ServiceReport getServiceReport() {
-		return m_serviceReport;
-	}
+    public ServiceReport getServiceReport() {
+        return m_serviceReport;
+    }
 
-	public void setServiceReport(ServiceReport serviceReport) {
-		m_serviceReport = serviceReport;
-	}
+    public void setServiceReport(ServiceReport serviceReport) {
+        m_serviceReport = serviceReport;
+    }
 
-	public List<Service> getSqlServices() {
-		return m_sqlServices;
-	}
+    public List<Service> getSqlServices() {
+        return m_sqlServices;
+    }
 
-	public void setSqlServices(List<Service> sqlServices) {
-		m_sqlServices = sqlServices;
-	}
+    public void setSqlServices(List<Service> sqlServices) {
+        m_sqlServices = sqlServices;
+    }
 
-	public List<Url> getSqlUrls() {
-		return m_sqlUrls;
-	}
+    public List<Url> getSqlUrls() {
+        return m_sqlUrls;
+    }
 
-	public void setSqlUrls(List<Url> sqlUrls) {
-		m_sqlUrls = sqlUrls;
-	}
+    public void setSqlUrls(List<Url> sqlUrls) {
+        m_sqlUrls = sqlUrls;
+    }
 
-	public String getSummaryContent() {
-		return m_summaryContent;
-	}
+    public String getSummaryContent() {
+        return m_summaryContent;
+    }
 
-	public void setSummaryContent(String summaryContent) {
-		m_summaryContent = summaryContent;
-	}
+    public void setSummaryContent(String summaryContent) {
+        m_summaryContent = summaryContent;
+    }
 
-	public UtilizationReport getUtilizationReport() {
-		return m_utilizationReport;
-	}
+    public UtilizationReport getUtilizationReport() {
+        return m_utilizationReport;
+    }
 
-	public void setUtilizationReport(UtilizationReport utilizationReport) {
-		m_utilizationReport = utilizationReport;
-	}
+    public void setUtilizationReport(UtilizationReport utilizationReport) {
+        m_utilizationReport = utilizationReport;
+    }
 
-	public List<com.dianping.cat.home.utilization.entity.Domain> getUtilizationServiceList() {
-		return m_utilizationServiceList;
-	}
+    public List<com.dianping.cat.home.utilization.entity.Domain> getUtilizationServiceList() {
+        return m_utilizationServiceList;
+    }
 
-	public void setUtilizationServiceList(List<com.dianping.cat.home.utilization.entity.Domain> utilizationServiceList) {
-		m_utilizationServiceList = utilizationServiceList;
-	}
+    public void setUtilizationServiceList(List<com.dianping.cat.home.utilization.entity.Domain> utilizationServiceList) {
+        m_utilizationServiceList = utilizationServiceList;
+    }
 
-	public List<com.dianping.cat.home.utilization.entity.Domain> getUtilizationWebList() {
-		return m_utilizationWebList;
-	}
+    public List<com.dianping.cat.home.utilization.entity.Domain> getUtilizationWebList() {
+        return m_utilizationWebList;
+    }
 
-	public void setUtilizationWebList(List<com.dianping.cat.home.utilization.entity.Domain> utilizationWebList) {
-		m_utilizationWebList = utilizationWebList;
-	}
+    public void setUtilizationWebList(List<com.dianping.cat.home.utilization.entity.Domain> utilizationWebList) {
+        m_utilizationWebList = utilizationWebList;
+    }
 
 }

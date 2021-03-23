@@ -18,38 +18,37 @@
  */
 package com.dianping.cat.report.alert;
 
-import java.io.File;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.unidal.lookup.ComponentTestCase;
-
 import com.dianping.cat.Cat;
 import com.dianping.cat.config.server.ServerConfigManager;
 import com.dianping.cat.report.alert.heartbeat.HeartbeatAlert;
 import com.dianping.cat.report.alert.transaction.TransactionAlert;
+import org.junit.Before;
+import org.junit.Test;
+import org.unidal.lookup.ComponentTestCase;
+
+import java.io.File;
 
 public class AlertTest extends ComponentTestCase {
 
-	@Before
-	public void before() throws Exception {
-		ServerConfigManager manager = lookup(ServerConfigManager.class);
+    @Before
+    public void before() throws Exception {
+        ServerConfigManager manager = lookup(ServerConfigManager.class);
 
-		manager.initialize(new File(Cat.getCatHome(),"server.xml"));
-	}
+        manager.initialize(new File(Cat.getCatHome(), "server.xml"));
+    }
 
-	@Test
-	public void testHeartbeat() {
-		HeartbeatAlert alert = lookup(HeartbeatAlert.class);
+    @Test
+    public void testHeartbeat() {
+        HeartbeatAlert alert = lookup(HeartbeatAlert.class);
 
-		alert.run();
-	}
+        alert.run();
+    }
 
-	@Test
-	public void testTransaction() {
-		TransactionAlert alert = lookup(TransactionAlert.class);
+    @Test
+    public void testTransaction() {
+        TransactionAlert alert = lookup(TransactionAlert.class);
 
-		alert.run();
-	}
+        alert.run();
+    }
 
 }

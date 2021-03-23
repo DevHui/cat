@@ -18,89 +18,88 @@
  */
 package com.dianping.cat.report.task.current;
 
+import com.dianping.cat.Cat;
+import com.dianping.cat.helper.TimeHelper;
+import com.dianping.cat.message.Transaction;
+import org.unidal.helper.Threads.Task;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.unidal.helper.Threads.Task;
-
-import com.dianping.cat.Cat;
-import com.dianping.cat.helper.TimeHelper;
-import com.dianping.cat.message.Transaction;
-
 public class CurrentWeeklyMonthlyReportTask implements Task {
 
-	private static CurrentWeeklyMonthlyReportTask m_instance = new CurrentWeeklyMonthlyReportTask();
+    private static CurrentWeeklyMonthlyReportTask m_instance = new CurrentWeeklyMonthlyReportTask();
 
-	private List<CurrentWeeklyMonthlyTask> m_tasks = new ArrayList<CurrentWeeklyMonthlyTask>();
+    private List<CurrentWeeklyMonthlyTask> m_tasks = new ArrayList<CurrentWeeklyMonthlyTask>();
 
-	private List<String> m_domains;
+    private List<String> m_domains;
 
-	public static CurrentWeeklyMonthlyReportTask getInstance() {
-		return m_instance;
-	}
+    public static CurrentWeeklyMonthlyReportTask getInstance() {
+        return m_instance;
+    }
 
-	@Override
-	public String getName() {
-		return "Cached-Report-Task";
-	}
+    @Override
+    public String getName() {
+        return "Cached-Report-Task";
+    }
 
-	public void register(CurrentWeeklyMonthlyTask handler) {
-		synchronized (this) {
-			m_tasks.add(handler);
-		}
-	}
+    public void register(CurrentWeeklyMonthlyTask handler) {
+        synchronized (this) {
+            m_tasks.add(handler);
+        }
+    }
 
-	private void reloadCurrentMonthly() {
-		for (String domain : m_domains) {
-			Transaction t = Cat.newTransaction("ReloadTask", "Reload-Month-" + domain);
+    private void reloadCurrentMonthly() {
+        for (String domain : m_domains) {
+            Transaction t = Cat.newTransaction("ReloadTask", "Reload-Month-" + domain);
 
-			for (CurrentWeeklyMonthlyTask task : m_tasks) {
-				try {
-					task.buildCurrentMonthlyTask(task.getReportName(), domain, TimeHelper.getCurrentMonth());
-				} catch (Exception e) {
-					Cat.logError(e);
-				}
-			}
+            for (CurrentWeeklyMonthlyTask task : m_tasks) {
+                try {
+                    task.buildCurrentMonthlyTask(task.getReportName(), domain, TimeHelper.getCurrentMonth());
+                } catch (Exception e) {
+                    Cat.logError(e);
+                }
+            }
 
-			t.setStatus(Transaction.SUCCESS);
-			t.complete();
-		}
-	}
+            t.setStatus(Transaction.SUCCESS);
+            t.complete();
+        }
+    }
 
-	private void reloadCurrentWeekly() {
-		for (String domain : m_domains) {
-			Transaction t = Cat.newTransaction("ReloadTask", "Reload-Week-" + domain);
+    private void reloadCurrentWeekly() {
+        for (String domain : m_domains) {
+            Transaction t = Cat.newTransaction("ReloadTask", "Reload-Week-" + domain);
 
-			for (CurrentWeeklyMonthlyTask task : m_tasks) {
-				task.buildCurrentWeeklyTask(task.getReportName(), domain, TimeHelper.getCurrentWeek());
-			}
+            for (CurrentWeeklyMonthlyTask task : m_tasks) {
+                task.buildCurrentWeeklyTask(task.getReportName(), domain, TimeHelper.getCurrentWeek());
+            }
 
-			t.setStatus(Transaction.SUCCESS);
-			t.complete();
-		}
-	}
+            t.setStatus(Transaction.SUCCESS);
+            t.complete();
+        }
+    }
 
-	@Override
-	public void run() {
-		reloadCurrentWeekly();
-		reloadCurrentMonthly();
-	}
+    @Override
+    public void run() {
+        reloadCurrentWeekly();
+        reloadCurrentMonthly();
+    }
 
-	public void setDomains(List<String> domains) {
-		m_domains = domains;
-	}
+    public void setDomains(List<String> domains) {
+        m_domains = domains;
+    }
 
-	@Override
-	public void shutdown() {
-	}
+    @Override
+    public void shutdown() {
+    }
 
-	public static interface CurrentWeeklyMonthlyTask {
-		public void buildCurrentMonthlyTask(String name, String domain, Date start);
+    public static interface CurrentWeeklyMonthlyTask {
+        public void buildCurrentMonthlyTask(String name, String domain, Date start);
 
-		public void buildCurrentWeeklyTask(String name, String domain, Date start);
+        public void buildCurrentWeeklyTask(String name, String domain, Date start);
 
-		public String getReportName();
-	}
+        public String getReportName();
+    }
 
 }

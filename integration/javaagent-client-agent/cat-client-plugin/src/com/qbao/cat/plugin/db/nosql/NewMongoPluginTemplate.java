@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
@@ -35,40 +35,40 @@ import com.qbao.cat.plugin.DefaultPluginTemplate;
  */
 @Aspect
 public abstract class NewMongoPluginTemplate extends DefaultPluginTemplate {
-	
-	@Around(POINTCUT_NAME)
-	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		return super.doAround(pjp);
-	}
 
-	/* (non-Javadoc)
-	 * @see cat.qbao.cat.plugin.PluginTemplate#scope()
-	 */
-	@Override
-	@Pointcut
-	public void scope() {
-	}
+    @Around(POINTCUT_NAME)
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        return super.doAround(pjp);
+    }
 
-	/* (non-Javadoc)
-	 * @see cat.qbao.cat.plugin.DefaultPluginTemplate#beginLog(org.aspectj.lang.ProceedingJoinPoint)
-	 */
-	@Override
-	protected Transaction beginLog(ProceedingJoinPoint pjp) {
-		Transaction transaction = null;		
-		transaction = newTransaction("MongoDB", String.valueOf(pjp.getSignature().toShortString()));
-		MongoCollection collector = (MongoCollection) pjp.getTarget();
-		Cat.logEvent("DB.Collection", collector.getNamespace().getFullName());
-		Cat.logEvent("Method", pjp.getSignature().toString());
-		return transaction;
-	}
+    /* (non-Javadoc)
+     * @see cat.qbao.cat.plugin.PluginTemplate#scope()
+     */
+    @Override
+    @Pointcut
+    public void scope() {
+    }
 
-	/* (non-Javadoc)
-	 * @see cat.qbao.cat.plugin.DefaultPluginTemplate#endLog(com.dianping.cat.message.Transaction, java.lang.Object, java.lang.Object[])
-	 */
-	@Override
-	protected void endLog(Transaction transaction, Object retVal, Object... params) {
-		// TODO Auto-generated method stub
+    /* (non-Javadoc)
+     * @see cat.qbao.cat.plugin.DefaultPluginTemplate#beginLog(org.aspectj.lang.ProceedingJoinPoint)
+     */
+    @Override
+    protected Transaction beginLog(ProceedingJoinPoint pjp) {
+        Transaction transaction = null;
+        transaction = newTransaction("MongoDB", String.valueOf(pjp.getSignature().toShortString()));
+        MongoCollection collector = (MongoCollection) pjp.getTarget();
+        Cat.logEvent("DB.Collection", collector.getNamespace().getFullName());
+        Cat.logEvent("Method", pjp.getSignature().toString());
+        return transaction;
+    }
 
-	}
+    /* (non-Javadoc)
+     * @see cat.qbao.cat.plugin.DefaultPluginTemplate#endLog(com.dianping.cat.message.Transaction, java.lang.Object, java.lang.Object[])
+     */
+    @Override
+    protected void endLog(Transaction transaction, Object retVal, Object... params) {
+        // TODO Auto-generated method stub
+
+    }
 
 }

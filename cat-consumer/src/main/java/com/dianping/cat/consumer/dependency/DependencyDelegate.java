@@ -35,62 +35,62 @@ import java.util.Map;
 @Named(type = ReportDelegate.class, value = DependencyAnalyzer.ID)
 public class DependencyDelegate implements ReportDelegate<DependencyReport> {
 
-	@Inject
-	private TaskManager m_taskManager;
+    @Inject
+    private TaskManager m_taskManager;
 
-	@Override
-	public void afterLoad(Map<String, DependencyReport> reports) {
-	}
+    @Override
+    public void afterLoad(Map<String, DependencyReport> reports) {
+    }
 
-	@Override
-	public void beforeSave(Map<String, DependencyReport> reports) {
-	}
+    @Override
+    public void beforeSave(Map<String, DependencyReport> reports) {
+    }
 
-	@Override
-	public byte[] buildBinary(DependencyReport report) {
-		return DefaultNativeBuilder.build(report);
-	}
+    @Override
+    public byte[] buildBinary(DependencyReport report) {
+        return DefaultNativeBuilder.build(report);
+    }
 
-	@Override
-	public String buildXml(DependencyReport report) {
-		return report.toString();
-	}
+    @Override
+    public String buildXml(DependencyReport report) {
+        return report.toString();
+    }
 
-	@Override
-	public boolean createHourlyTask(DependencyReport report) {
-		return m_taskManager.createTask(report.getStartTime(), Constants.CAT, DependencyAnalyzer.ID, TaskProlicy.HOULY);
-	}
+    @Override
+    public boolean createHourlyTask(DependencyReport report) {
+        return m_taskManager.createTask(report.getStartTime(), Constants.CAT, DependencyAnalyzer.ID, TaskProlicy.HOULY);
+    }
 
-	@Override
-	public String getDomain(DependencyReport report) {
-		return report.getDomain();
-	}
+    @Override
+    public String getDomain(DependencyReport report) {
+        return report.getDomain();
+    }
 
-	@Override
-	public DependencyReport makeReport(String domain, long startTime, long duration) {
-		DependencyReport report = new DependencyReport(domain);
+    @Override
+    public DependencyReport makeReport(String domain, long startTime, long duration) {
+        DependencyReport report = new DependencyReport(domain);
 
-		report.setStartTime(new Date(startTime));
-		report.setEndTime(new Date(startTime + duration - 1));
+        report.setStartTime(new Date(startTime));
+        report.setEndTime(new Date(startTime + duration - 1));
 
-		return report;
-	}
+        return report;
+    }
 
-	@Override
-	public DependencyReport mergeReport(DependencyReport old, DependencyReport other) {
-		DependencyReportMerger merger = new DependencyReportMerger(old);
+    @Override
+    public DependencyReport mergeReport(DependencyReport old, DependencyReport other) {
+        DependencyReportMerger merger = new DependencyReportMerger(old);
 
-		other.accept(merger);
-		return old;
-	}
+        other.accept(merger);
+        return old;
+    }
 
-	@Override
-	public DependencyReport parseBinary(byte[] bytes) {
-		return DefaultNativeParser.parse(bytes);
-	}
+    @Override
+    public DependencyReport parseBinary(byte[] bytes) {
+        return DefaultNativeParser.parse(bytes);
+    }
 
-	@Override
-	public DependencyReport parseXml(String xml) throws Exception {
-		return DefaultSaxParser.parse(xml);
-	}
+    @Override
+    public DependencyReport parseXml(String xml) throws Exception {
+        return DefaultSaxParser.parse(xml);
+    }
 }

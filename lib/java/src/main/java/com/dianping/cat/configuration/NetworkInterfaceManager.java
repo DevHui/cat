@@ -26,10 +26,10 @@ import java.util.List;
 public enum NetworkInterfaceManager {
     INSTANCE;
 
+    public final static String LOOPBACK = "127.0.0.1";
     private InetAddress local;
     private String ip;
     private String hostName;
-    public final static String LOOPBACK = "127.0.0.1";
 
     NetworkInterfaceManager() {
         System.setProperty("java.net.preferIPv4Stack", "true");

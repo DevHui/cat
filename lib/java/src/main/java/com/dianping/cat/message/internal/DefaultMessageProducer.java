@@ -30,11 +30,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DefaultMessageProducer implements MessageProducer {
+    private static final String ERROR = "ERROR";
+    private static ConcurrentHashMap<Long, ConcurrentHashMap<String, AtomicInteger>> stack = new ConcurrentHashMap<Long, ConcurrentHashMap<String, AtomicInteger>>();
+    private static MessageProducer INSTANCE = new DefaultMessageProducer();
     private MessageManager manager = DefaultMessageManager.getInstance();
     private MessageIdFactory factory = MessageIdFactory.getInstance();
-    private static ConcurrentHashMap<Long, ConcurrentHashMap<String, AtomicInteger>> stack = new ConcurrentHashMap<Long, ConcurrentHashMap<String, AtomicInteger>>();
-    private static final String ERROR = "ERROR";
-    private static MessageProducer INSTANCE = new DefaultMessageProducer();
 
     public static void clearCache() {
         long time = System.currentTimeMillis() / 1000 / 60 - 3;

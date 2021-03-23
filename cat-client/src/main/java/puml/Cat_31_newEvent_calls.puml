@@ -1,0 +1,191 @@
+@startuml
+
+/' diagram meta data start
+config=CallConfiguration;
+{
+  "rootMethod": "com.dianping.cat.Cat#newEvent(String,String)",
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showMethodParametersTypes": false,
+    "showMethodParametersNames": false,
+    "showMethodReturnType": false,
+    "showPackageLevels": 2,
+    "showCallOrder": false,
+    "edgeMode": "MethodsOnly", // TypesOnly, MethodsOnly, TypesAndMethods, MethodsAndDirectTypeUsage
+    "showDetailedClassStructure": false
+  },
+  "rootClass": "com.dianping.cat.Cat"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="LR"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_231963676 { 
+   	label=dianping
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1054235340 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_1330834747 { 
+   	label=DataUploader
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DataUploader1319484001XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="DataUploader
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_286826800 { 
+   	label=EventAggregator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   EventAggregator468831451XXXsendEventData0[
+	label="+ sendEventData()"
+	style=filled
+	fillcolor=white
+	tooltip="EventAggregator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_729580959 { 
+   	label=Cat
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Cat2002533913XXXnewEvent2013066710[
+	label="+ newEvent()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	penwidth=4
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_766785005 { 
+   	label=DefaultMessageProducer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultMessageProducer982561799XXXnewEvent2013066710[
+	label="+ newEvent()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageProducer
+
+&#10;		 Create a new event with given type and name.&#10;		&#10;		 @param type event type&#10;		 @param name event name&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_773623139 { 
+   	label=NullMessageProducer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   NullMessageProducer982561799XXXnewEvent2013066710[
+	label="+ newEvent()"
+	style=filled
+	fillcolor=white
+	tooltip="NullMessageProducer
+
+&#10;		 Create a new event with given type and name.&#10;		&#10;		 @param type event type&#10;		 @param name event name&#10;		"
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+'edges    
+Cat2002533913XXXnewEvent2013066710 -> DefaultMessageProducer982561799XXXnewEvent2013066710;
+Cat2002533913XXXnewEvent2013066710 -> NullMessageProducer982561799XXXnewEvent2013066710;
+DataUploader1319484001XXXrun0 -> EventAggregator468831451XXXsendEventData0;
+EventAggregator468831451XXXsendEventData0 -> Cat2002533913XXXnewEvent2013066710;
+    
+}
+@enduml

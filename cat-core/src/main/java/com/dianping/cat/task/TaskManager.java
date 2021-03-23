@@ -32,196 +32,196 @@ import java.util.Date;
 @Named
 public class TaskManager {
 
-	public static final int REPORT_HOUR = 0;
+    public static final int REPORT_HOUR = 0;
 
-	public static final int REPORT_DAILY = 1;
+    public static final int REPORT_DAILY = 1;
 
-	public static final int REPORT_WEEK = 2;
+    public static final int REPORT_WEEK = 2;
 
-	public static final int REPORT_MONTH = 3;
+    public static final int REPORT_MONTH = 3;
 
-	private static final long ONE_HOUR = 60 * 60 * 1000L;
+    private static final long ONE_HOUR = 60 * 60 * 1000L;
 
-	private static final long ONE_DAY = 24 * ONE_HOUR;
+    private static final long ONE_DAY = 24 * ONE_HOUR;
 
-	private static final int STATUS_TODO = 1;
+    private static final int STATUS_TODO = 1;
 
-	@Inject
-	private TaskDao m_taskDao;
+    @Inject
+    private TaskDao m_taskDao;
 
-	public boolean createTask(Date period, String domain, String name, TaskCreationPolicy prolicy) {
-		try {
-			if (prolicy.shouldCreateHourlyTask()) {
-				insertToDatabase(period, domain, name, REPORT_HOUR);
-			}
+    public boolean createTask(Date period, String domain, String name, TaskCreationPolicy prolicy) {
+        try {
+            if (prolicy.shouldCreateHourlyTask()) {
+                insertToDatabase(period, domain, name, REPORT_HOUR);
+            }
 
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(period);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(period);
 
-			int hour = cal.get(Calendar.HOUR_OF_DAY);
-			cal.add(Calendar.HOUR_OF_DAY, -hour);
-			Date currentDay = cal.getTime();
+            int hour = cal.get(Calendar.HOUR_OF_DAY);
+            cal.add(Calendar.HOUR_OF_DAY, -hour);
+            Date currentDay = cal.getTime();
 
-			if (prolicy.shouldCreateDailyTask()) {
-				insertToDatabase(new Date(currentDay.getTime() - ONE_DAY), domain, name, REPORT_DAILY);
-			}
+            if (prolicy.shouldCreateDailyTask()) {
+                insertToDatabase(new Date(currentDay.getTime() - ONE_DAY), domain, name, REPORT_DAILY);
+            }
 
-			if (prolicy.shouldCreateWeeklyTask()) {
-				int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-				if (dayOfWeek == 7) {
-					insertToDatabase(new Date(currentDay.getTime() - 7 * ONE_DAY), domain, name, REPORT_WEEK);
-				}
-			}
-			if (prolicy.shouldCreateMonthTask()) {
-				int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+            if (prolicy.shouldCreateWeeklyTask()) {
+                int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+                if (dayOfWeek == 7) {
+                    insertToDatabase(new Date(currentDay.getTime() - 7 * ONE_DAY), domain, name, REPORT_WEEK);
+                }
+            }
+            if (prolicy.shouldCreateMonthTask()) {
+                int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
-				if (dayOfMonth == 1) {
-					cal.add(Calendar.MONTH, -1);
-					insertToDatabase(cal.getTime(), domain, name, REPORT_MONTH);
-				}
-			}
-			return true;
-		} catch (DalException e) {
-			Cat.logError(e);
-			return false;
-		}
-	}
+                if (dayOfMonth == 1) {
+                    cal.add(Calendar.MONTH, -1);
+                    insertToDatabase(cal.getTime(), domain, name, REPORT_MONTH);
+                }
+            }
+            return true;
+        } catch (DalException e) {
+            Cat.logError(e);
+            return false;
+        }
+    }
 
-	protected void insertToDatabase(Date period, String domain, String name, int reportType) throws DalException {
-		Task task = m_taskDao.createLocal();
+    protected void insertToDatabase(Date period, String domain, String name, int reportType) throws DalException {
+        Task task = m_taskDao.createLocal();
 
-		task.setCreationDate(new Date());
-		task.setProducer(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
-		task.setReportDomain(domain);
-		task.setReportName(name);
-		task.setReportPeriod(period);
-		task.setStatus(STATUS_TODO);
-		task.setTaskType(reportType);
-		m_taskDao.insert(task);
-	}
+        task.setCreationDate(new Date());
+        task.setProducer(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
+        task.setReportDomain(domain);
+        task.setReportName(name);
+        task.setReportPeriod(period);
+        task.setStatus(STATUS_TODO);
+        task.setTaskType(reportType);
+        m_taskDao.insert(task);
+    }
 
-	public enum TaskProlicy implements TaskCreationPolicy {
+    public enum TaskProlicy implements TaskCreationPolicy {
 
-		ALL {
-			@Override
-			public boolean shouldCreateDailyTask() {
-				return true;
-			}
+        ALL {
+            @Override
+            public boolean shouldCreateDailyTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateHourlyTask() {
-				return true;
-			}
+            @Override
+            public boolean shouldCreateHourlyTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateMonthTask() {
-				return true;
-			}
+            @Override
+            public boolean shouldCreateMonthTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateWeeklyTask() {
-				return true;
-			}
-		},
+            @Override
+            public boolean shouldCreateWeeklyTask() {
+                return true;
+            }
+        },
 
-		HOULY {
-			@Override
-			public boolean shouldCreateDailyTask() {
-				return false;
-			}
+        HOULY {
+            @Override
+            public boolean shouldCreateDailyTask() {
+                return false;
+            }
 
-			@Override
-			public boolean shouldCreateHourlyTask() {
-				return true;
-			}
+            @Override
+            public boolean shouldCreateHourlyTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateMonthTask() {
-				return false;
-			}
+            @Override
+            public boolean shouldCreateMonthTask() {
+                return false;
+            }
 
-			@Override
-			public boolean shouldCreateWeeklyTask() {
-				return false;
-			}
-		},
+            @Override
+            public boolean shouldCreateWeeklyTask() {
+                return false;
+            }
+        },
 
-		ALL_EXCLUED_HOURLY {
-			@Override
-			public boolean shouldCreateDailyTask() {
-				return true;
-			}
+        ALL_EXCLUED_HOURLY {
+            @Override
+            public boolean shouldCreateDailyTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateHourlyTask() {
-				return false;
-			}
+            @Override
+            public boolean shouldCreateHourlyTask() {
+                return false;
+            }
 
-			@Override
-			public boolean shouldCreateMonthTask() {
-				return true;
-			}
+            @Override
+            public boolean shouldCreateMonthTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateWeeklyTask() {
-				return true;
-			}
-		},
+            @Override
+            public boolean shouldCreateWeeklyTask() {
+                return true;
+            }
+        },
 
-		DAILY {
-			@Override
-			public boolean shouldCreateDailyTask() {
-				return true;
-			}
+        DAILY {
+            @Override
+            public boolean shouldCreateDailyTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateHourlyTask() {
-				return false;
-			}
+            @Override
+            public boolean shouldCreateHourlyTask() {
+                return false;
+            }
 
-			@Override
-			public boolean shouldCreateMonthTask() {
-				return false;
-			}
+            @Override
+            public boolean shouldCreateMonthTask() {
+                return false;
+            }
 
-			@Override
-			public boolean shouldCreateWeeklyTask() {
-				return false;
-			}
-		},
+            @Override
+            public boolean shouldCreateWeeklyTask() {
+                return false;
+            }
+        },
 
-		HOURLY_AND_DAILY {
-			@Override
-			public boolean shouldCreateDailyTask() {
-				return true;
-			}
+        HOURLY_AND_DAILY {
+            @Override
+            public boolean shouldCreateDailyTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateHourlyTask() {
-				return true;
-			}
+            @Override
+            public boolean shouldCreateHourlyTask() {
+                return true;
+            }
 
-			@Override
-			public boolean shouldCreateMonthTask() {
-				return false;
-			}
+            @Override
+            public boolean shouldCreateMonthTask() {
+                return false;
+            }
 
-			@Override
-			public boolean shouldCreateWeeklyTask() {
-				return false;
-			}
-		}
-	}
+            @Override
+            public boolean shouldCreateWeeklyTask() {
+                return false;
+            }
+        }
+    }
 
-	public interface TaskCreationPolicy {
+    public interface TaskCreationPolicy {
 
-		boolean shouldCreateDailyTask();
+        boolean shouldCreateDailyTask();
 
-		boolean shouldCreateHourlyTask();
+        boolean shouldCreateHourlyTask();
 
-		boolean shouldCreateMonthTask();
+        boolean shouldCreateMonthTask();
 
-		boolean shouldCreateWeeklyTask();
-	}
+        boolean shouldCreateWeeklyTask();
+    }
 
 }

@@ -18,80 +18,79 @@
  */
 package com.dianping.cat.report.page.logview;
 
-import java.util.Collection;
-import java.util.Collections;
-
-import org.unidal.web.mvc.view.annotation.ModelMeta;
-
 import com.dianping.cat.message.spi.MessageTree;
 import com.dianping.cat.mvc.AbstractReportModel;
 import com.dianping.cat.report.ReportPage;
+import org.unidal.web.mvc.view.annotation.ModelMeta;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @ModelMeta("logview")
 public class Model extends AbstractReportModel<Action, ReportPage, Context> {
-	private String m_domain;
+    private String m_domain;
 
-	private String m_mobileResponse;
+    private String m_mobileResponse;
 
-	private String m_table;
+    private String m_table;
 
-	private String m_logviewPath;
+    private String m_logviewPath;
 
-	private MessageTree m_tree;
+    private MessageTree m_tree;
 
-	public Model(Context ctx) {
-		super(ctx);
-	}
+    public Model(Context ctx) {
+        super(ctx);
+    }
 
-	@Override
-	public Action getDefaultAction() {
-		return Action.VIEW;
-	}
+    @Override
+    public Action getDefaultAction() {
+        return Action.VIEW;
+    }
 
-	@Override
-	public String getDomain() {
-		return m_domain;
-	}
+    @Override
+    public String getDomain() {
+        return m_domain;
+    }
 
-	public void setDomain(String domain) {
-		m_domain = domain;
-	}
+    public void setDomain(String domain) {
+        m_domain = domain;
+    }
 
-	@Override
-	public Collection<String> getDomains() {
-		return Collections.emptySet();
-	}
+    @Override
+    public Collection<String> getDomains() {
+        return Collections.emptySet();
+    }
 
-	public String getLogviewPath() {
-		return m_logviewPath;
-	}
+    public String getLogviewPath() {
+        return m_logviewPath;
+    }
 
-	public void setLogviewPath(String logviewPath) {
-		m_logviewPath = logviewPath;
-	}
+    public void setLogviewPath(String logviewPath) {
+        m_logviewPath = logviewPath;
+    }
 
-	public String getMobileResponse() {
-		return m_mobileResponse;
-	}
+    public String getMobileResponse() {
+        return m_mobileResponse;
+    }
 
-	public void setMobileResponse(String mobileResponse) {
-		m_mobileResponse = mobileResponse;
-	}
+    public void setMobileResponse(String mobileResponse) {
+        m_mobileResponse = mobileResponse;
+    }
 
-	public String getTable() {
-		return m_table;
-	}
+    public String getTable() {
+        return m_table;
+    }
 
-	public void setTable(String table) {
-		m_table = table;
-	}
+    public void setTable(String table) {
+        m_table = table;
+    }
 
-	public MessageTree getTree() {
-		return m_tree;
-	}
+    public MessageTree getTree() {
+        return m_tree;
+    }
 
-	public void setTree(MessageTree tree) {
-		m_tree = tree;
-	}
+    public void setTree(MessageTree tree) {
+        m_tree = tree;
+    }
 
 }

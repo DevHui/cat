@@ -35,71 +35,71 @@ import java.util.Map;
 @Named(type = ReportDelegate.class, value = CrossAnalyzer.ID)
 public class CrossDelegate implements ReportDelegate<CrossReport> {
 
-	@Inject
-	private TaskManager m_taskManager;
+    @Inject
+    private TaskManager m_taskManager;
 
-	@Inject
-	private ServerFilterConfigManager m_serverFilterConfigManager;
+    @Inject
+    private ServerFilterConfigManager m_serverFilterConfigManager;
 
-	@Override
-	public void afterLoad(Map<String, CrossReport> reports) {
-	}
+    @Override
+    public void afterLoad(Map<String, CrossReport> reports) {
+    }
 
-	@Override
-	public void beforeSave(Map<String, CrossReport> reports) {
-	}
+    @Override
+    public void beforeSave(Map<String, CrossReport> reports) {
+    }
 
-	@Override
-	public byte[] buildBinary(CrossReport report) {
-		return DefaultNativeBuilder.build(report);
-	}
+    @Override
+    public byte[] buildBinary(CrossReport report) {
+        return DefaultNativeBuilder.build(report);
+    }
 
-	@Override
-	public String buildXml(CrossReport report) {
-		return report.toString();
-	}
+    @Override
+    public String buildXml(CrossReport report) {
+        return report.toString();
+    }
 
-	@Override
-	public boolean createHourlyTask(CrossReport report) {
-		String domain = report.getDomain();
+    @Override
+    public boolean createHourlyTask(CrossReport report) {
+        String domain = report.getDomain();
 
-		if (m_serverFilterConfigManager.validateDomain(domain)) {
-			return m_taskManager.createTask(report.getStartTime(), domain, CrossAnalyzer.ID,	TaskProlicy.ALL_EXCLUED_HOURLY);
-		} else {
-			return true;
-		}
-	}
+        if (m_serverFilterConfigManager.validateDomain(domain)) {
+            return m_taskManager.createTask(report.getStartTime(), domain, CrossAnalyzer.ID, TaskProlicy.ALL_EXCLUED_HOURLY);
+        } else {
+            return true;
+        }
+    }
 
-	@Override
-	public String getDomain(CrossReport report) {
-		return report.getDomain();
-	}
+    @Override
+    public String getDomain(CrossReport report) {
+        return report.getDomain();
+    }
 
-	@Override
-	public CrossReport makeReport(String domain, long startTime, long duration) {
-		CrossReport report = new CrossReport(domain);
+    @Override
+    public CrossReport makeReport(String domain, long startTime, long duration) {
+        CrossReport report = new CrossReport(domain);
 
-		report.setStartTime(new Date(startTime));
-		report.setEndTime(new Date(startTime + duration - 1));
+        report.setStartTime(new Date(startTime));
+        report.setEndTime(new Date(startTime + duration - 1));
 
-		return report;
-	}
+        return report;
+    }
 
-	@Override
-	public CrossReport mergeReport(CrossReport old, CrossReport other) {
-		CrossReportMerger merger = new CrossReportMerger(old);
+    @Override
+    public CrossReport mergeReport(CrossReport old, CrossReport other) {
+        CrossReportMerger merger = new CrossReportMerger(old);
 
-		other.accept(merger);
-		return old;
-	}
+        other.accept(merger);
+        return old;
+    }
 
-	@Override
-	public CrossReport parseBinary(byte[] bytes) {
-		return DefaultNativeParser.parse(bytes);
-	}
+    @Override
+    public CrossReport parseBinary(byte[] bytes) {
+        return DefaultNativeParser.parse(bytes);
+    }
 
-	@Override
-	public CrossReport parseXml(String xml) throws Exception {
-		return DefaultSaxParser.parse(xml);
-	}
+    @Override
+    public CrossReport parseXml(String xml) throws Exception {
+        return DefaultSaxParser.parse(xml);
+    }
 }

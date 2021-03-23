@@ -18,59 +18,58 @@
  */
 package com.dianping.cat.report.task.transaction;
 
-import java.text.SimpleDateFormat;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.unidal.helper.Files;
-
 import com.dianping.cat.TestHelper;
 import com.dianping.cat.consumer.transaction.model.entity.TransactionReport;
 import com.dianping.cat.consumer.transaction.model.transform.DefaultSaxParser;
 import com.dianping.cat.report.page.transaction.task.TransactionReportDailyGraphCreator;
 import com.dianping.cat.report.page.transaction.task.TransactionReportHourlyGraphCreator;
+import org.junit.Assert;
+import org.junit.Test;
+import org.unidal.helper.Files;
+
+import java.text.SimpleDateFormat;
 
 public class TransactionReportGraphCreatorTest {
 
-	@Test
-	public void testMergeHourlyGraph() throws Exception {
-		String oldXml = Files.forIO().readFrom(getClass().getResourceAsStream("BaseTransactionReportForGraph.xml"),	"utf-8");
-		TransactionReport report1 = DefaultSaxParser.parse(oldXml);
-		TransactionReport report2 = DefaultSaxParser.parse(oldXml);
-		String expected = Files.forIO()
-								.readFrom(getClass().getResourceAsStream("TransactionReportHourlyGraphResult.xml"), "utf-8");
+    @Test
+    public void testMergeHourlyGraph() throws Exception {
+        String oldXml = Files.forIO().readFrom(getClass().getResourceAsStream("BaseTransactionReportForGraph.xml"), "utf-8");
+        TransactionReport report1 = DefaultSaxParser.parse(oldXml);
+        TransactionReport report2 = DefaultSaxParser.parse(oldXml);
+        String expected = Files.forIO()
+                .readFrom(getClass().getResourceAsStream("TransactionReportHourlyGraphResult.xml"), "utf-8");
 
-		TransactionReport result = new TransactionReport(report1.getDomain());
+        TransactionReport result = new TransactionReport(report1.getDomain());
 
-		TransactionReportHourlyGraphCreator creator = new TransactionReportHourlyGraphCreator(result, 10);
+        TransactionReportHourlyGraphCreator creator = new TransactionReportHourlyGraphCreator(result, 10);
 
-		creator.createGraph(report1);
-		creator.createGraph(report2);
+        creator.createGraph(report1);
+        creator.createGraph(report2);
 
-		Assert.assertTrue("Check the merge result!",TestHelper.isEquals(DefaultSaxParser.parse(expected),result));
-		
-	}
+        Assert.assertTrue("Check the merge result!", TestHelper.isEquals(DefaultSaxParser.parse(expected), result));
 
-	@Test
-	public void testMergeDailyGraph() throws Exception {
-		String oldXml1 = Files.forIO().readFrom(getClass().getResourceAsStream("BaseDailyTransactionReport1.xml"),	"utf-8");
-		String oldXml2 = Files.forIO().readFrom(getClass().getResourceAsStream("BaseDailyTransactionReport2.xml"),	"utf-8");
+    }
 
-		TransactionReport report1 = DefaultSaxParser.parse(oldXml1);
-		TransactionReport report2 = DefaultSaxParser.parse(oldXml2);
-		String expected = Files.forIO()
-								.readFrom(getClass().getResourceAsStream("TransactionReportDailyGraphResult.xml"), "utf-8");
+    @Test
+    public void testMergeDailyGraph() throws Exception {
+        String oldXml1 = Files.forIO().readFrom(getClass().getResourceAsStream("BaseDailyTransactionReport1.xml"), "utf-8");
+        String oldXml2 = Files.forIO().readFrom(getClass().getResourceAsStream("BaseDailyTransactionReport2.xml"), "utf-8");
 
-		TransactionReport result = new TransactionReport(report1.getDomain());
+        TransactionReport report1 = DefaultSaxParser.parse(oldXml1);
+        TransactionReport report2 = DefaultSaxParser.parse(oldXml2);
+        String expected = Files.forIO()
+                .readFrom(getClass().getResourceAsStream("TransactionReportDailyGraphResult.xml"), "utf-8");
 
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		TransactionReportDailyGraphCreator creator = new TransactionReportDailyGraphCreator(result, 7,
-								sdf.parse("2016-01-23 00:00:00"));
+        TransactionReport result = new TransactionReport(report1.getDomain());
 
-		creator.createGraph(report1);
-		creator.createGraph(report2);
-		Assert.assertTrue("Check the merge result!",TestHelper.isEquals(DefaultSaxParser.parse(expected),result));
-		
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        TransactionReportDailyGraphCreator creator = new TransactionReportDailyGraphCreator(result, 7,
+                sdf.parse("2016-01-23 00:00:00"));
 
-	}
+        creator.createGraph(report1);
+        creator.createGraph(report2);
+        Assert.assertTrue("Check the merge result!", TestHelper.isEquals(DefaultSaxParser.parse(expected), result));
+
+
+    }
 }

@@ -31,32 +31,32 @@ import redis.clients.jedis.BinaryClient;
 @Aspect
 public abstract class RedisPluginTemplate extends DefaultPluginTemplate {
 
-	@Override
-	@Pointcut
-	public void scope() {
+    @Override
+    @Pointcut
+    public void scope() {
 
-	}
+    }
 
-	@Override
-	@Around(POINTCUT_NAME)
-	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		return super.doAround(pjp);
-	}
+    @Override
+    @Around(POINTCUT_NAME)
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        return super.doAround(pjp);
+    }
 
 
-	@Override
-	public Transaction beginLog(ProceedingJoinPoint pjp) {
-		Transaction transaction = null;
-		BinaryClient jedis = (BinaryClient)pjp.getTarget();
-		if (jedis != null){
-			transaction = Cat.newTransaction("Cache.Redis_" + jedis.getHost(), pjp.getSignature().toString());
-		}
-		return transaction;
-	}
+    @Override
+    public Transaction beginLog(ProceedingJoinPoint pjp) {
+        Transaction transaction = null;
+        BinaryClient jedis = (BinaryClient) pjp.getTarget();
+        if (jedis != null) {
+            transaction = Cat.newTransaction("Cache.Redis_" + jedis.getHost(), pjp.getSignature().toString());
+        }
+        return transaction;
+    }
 
-	@Override
-	public void endLog(Transaction transaction, Object retVal, Object... params) {
+    @Override
+    public void endLog(Transaction transaction, Object retVal, Object... params) {
 
-	}
+    }
 
 }

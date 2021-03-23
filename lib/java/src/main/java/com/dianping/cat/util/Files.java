@@ -242,10 +242,6 @@ public class Files {
         }
     }
 
-    public interface Policy {
-        public boolean apply(String path);
-    }
-
     public enum Zip {
         INSTANCE;
 
@@ -281,5 +277,9 @@ public class Files {
 
             return entryNames;
         }
+    }
+
+    public interface Policy {
+        public boolean apply(String path);
     }
 }

@@ -22,54 +22,54 @@ import java.util.List;
 
 public class BaselineConfig {
 
-	private int m_id;
+    private int m_id;
 
-	private String m_key;
+    private String m_key;
 
-	private int m_targetDate;
+    private int m_targetDate;
 
-	private List<Double> m_weights;
+    private List<Double> m_weights;
 
-	private List<Integer> m_days;
+    private List<Integer> m_days;
 
-	public List<Integer> getDays() {
-		return m_days;
-	}
+    public List<Integer> getDays() {
+        return m_days;
+    }
 
-	public void setDays(List<Integer> days) {
-		m_days = days;
-	}
+    public void setDays(List<Integer> days) {
+        m_days = days;
+    }
 
-	public int getId() {
-		return m_id;
-	}
+    public int getId() {
+        return m_id;
+    }
 
-	public void setId(int id) {
-		m_id = id;
-	}
+    public void setId(int id) {
+        m_id = id;
+    }
 
-	public String getKey() {
-		return m_key;
-	}
+    public String getKey() {
+        return m_key;
+    }
 
-	public void setKey(String key) {
-		m_key = key;
-	}
+    public void setKey(String key) {
+        m_key = key;
+    }
 
-	public int getTargetDate() {
-		return m_targetDate;
-	}
+    public int getTargetDate() {
+        return m_targetDate;
+    }
 
-	public void setTargetDate(int targetDate) {
-		m_targetDate = targetDate;
-	}
+    public void setTargetDate(int targetDate) {
+        m_targetDate = targetDate;
+    }
 
-	public List<Double> getWeights() {
-		return m_weights;
-	}
+    public List<Double> getWeights() {
+        return m_weights;
+    }
 
-	public void setWeights(List<Double> weights) {
-		m_weights = weights;
-	}
+    public void setWeights(List<Double> weights) {
+        m_weights = weights;
+    }
 
 }

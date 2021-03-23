@@ -41,10 +41,6 @@ public abstract class AbstractMessage implements Message {
         timestampInMillis = System.currentTimeMillis();
     }
 
-    public void setData(String str) {
-        data = str;
-    }
-
     @Override
     public void addData(String keyValuePairs) {
         if (data == null) {
@@ -87,42 +83,22 @@ public abstract class AbstractMessage implements Message {
         }
     }
 
+    public void setData(String str) {
+        data = str;
+    }
+
     @Override
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String getStatus() {
         return status;
-    }
-
-    @Override
-    public long getTimestamp() {
-        return timestampInMillis;
-    }
-
-    @Override
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    @Override
-    public boolean isSuccess() {
-        return statusCode > 0;
-    }
-
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     @Override
@@ -143,17 +119,41 @@ public abstract class AbstractMessage implements Message {
     }
 
     @Override
-    public void setSuccessStatus() {
-        status = SUCCESS;
-        statusCode = 1;
+    public long getTimestamp() {
+        return timestampInMillis;
     }
 
     public void setTimestamp(long timestamp) {
         timestampInMillis = timestamp;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
+
     public void setType(String type) {
         this.type = type;
+    }
+
+    @Override
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
+    }
+
+    @Override
+    public boolean isSuccess() {
+        return statusCode > 0;
+    }
+
+    @Override
+    public void setSuccessStatus() {
+        status = SUCCESS;
+        statusCode = 1;
     }
 
     @Override

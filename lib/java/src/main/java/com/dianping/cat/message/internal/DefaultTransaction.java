@@ -32,12 +32,25 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DefaultTransaction extends AbstractMessage implements Transaction {
+    private static Map<String, Integer> map = new ConcurrentHashMap<String, Integer>();
+    private static ConcurrentHashMap<Long, ConcurrentHashMap<String, AtomicInteger>> count = new ConcurrentHashMap<Long, ConcurrentHashMap<String, AtomicInteger>>();
     private long durationInMicro = -1; // must be less than 0
     private long durationStart;
     private List<Message> children;
     private MessageManager manager;
-    private static Map<String, Integer> map = new ConcurrentHashMap<String, Integer>();
-    private static ConcurrentHashMap<Long, ConcurrentHashMap<String, AtomicInteger>> count = new ConcurrentHashMap<Long, ConcurrentHashMap<String, AtomicInteger>>();
+
+    public DefaultTransaction(String type, String name) {
+        super(type, name);
+
+        durationStart = System.nanoTime();
+    }
+
+    public DefaultTransaction(String type, String name, MessageManager manager) {
+        super(type, name);
+
+        this.manager = manager;
+        durationStart = System.nanoTime();
+    }
 
     public static void clearCache() {
         long time = System.currentTimeMillis() / 1000 / 60 - 3;
@@ -52,19 +65,6 @@ public class DefaultTransaction extends AbstractMessage implements Transaction {
         for (Long l : removeKeys) {
             count.remove(l);
         }
-    }
-
-    public DefaultTransaction(String type, String name) {
-        super(type, name);
-
-        durationStart = System.nanoTime();
-    }
-
-    public DefaultTransaction(String type, String name, MessageManager manager) {
-        super(type, name);
-
-        this.manager = manager;
-        durationStart = System.nanoTime();
     }
 
     @Override
@@ -161,9 +161,17 @@ public class DefaultTransaction extends AbstractMessage implements Transaction {
         }
     }
 
+    public void setDurationInMicros(long duration) {
+        durationInMicro = duration;
+    }
+
     @Override
     public long getDurationInMillis() {
         return getDurationInMicros() / 1000L;
+    }
+
+    public void setDurationInMillis(long duration) {
+        durationInMicro = duration * 1000L;
     }
 
     protected MessageManager getManager() {
@@ -258,14 +266,6 @@ public class DefaultTransaction extends AbstractMessage implements Transaction {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public void setDurationInMicros(long duration) {
-        durationInMicro = duration;
-    }
-
-    public void setDurationInMillis(long duration) {
-        durationInMicro = duration * 1000L;
     }
 
     public void setDurationStart(long durationStart) {

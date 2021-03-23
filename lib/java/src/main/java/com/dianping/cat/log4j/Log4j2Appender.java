@@ -45,6 +45,19 @@ public class Log4j2Appender extends AbstractAppender {
         super(name, filter, layout, ignoreExceptions);
     }
 
+    @PluginFactory
+    public static Log4j2Appender createAppender(@PluginAttribute("name") String name,
+                                                @PluginElement("Layout") Layout<? extends Serializable> layout, @PluginElement("Filter") final Filter filter,
+                                                @PluginAttribute("otherAttribute") String otherAttribute) {
+        if (name == null) {
+            return null;
+        }
+        if (layout == null) {
+            layout = PatternLayout.createDefaultLayout();
+        }
+        return new Log4j2Appender(name, filter, layout, true);
+    }
+
     @Override
     public void append(LogEvent event) {
         try {
@@ -58,19 +71,6 @@ public class Log4j2Appender extends AbstractAppender {
                 throw new AppenderLoggingException(ex);
             }
         }
-    }
-
-    @PluginFactory
-    public static Log4j2Appender createAppender(@PluginAttribute("name") String name,
-                                                @PluginElement("Layout") Layout<? extends Serializable> layout, @PluginElement("Filter") final Filter filter,
-                                                @PluginAttribute("otherAttribute") String otherAttribute) {
-        if (name == null) {
-            return null;
-        }
-        if (layout == null) {
-            layout = PatternLayout.createDefaultLayout();
-        }
-        return new Log4j2Appender(name, filter, layout, true);
     }
 
     private void logError(LogEvent event) {

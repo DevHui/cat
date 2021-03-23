@@ -13,6 +13,8 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class StatusInfo extends BaseEntity<StatusInfo> {
+    private final Map<String, Extension> extensions = new LinkedHashMap<String, Extension>();
+    private final Map<String, CustomInfo> customInfos = new LinkedHashMap<String, CustomInfo>();
     private Date timestamp;
     private RuntimeInfo runtime;
     private OsInfo os;
@@ -20,8 +22,6 @@ public class StatusInfo extends BaseEntity<StatusInfo> {
     private MemoryInfo memory;
     private ThreadsInfo thread;
     private MessageInfo message;
-    private final Map<String, Extension> extensions = new LinkedHashMap<String, Extension>();
-    private final Map<String, CustomInfo> customInfos = new LinkedHashMap<String, CustomInfo>();
 
     public StatusInfo() {
     }

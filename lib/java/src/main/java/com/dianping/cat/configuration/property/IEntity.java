@@ -1,8 +1,8 @@
 package com.dianping.cat.configuration.property;
 
 public interface IEntity<T> {
-   void accept(IVisitor visitor);
+    void accept(IVisitor visitor);
 
-   void mergeAttributes(T other);
+    void mergeAttributes(T other);
 
 }

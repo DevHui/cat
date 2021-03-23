@@ -21,27 +21,27 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 
 public interface PluginTemplate {
-	
-	String POINTCUT_NAME = "scope()";
-	
-	void doBefore(JoinPoint joinPoint);
 
-	
-	void doAfter(JoinPoint joinPoint);
+    String POINTCUT_NAME = "scope()";
 
-	
-	Object doAround(ProceedingJoinPoint pjp) throws Throwable;
+    void doBefore(JoinPoint joinPoint);
 
-	
-	void doReturn(JoinPoint joinPoint, Object retVal);
 
-	
-	void doThrowing(JoinPoint joinPoint, Throwable ex);
-	
-	/**
-	 * ±êÊ¶·½·¨£¬±£³Ö¿Õ·½·¨Ìå¼´¿É£¬aspectj»áÔÚÔËÐÐÊ±¶¯Ì¬Éú³ÉÀïÃæÄÚÈÝ
-	 */
-	void scope();
-	
-	
+    void doAfter(JoinPoint joinPoint);
+
+
+    Object doAround(ProceedingJoinPoint pjp) throws Throwable;
+
+
+    void doReturn(JoinPoint joinPoint, Object retVal);
+
+
+    void doThrowing(JoinPoint joinPoint, Throwable ex);
+
+    /**
+     * ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¿Õ·ï¿½ï¿½ï¿½ï¿½å¼´ï¿½É£ï¿½aspectjï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    void scope();
+
+
 }

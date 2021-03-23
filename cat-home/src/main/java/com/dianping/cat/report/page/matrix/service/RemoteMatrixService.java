@@ -18,27 +18,26 @@
  */
 package com.dianping.cat.report.page.matrix.service;
 
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
 import com.dianping.cat.consumer.matrix.MatrixAnalyzer;
 import com.dianping.cat.consumer.matrix.model.entity.MatrixReport;
 import com.dianping.cat.consumer.matrix.model.transform.DefaultSaxParser;
 import com.dianping.cat.report.service.BaseRemoteModelService;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
 
 public class RemoteMatrixService extends BaseRemoteModelService<MatrixReport> {
-	public RemoteMatrixService() {
-		super(MatrixAnalyzer.ID);
-	}
+    public RemoteMatrixService() {
+        super(MatrixAnalyzer.ID);
+    }
 
-	@Override
-	protected MatrixReport buildModel(String xml) throws SAXException, IOException {
-		return DefaultSaxParser.parse(xml);
-	}
+    @Override
+    protected MatrixReport buildModel(String xml) throws SAXException, IOException {
+        return DefaultSaxParser.parse(xml);
+    }
 
-	@Override
-	public boolean isServersFixed() {
-		return true;
-	}
+    @Override
+    public boolean isServersFixed() {
+        return true;
+    }
 }

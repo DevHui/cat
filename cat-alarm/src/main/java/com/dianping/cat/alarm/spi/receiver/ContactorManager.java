@@ -31,27 +31,27 @@ import java.util.Map;
 @Named
 public class ContactorManager extends ContainerHolder implements Initializable {
 
-	private Map<String, Contactor> m_contactors = new HashMap<String, Contactor>();
+    private Map<String, Contactor> m_contactors = new HashMap<String, Contactor>();
 
-	@Override
-	public void initialize() throws InitializationException {
-		m_contactors = lookupMap(Contactor.class);
-	}
+    @Override
+    public void initialize() throws InitializationException {
+        m_contactors = lookupMap(Contactor.class);
+    }
 
-	public List<String> queryReceivers(String group, AlertChannel channel, String type) {
-		Contactor contactor = m_contactors.get(type);
+    public List<String> queryReceivers(String group, AlertChannel channel, String type) {
+        Contactor contactor = m_contactors.get(type);
 
-		if (AlertChannel.MAIL == channel) {
-			return contactor.queryEmailContactors(group);
-		} else if (AlertChannel.SMS == channel) {
-			return contactor.querySmsContactors(group);
-		} else if (AlertChannel.WEIXIN == channel) {
-			return contactor.queryWeiXinContactors(group);
-		} else if (AlertChannel.DX == channel) {
-			return contactor.queryDXContactors(group);
-		} else {
-			throw new RuntimeException("unsupported channel");
-		}
-	}
+        if (AlertChannel.MAIL == channel) {
+            return contactor.queryEmailContactors(group);
+        } else if (AlertChannel.SMS == channel) {
+            return contactor.querySmsContactors(group);
+        } else if (AlertChannel.WEIXIN == channel) {
+            return contactor.queryWeiXinContactors(group);
+        } else if (AlertChannel.DX == channel) {
+            return contactor.queryDXContactors(group);
+        } else {
+            throw new RuntimeException("unsupported channel");
+        }
+    }
 
 }

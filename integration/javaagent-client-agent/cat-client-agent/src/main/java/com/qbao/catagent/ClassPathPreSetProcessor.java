@@ -21,23 +21,22 @@ import java.util.Properties;
 
 /**
  * @author andersen
- *
  */
 public interface ClassPathPreSetProcessor {
-	/**
-	 * 
-	 * @param prop 解析出来的配置信息
-	 */
-	void initialize(Properties prop);
+    /**
+     * @param prop 解析出来的配置信息
+     */
+    void initialize(Properties prop);
 
-	/**
-	 * untouch
-	 * @param className
-	 * @param bytes
-	 * @param classLoader
-	 * @param a protection domain that may be used for defining extraneous classes generated as part of modifying the one passed in
-	 * @return
-	 */
-	byte[] preProcess(String className, byte[] bytes, ClassLoader classLoader, ProtectionDomain protectionDomain);
+    /**
+     * untouch
+     *
+     * @param className
+     * @param bytes
+     * @param classLoader
+     * @param a           protection domain that may be used for defining extraneous classes generated as part of modifying the one passed in
+     * @return
+     */
+    byte[] preProcess(String className, byte[] bytes, ClassLoader classLoader, ProtectionDomain protectionDomain);
 
 }

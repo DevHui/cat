@@ -24,14 +24,14 @@ import com.dianping.cat.consumer.storage.model.entity.StorageReport;
 
 public class HistoryStorageReportMerger extends StorageReportMerger {
 
-	public HistoryStorageReportMerger(StorageReport storageReport) {
-		super(storageReport);
-	}
+    public HistoryStorageReportMerger(StorageReport storageReport) {
+        super(storageReport);
+    }
 
-	@Override
-	public void visitOperation(Operation from) {
-		from.getSegments().clear();
-		super.visitOperation(from);
-	}
+    @Override
+    public void visitOperation(Operation from) {
+        from.getSegments().clear();
+        super.visitOperation(from);
+    }
 
 }

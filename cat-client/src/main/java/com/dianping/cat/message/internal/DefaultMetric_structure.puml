@@ -1,0 +1,1625 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 6,
+    "backwardDepth": 6,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.dianping.cat.message.internal.DefaultMetric"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_231963676 { 
+   	label=dianping
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1054235340 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   AbstractMessage982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)AbstractMessage</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_completed: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_data: CharSequence [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_status: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_timestampInMillis: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_type: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addData(keyValuePairs: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ addData(key: String, value: Object)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+AbstractMessageHolder1580404237[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)AbstractMessageHolder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_data: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_status: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_timestampInMicros: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_type: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addData(key: String, value: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+AbstractReportModel729539963[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)AbstractReportModel&lt;A extends Action, P extends Page, M extends ActionContext&lt;?&gt;&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_creatTime: Date [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_customDate: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_date: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_dateFormat: SimpleDateFormat [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_dayFormat: SimpleDateFormat [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_displayDomain: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_exception: Throwable [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_hostinfoService: HostinfoService [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_ipAddress: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_projectService: ProjectService [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_reportType: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_sampleConfigManager: SampleConfigManager [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+BaseCompositeModelService1722581904[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)BaseCompositeModelService&lt;T&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_allServices: List&lt;ModelService&lt;T&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_configManager: ServerConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_serverManager: RemoteServersManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_services: List&lt;ModelService&lt;T&gt;&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- buildHost(endpoint: String, pos: int): String</TD></TR>
+<TR><TD ALIGN="LEFT" ># createRemoteService(): BaseRemoteModelService&lt;T&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ invoke(request: ModelRequest): ModelResponse&lt;T&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ isEligable(request: ModelRequest): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" ># merge(request: ModelRequest, responses: List&lt;ModelResponse&lt;T&gt;&gt;): T</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+BaseHistoricalModelService1722581904[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)BaseHistoricalModelService&lt;T&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   m_configManager: ServerConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_localMode: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_name: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): T</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ invoke(request: ModelRequest): ModelResponse&lt;T&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ isEligable(request: ModelRequest): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+BaseRemoteModelService1722581904[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)BaseRemoteModelService&lt;T&gt;</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_host: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_name: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_port: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_remoteServersManager: RemoteServersManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_serverConfigManager: ServerConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_serviceUri: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(xml: String): T</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buildUrl(request: ModelRequest): URL</TD></TR>
+<TR><TD ALIGN="LEFT" >+ invoke(request: ModelRequest): ModelResponse&lt;T&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ isEligable(request: ModelRequest): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+BusinessReportGroupService792960521[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)BusinessReportGroupService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_service: ModelService&lt;BusinessReport&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- fetchMetricReport(product: String, period: ModelPeriod, min: int, max: int): BusinessReport</TD></TR>
+<TR><TD ALIGN="LEFT" >+ prepareDatas(domain: String, minute: int, duration: int): BusinessReportGroup</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+CachedBusinessReportService798456449[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)CachedBusinessReportService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_businessReports: Map&lt;String, BusinessReport&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_reportService: BusinessReportService [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_service: ModelService&lt;BusinessReport&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- getReportFromCache(domain: String, time: long): BusinessReport</TD></TR>
+<TR><TD ALIGN="LEFT" >+ queryBusinessReport(domain: String, start: Date): BusinessReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Context1723658738[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Context</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_knownExceptions: Set&lt;Throwable&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_length: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_stack: Stack&lt;Transaction&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_totalDurationInMicros: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_traceMode: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_tree: MessageTree [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(message: Message)</TD></TR>
+<TR><TD ALIGN="LEFT" >- addTransactionChild(message: Message, transaction: Transaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >- adjustForTruncatedTransaction(root: Transaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(manager: DefaultMessageManager, transaction: Transaction): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ linkAsRunAway(transaction: DefaultForkedTransaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ peekTransaction(defaultMessageManager: DefaultMessageManager): Transaction</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shouldLog(e: Throwable): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ start(transaction: Transaction, forked: boolean)</TD></TR>
+<TR><TD ALIGN="LEFT" >- trimToHour(timestamp: long): long</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Context372109252[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Context</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_data: byte[] [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_parents: Stack&lt;DefaultTransaction&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_tree: MessageTree [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addChild(msg: Message)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getVersion(buf: ByteBuf): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ popTransaction(): DefaultTransaction</TD></TR>
+<TR><TD ALIGN="LEFT" >+ pushTransaction(t: DefaultTransaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readDuration(buf: ByteBuf): long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readId(buf: ByteBuf): char</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readString(buf: ByteBuf): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ readTimestamp(buf: ByteBuf): long</TD></TR>
+<TR><TD ALIGN="LEFT" ># readVarint(buf: ByteBuf, length: int): long</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeDuration(buf: ByteBuf, duration: long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeId(buf: ByteBuf, id: char)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeString(buf: ByteBuf, str: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeTimestamp(buf: ByteBuf, timestamp: long)</TD></TR>
+<TR><TD ALIGN="LEFT" >- writeVarint(buf: ByteBuf, value: long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ writeVersion(buf: ByteBuf, version: String)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultClientConfigManager1502793185[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultClientConfigManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_atomicTreeParser: AtomicTreeParser [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_block: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_config: ClientConfig [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_jsonBuilder: JsonBuilder [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_longConfigs: Map&lt;String, List&lt;Integer&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_routers: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_sampleRate: double [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getLongThresholdByDuration(key: String, duration: int): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize(configFile: File)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ isAtomicMessage(tree: MessageTree): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- loadConfigFromEnviroment(): ClientConfig</TD></TR>
+<TR><TD ALIGN="LEFT" >- loadProjectName(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ refreshConfig()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultEvent982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultEvent</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_manager: MessageManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ complete()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultForkedTransaction982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultForkedTransaction</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_forkedMessageId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_parentMessageId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_rootMessageId: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ fork()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultHeartbeat982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultHeartbeat</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_manager: MessageManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ complete()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultMessageManager982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultMessageManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_configManager: ClientConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_context: ThreadLocal&lt;Context&gt; [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_domain: Domain [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_factory: MessageIdFactory [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_firstMessage: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_hostName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_sampleCount: AtomicInteger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_taggedTransactions: Map&lt;String, TaggedTransaction&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_throttleTimes: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_transportManager: TransportManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_validator: TransactionHelper [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(message: Message)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ bind(tag: String, title: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(transaction: Transaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ flush(tree: MessageTree, clearContext: boolean)</TD></TR>
+<TR><TD ALIGN="LEFT" >- hitSample(sampleRatio: double): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ linkAsRunAway(transaction: DefaultForkedTransaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >- nextMessageId(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ reset()</TD></TR>
+<TR><TD ALIGN="LEFT" ># shouldLog(e: Throwable): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ start(transaction: Transaction, forked: boolean)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultMessageQueue1176817822[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultMessageQueue</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_queue: BlockingQueue&lt;MessageTree&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ offer(tree: MessageTree): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ peek(): MessageTree</TD></TR>
+<TR><TD ALIGN="LEFT" >+ poll(): MessageTree</TD></TR>
+<TR><TD ALIGN="LEFT" >+ size(): int</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultMessageTree985211899[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultMessageTree</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   events: List&lt;Event&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   heartbeats: List&lt;Heartbeat&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_buf: ByteBuf [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_discard: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_domain: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_formatMessageId: MessageId [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_hitSample: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_hostName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_ipAddress: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_message: Message [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_messageId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_parentMessageId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_processLoss: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_rootMessageId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_sessionToken: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_threadGroupName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_threadId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_threadName: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   metrics: List&lt;Metric&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   transactions: List&lt;Transaction&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ canDiscard(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ clearMessageList()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ copy(): MessageTree</TD></TR>
+<TR><TD ALIGN="LEFT" >+ copyForTest(): MessageTree</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreateEvents(): List&lt;Event&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreateHeartbeats(): List&lt;Heartbeat&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreateMetrics(): List&lt;Metric&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreateTransactions(): List&lt;Transaction&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultMetric982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultMetric</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_manager: MessageManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ complete()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultRemoteServersUpdater1539190358[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultRemoteServersUpdater</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_service: ModelService&lt;StateReport&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ buildServers(hour: Date): Map&lt;String, Set&lt;String&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ queryStateReport(domain: String, time: long): StateReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultTaggedTransaction982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultTaggedTransaction</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_parentMessageId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_rootMessageId: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_tag: String [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ bind(tag: String, childMessageId: String, title: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ start()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultTrace982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultTrace</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_manager: MessageManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ complete()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultTransaction982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultTransaction</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_children: List&lt;Message&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_durationInMicro: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_durationStart: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_manager: MessageManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_standalone: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ addChild(message: Message): DefaultTransaction</TD></TR>
+<TR><TD ALIGN="LEFT" >+ complete()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultTransportManager1176817822[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultTransportManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_configManager: ClientConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_tcpSocketSender: TcpSocketSender [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Domain1605072409[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Domain</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_enabled: Boolean [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_ip: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_maxMessageSize: int [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ accept(visitor: IVisitor)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ mergeAttributes(other: Domain)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setEnabled(enabled: Boolean): Domain</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setId(id: String): Domain</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setIp(ip: String): Domain</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setMaxMessageSize(maxMessageSize: int): Domain</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+EventAlert1946561597[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)EventAlert</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   m_dataChecker: DataChecker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_mergeHelper: EventMergeHelper [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_ruleConfigManager: EventRuleConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_sendManager: AlertManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_service: ModelService&lt;EventReport&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- buildArrayData(start: int, end: int, type: String, name: String, monitor: String, report: EventReport): double[]</TD></TR>
+<TR><TD ALIGN="LEFT" ># calAlreadyMinute(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- computeAlertForRule(domain: String, type: String, name: String, monitor: String, configs: List&lt;Config&gt;): List&lt;DataCheckEntity&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >- fetchEventReport(domain: String, period: ModelPeriod, pars: Map&lt;String, String&gt;): EventReport</TD></TR>
+<TR><TD ALIGN="LEFT" ># mergerArray(from: double[], to: double[]): double[]</TD></TR>
+<TR><TD ALIGN="LEFT" >- processRule(rule: Rule)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shutdown()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+EventHolder1580404237[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)EventHolder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_event: DefaultEvent [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ build(): Event</TD></TR>
+<TR><TD ALIGN="LEFT" >+ status(status: String): EventHolder</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ExceptionAlert433294088[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ExceptionAlert</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   m_alertBuilder: AlertExceptionBuilder [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_exceptionConfigManager: ExceptionRuleConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_sendManager: AlertManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_topService: ModelService&lt;TopReport&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildTopMetric(date: Date): TopMetric</TD></TR>
+<TR><TD ALIGN="LEFT" >- handleExceptions(itemList: List&lt;Item&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" ># queryTopReport(start: Date): TopReport</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shutdown()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ExternalInfoBuilder119244091[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ExternalInfoBuilder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_dateFormat: SimpleDateFormat [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_problemservice: ModelService&lt;ProblemReport&gt; [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_reportService: DependencyReportService [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_serverConfigManager: ServerConfigManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ buildExceptionInfoOnGraph(payload: Payload, model: Model, graph: TopologyGraph)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buildNodeExceptionInfo(node: TopologyNode, model: Model, payload: Payload)</TD></TR>
+<TR><TD ALIGN="LEFT" >- buildProblemInfo(domain: String, payload: Payload): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- buildTopologyNodeLink(payload: Payload, model: Model, domain: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- queryProblemReport(payload: Payload, domain: String): ProblemReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+FailureSummaryBuilder655011407[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)FailureSummaryBuilder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_service: ModelService&lt;ProblemReport&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- addDistributeInfo(resultMap: Map&lt;Object, Object&gt;, report: ProblemReport)</TD></TR>
+<TR><TD ALIGN="LEFT" >- addFailureInfo(resultMap: Map&lt;Object, Object&gt;, report: ProblemReport)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ generateModel(domain: String, endTime: Date): Map&lt;Object, Object&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Handler740287836[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Handler</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_builder: GraphBuilder [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_configManager: DomainGroupConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_jspViewer: JspViewer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_mergeHelper: TransactionMergeHelper [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_normalizePayload: PayloadNormalizer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_reportService: TransactionReportService [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_service: ModelService&lt;TransactionReport&gt; [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_xmlViewer: XmlViewer [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- buildDistributionInfo(model: Model, type: String, name: String, report: TransactionReport)</TD></TR>
+<TR><TD ALIGN="LEFT" >- buildTransactionMetaInfo(model: Model, payload: Payload, report: TransactionReport)</TD></TR>
+<TR><TD ALIGN="LEFT" >- buildTransactionNameGraph(model: Model, report: TransactionReport, type: String, name: String, ip: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- buildTransactionNamePieChart(names: List&lt;TransactionNameModel&gt;, model: Model)</TD></TR>
+<TR><TD ALIGN="LEFT" >- filterReportByGroup(report: TransactionReport, domain: String, group: String): TransactionReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getHourlyGraphReport(model: Model, payload: Payload): TransactionReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getHourlyReport(payload: Payload): TransactionReport</TD></TR>
+<TR><TD ALIGN="LEFT" >+ handleInbound(ctx: Context)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ handleOutbound(ctx: Context)</TD></TR>
+<TR><TD ALIGN="LEFT" >- normalize(model: Model, payload: Payload)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HeartbeatAlert1714023003[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HeartbeatAlert</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   m_dataChecker: DataChecker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_displayManager: HeartbeatDisplayPolicyManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_heartbeatService: ModelService&lt;HeartbeatReport&gt; [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_projectService: ProjectService [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_ruleConfigManager: HeartbeatRuleConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_sendManager: AlertManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_serverFilterConfigManager: ServerFilterConfigManager [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- buildArrayForExtensions(periods: List&lt;Period&gt;): Map&lt;String, double[]&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- buildBaseValue(machine: Machine): Map&lt;String, double[]&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" ># calAlreadyMinute(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- calMaxMinute(configs: Map&lt;String, List&lt;Config&gt;&gt;): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- extract(lastHourValues: double[], currentHourValues: double[], maxMinute: int, alreadyMinute: int): double[]</TD></TR>
+<TR><TD ALIGN="LEFT" >- extract(values: double[], maxMinute: int, alreadyMinute: int): double[]</TD></TR>
+<TR><TD ALIGN="LEFT" >- extractExtentionMetrics(period: Period): List&lt;Pair&lt;String, String&gt;&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- generateCurrentReport(domain: String, start: int, end: int): HeartbeatReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- generateLastReport(domain: String, start: int, end: int): HeartbeatReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- generateReport(domain: String, date: long, start: int, end: int): HeartbeatReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- processDomain(domain: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- processMeitrc(domain: String, ip: String, metric: String, conditions: List&lt;Condition&gt;, maxMinute: int, values: double[])</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shutdown()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HeartbeatHolder1580404237[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HeartbeatHolder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_heartbeat: DefaultHeartbeat [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ build(): Heartbeat</TD></TR>
+<TR><TD ALIGN="LEFT" >+ status(status: String): HeartbeatHolder</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalBusinessService798456449[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalBusinessService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: BusinessReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): BusinessReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(date: long, domain: String): BusinessReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalCrossService218981043[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalCrossService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: CrossReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): CrossReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): CrossReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalDependencyService1423065972[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalDependencyService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: DependencyReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): DependencyReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): DependencyReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalEventService324698713[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalEventService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: EventReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): EventReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): EventReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalHeartbeatService1256167671[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalHeartbeatService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: HeartbeatReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): HeartbeatReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): HeartbeatReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalMatrixService408516610[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalMatrixService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: MatrixReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): MatrixReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): MatrixReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalMessageService372281738[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalMessageService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_bucketManager: HdfsBucketManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_hdfsBucketManager: MessageBucketManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_html: HtmlMessageCodec [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_waterfall: WaterfallMessageCodec [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): String</TD></TR>
+<TR><TD ALIGN="LEFT" ># buildNewMessageModel(request: ModelRequest): String</TD></TR>
+<TR><TD ALIGN="LEFT" ># buildOldMessageModel(request: ModelRequest): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ isEligable(request: ModelRequest): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalProblemService988840148[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalProblemService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: ProblemReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): ProblemReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): ProblemReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalStateService1634735970[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalStateService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: StateReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): StateReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): StateReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalStorageService233610488[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalStorageService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: StorageReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): StorageReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, id: String): StorageReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalTopService1235043614[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalTopService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: TopReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): TopReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): TopReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+HistoricalTransactionService62328171[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)HistoricalTransactionService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_reportService: TransactionReportService [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># buildModel(request: ModelRequest): TransactionReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- getReportFromDatabase(timestamp: long, domain: String): TransactionReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+LocalMessageBucketManager762293801[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)LocalMessageBucketManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_baseDir: File [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_buckets: ConcurrentHashMap&lt;String, LocalMessageBucket&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_configManager: ServerConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_gzipMessageSize: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_gzipThreads: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_last: BlockingQueue&lt;MessageItem&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_localIp: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_messageBlockSize: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_messageBlocks: BlockingQueue&lt;MessageBlock&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_messageQueues: List&lt;BlockingQueue&lt;MessageItem&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_pathBuilder: PathBuilder [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_serverStateManager: ServerStatisticManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_total: long [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ archive(startTime: long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findCloseBuckets(): List&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ loadMessage(messageId: String): MessageTree</TD></TR>
+<TR><TD ALIGN="LEFT" >- logStorageState(tree: MessageTree)</TD></TR>
+<TR><TD ALIGN="LEFT" >- shouldUpload(path: String): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ storeMessage(tree: MessageTree, id: MessageId)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+LocalMessageService372281738[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)LocalMessageService</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_bucketManager: BucketManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_finderManager: MessageFinderManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_html: HtmlMessageCodec [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_messageBucketManager: MessageBucketManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_waterfall: WaterfallMessageCodec [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- buildNewReport(request: ModelRequest, period: ModelPeriod, domain: String, payload: ApiPayload): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buildOldReport(request: ModelRequest, period: ModelPeriod, domain: String, payload: ApiPayload): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buildReport(request: ModelRequest, period: ModelPeriod, domain: String, payload: ApiPayload): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ invoke(request: ModelRequest): ModelResponse&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ isEligable(request: ModelRequest): boolean</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MessageGzip1196726320[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MessageGzip</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_count: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_index: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >+   m_messageQueue: BlockingQueue&lt;MessageItem&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- gzipMessage(item: MessageItem)</TD></TR>
+<TR><TD ALIGN="LEFT" >- gzipMessageWithMonitor(item: MessageItem)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shutdown()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MessageIdFactory982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MessageIdFactory</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_byteBuffer: MappedByteBuffer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_domain: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_idPrefix: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_idPrefixOfMultiMode: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_index: AtomicInteger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_ipAddress: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_map: Map&lt;String, AtomicInteger&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_markChannel: FileChannel [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_markFile: RandomAccessFile [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_retry: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_timestamp: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   shutdownHookOn: boolean [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ close()</TD></TR>
+<TR><TD ALIGN="LEFT" >- createMarkFile(domain: String): File</TD></TR>
+<TR><TD ALIGN="LEFT" >- createTempFile(domain: String): File</TD></TR>
+<TR><TD ALIGN="LEFT" ># genIpHex(): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ getNextId(domain: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >- initIdPrefix(timestamp: long, multiMode: boolean): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize(domain: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >- resetCounter(timestamp: long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ saveMark()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MessageItem762293801[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MessageItem</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_messageId: MessageId [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_tree: MessageTree [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MetricHolder1580404237[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MetricHolder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_metric: DefaultMetric [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ build(): Metric</TD></TR>
+<TR><TD ALIGN="LEFT" >+ status(status: String): MetricHolder</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+MockMessageBuilder982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)MockMessageBuilder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_stack: Stack&lt;TransactionHolder&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ build(): Message</TD></TR>
+<TR><TD ALIGN="LEFT" >+ define(): MessageHolder</TD></TR>
+<TR><TD ALIGN="LEFT" ># e(type: String, name: String): EventHolder</TD></TR>
+<TR><TD ALIGN="LEFT" ># e(type: String, name: String, data: String): EventHolder</TD></TR>
+<TR><TD ALIGN="LEFT" ># h(type: String, name: String): HeartbeatHolder</TD></TR>
+<TR><TD ALIGN="LEFT" ># m(type: String, name: String): MetricHolder</TD></TR>
+<TR><TD ALIGN="LEFT" ># m(type: String, name: String, data: String): MetricHolder</TD></TR>
+<TR><TD ALIGN="LEFT" ># t(type: String, name: String, durationInMillis: long): TransactionHolder</TD></TR>
+<TR><TD ALIGN="LEFT" ># t(type: String, name: String, data: String, durationInMillis: long): TransactionHolder</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Model630999377[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Model</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_domain: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logviewPath: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_mobileResponse: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_table: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_tree: MessageTree [0..1]</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+ModelServiceWithCalSupport1722581904[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)ModelServiceWithCalSupport</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_current: Transaction [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" ># logError(cause: Throwable)</TD></TR>
+<TR><TD ALIGN="LEFT" ># logEvent(type: String, name: String, status: String, nameValuePairs: String)</TD></TR>
+<TR><TD ALIGN="LEFT" ># newTransaction(type: String, name: String): Transaction</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+NullMessageManager982561799[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)NullMessageManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ add(message: Message)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ bind(tag: String, title: String)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ end(transaction: Transaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ reset()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ start(transaction: Transaction, forked: boolean)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+NullMessageTree985211899[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)NullMessageTree</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ canDiscard(): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ copy(): MessageTree</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreateEvents(): List&lt;Event&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreateHeartbeats(): List&lt;Heartbeat&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreateMetrics(): List&lt;Metric&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreateTransactions(): List&lt;Transaction&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+PeriodTask468824849[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)PeriodTask</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_analyzer: MessageAnalyzer [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_index: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_queue: MessageQueue [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_queueOverflow: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_startTime: long [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enqueue(tree: MessageTree): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ finish()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shutdown()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+StateBuilder783603927[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)StateBuilder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_routerManager: RouterConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_stateService: ModelService&lt;StateReport&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ buildStateMessage(date: long, ip: String): String</TD></TR>
+<TR><TD ALIGN="LEFT" >+ checkTooMuchLoss(machine: Machine): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >- queryAllServers(): List&lt;String&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >- queryHourlyReport(date: long, ip: String): StateReport</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+StorageUpdateItem631244496[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)StorageUpdateItem</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_domain: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_ip: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_method: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_threshold: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_transaction: Transaction [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ setDomain(domain: String): StorageUpdateItem</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setIp(ip: String): StorageUpdateItem</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setMethod(method: String): StorageUpdateItem</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setThreshold(threshold: long): StorageUpdateItem</TD></TR>
+<TR><TD ALIGN="LEFT" >+ setTransaction(transaction: Transaction): StorageUpdateItem</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TcpSocketSender1176817822[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TcpSocketSender</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_active: boolean [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_atomicQueue: MessageQueue [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_channelManager: ChannelManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_codec: MessageCodec [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_configManager: ClientConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_errors: AtomicInteger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_factory: MessageIdFactory [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_queue: MessageQueue [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_statistics: MessageStatistics [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize(addresses: List&lt;InetSocketAddress&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- logQueueFullInfo(tree: MessageTree)</TD></TR>
+<TR><TD ALIGN="LEFT" >- mergeTree(handler: MessageQueue): MessageTree</TD></TR>
+<TR><TD ALIGN="LEFT" >- offer(tree: MessageTree)</TD></TR>
+<TR><TD ALIGN="LEFT" >- processAtomicMessage()</TD></TR>
+<TR><TD ALIGN="LEFT" >- processNormalMessage()</TD></TR>
+<TR><TD ALIGN="LEFT" >- processTreeInClient(tree: MessageTree)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ send(tree: MessageTree)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ sendInternal(channel: ChannelFuture, tree: MessageTree)</TD></TR>
+<TR><TD ALIGN="LEFT" >- shouldMerge(queue: MessageQueue): boolean</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shutdown()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TopologyGraphManager2141995237[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TopologyGraphManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_configManager: TopoGraphFormatConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_currentBuilder: TopologyGraphBuilder [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_itemBuilder: DependencyItemBuilder [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_manager: ServerConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_projectService: ProjectService [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_serverFilterConfigManager: ServerFilterConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_service: ModelService&lt;DependencyReport&gt; [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_topologyGraphDao: TopologyGraphDao [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_topologyGraphs: Map&lt;Long, TopologyGraph&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ buildDependencyDashboard(time: long): ProductLinesDashboard</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buildEdges(domains: Set&lt;String&gt;, start: Date, end: Date): Set&lt;TopologyEdge&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buildEdges(domains: Set&lt;String&gt;, time: long): Set&lt;TopologyEdge&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ buildTopologyGraph(domain: String, time: long): TopologyGraph</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ queryGraphFromDB(time: long): TopologyGraph</TD></TR>
+<TR><TD ALIGN="LEFT" >- queryGraphFromMemory(time: long): TopologyGraph</TD></TR>
+<TR><TD ALIGN="LEFT" >- queryTopologyGraph(time: long): TopologyGraph</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TransactionAlert149352775[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TransactionAlert</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >#   m_dataChecker: DataChecker [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_mergeHelper: TransactionMergeHelper [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_ruleConfigManager: TransactionRuleConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   m_sendManager: AlertManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_service: ModelService&lt;TransactionReport&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- buildArrayData(start: int, end: int, type: String, name: String, monitor: String, report: TransactionReport): double[]</TD></TR>
+<TR><TD ALIGN="LEFT" >- calAlreadyMinute(): int</TD></TR>
+<TR><TD ALIGN="LEFT" >- computeAlertForRule(domain: String, type: String, name: String, monitor: String, configs: List&lt;Config&gt;): List&lt;DataCheckEntity&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >- fetchTransactionReport(domain: String, period: ModelPeriod, pars: Map&lt;String, String&gt;): TransactionReport</TD></TR>
+<TR><TD ALIGN="LEFT" >- mergerArray(from: double[], to: double[]): double[]</TD></TR>
+<TR><TD ALIGN="LEFT" >- processRule(rule: Rule)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shutdown()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TransactionHelper1723658738[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TransactionHelper</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- linkAsRunAway(transaction: DefaultForkedTransaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >- markAsNotCompleted(transaction: DefaultTransaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >- markAsRunAway(parent: Transaction, transaction: DefaultTaggedTransaction)</TD></TR>
+<TR><TD ALIGN="LEFT" >- migrateMessage(stack: Stack&lt;Transaction&gt;, source: Transaction, target: Transaction, level: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ truncateAndFlush(ctx: Context, timestamp: long)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ validate(parent: Transaction, transaction: Transaction)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+TransactionHolder1580404237[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)TransactionHolder</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_children: List&lt;MessageHolder&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_currentTimestampInMicros: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_durationInMicros: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_markTimestampInMicros: long [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_transaction: DefaultTransaction [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ after(periodInMicros: long): TransactionHolder</TD></TR>
+<TR><TD ALIGN="LEFT" >+ at(timestampInMillis: long): TransactionHolder</TD></TR>
+<TR><TD ALIGN="LEFT" >+ build(): Transaction</TD></TR>
+<TR><TD ALIGN="LEFT" >+ child(child: MessageHolder): TransactionHolder</TD></TR>
+<TR><TD ALIGN="LEFT" >+ data(key: String, value: String): TransactionHolder</TD></TR>
+<TR><TD ALIGN="LEFT" >+ mark(): TransactionHolder</TD></TR>
+<TR><TD ALIGN="LEFT" >+ reset(): TransactionHolder</TD></TR>
+<TR><TD ALIGN="LEFT" >+ status(status: String): TransactionHolder</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+subgraph cluster_840542049 { 
+   	label=unidal
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1272011271 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   DefaultMessageDumper1268439265[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultMessageDumper</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_blockDumperManager: BlockDumperManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_bucketManager: BucketManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_configManager: ServerConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_failCount: AtomicInteger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logger: Logger [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_processThreads: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_processors: List&lt;MessageProcessor&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_queues: List&lt;BlockingQueue&lt;MessageTree&gt;&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_statisticManager: ServerStatisticManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_total: long [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ awaitTermination(hour: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >- closeMessageProcessor()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >- getIndex(key: String): int</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize(hour: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ process(tree: MessageTree)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultMessageDumperManager1268439265[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultMessageDumperManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_dumpers: Map&lt;Integer, MessageDumper&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_logger: Logger [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ close(hour: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ enableLogging(logger: Logger)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ find(hour: int): MessageDumper</TD></TR>
+<TR><TD ALIGN="LEFT" >+ findOrCreate(hour: int): MessageDumper</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultMessageFinderManager1268439265[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultMessageFinderManager</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_map: Map&lt;Integer, List&lt;MessageFinder&gt;&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ close(hour: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ find(id: MessageId): ByteBuf</TD></TR>
+<TR><TD ALIGN="LEFT" >+ register(hour: int, finder: MessageFinder)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+DefaultMessageProcessor1268439265[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)DefaultMessageProcessor</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   m_blockDumperManager: BlockDumperManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_blocks: ConcurrentHashMap&lt;String, Block&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_configManger: ServerConfigManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_count: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_dumper: BlockDumper [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_enabled: AtomicBoolean [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_finderManager: MessageFinderManager [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_hour: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_index: int [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_latch: CountDownLatch [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   m_queue: BlockingQueue&lt;MessageTree&gt; [0..*]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ find(id: MessageId): ByteBuf</TD></TR>
+<TR><TD ALIGN="LEFT" >+ initialize(hour: int, index: int, queue: BlockingQueue&lt;MessageTree&gt;)</TD></TR>
+<TR><TD ALIGN="LEFT" >- pollMessage(): MessageTree</TD></TR>
+<TR><TD ALIGN="LEFT" >- processMessage(tree: MessageTree)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ run()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ shutdown()</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+AbstractMessage982561799 -> DefaultEvent982561799[arrowhead=none, arrowtail=empty, dir=both];
+AbstractMessage982561799 -> DefaultHeartbeat982561799[arrowhead=none, arrowtail=empty, dir=both];
+AbstractMessage982561799 -> DefaultMetric982561799[arrowhead=none, arrowtail=empty, dir=both];
+AbstractMessage982561799 -> DefaultTrace982561799[arrowhead=none, arrowtail=empty, dir=both];
+AbstractMessage982561799 -> DefaultTransaction982561799[arrowhead=none, arrowtail=empty, dir=both];
+AbstractMessageHolder1580404237 -> EventHolder1580404237[arrowhead=none, arrowtail=empty, dir=both];
+AbstractMessageHolder1580404237 -> HeartbeatHolder1580404237[arrowhead=none, arrowtail=empty, dir=both];
+AbstractMessageHolder1580404237 -> MetricHolder1580404237[arrowhead=none, arrowtail=empty, dir=both];
+AbstractMessageHolder1580404237 -> TransactionHolder1580404237[arrowhead=none, arrowtail=empty, dir=both];
+AbstractReportModel729539963 -> Model630999377[arrowhead=none, arrowtail=empty, dir=both];
+BaseCompositeModelService1722581904 -> BaseHistoricalModelService1722581904[label="m_allServices
+[0..*]"];
+BaseCompositeModelService1722581904 -> BaseHistoricalModelService1722581904[label="m_services
+[0..*]"];
+BaseHistoricalModelService1722581904 -> BaseCompositeModelService1722581904[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> BaseRemoteModelService1722581904[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalBusinessService798456449[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalCrossService218981043[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalDependencyService1423065972[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalEventService324698713[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalHeartbeatService1256167671[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalMatrixService408516610[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalMessageService372281738[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalProblemService988840148[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalStateService1634735970[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalStorageService233610488[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalTopService1235043614[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> HistoricalTransactionService62328171[arrowhead=none, arrowtail=empty, dir=both];
+BaseHistoricalModelService1722581904 -> LocalMessageService372281738[arrowhead=none, arrowtail=empty, dir=both];
+BusinessReportGroupService792960521 -> BaseHistoricalModelService1722581904[label="m_service
+[0..1]"];
+CachedBusinessReportService798456449 -> BaseHistoricalModelService1722581904[label="m_service
+[0..1]"];
+Context1723658738 -> DefaultHeartbeat982561799[label="m_stack
+[0..*]"];
+Context1723658738 -> DefaultMessageTree985211899[label="m_tree
+[0..1]"];
+Context372109252 -> DefaultMessageTree985211899[label="m_tree
+[0..1]"];
+Context372109252 -> DefaultTransaction982561799[label="m_parents
+[0..*]"];
+DefaultHeartbeat982561799 -> AbstractMessage982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultHeartbeat982561799 -> DefaultEvent982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultHeartbeat982561799 -> DefaultTrace982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultHeartbeat982561799 -> DefaultTransaction982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultMessageDumper1268439265 -> DefaultMessageProcessor1268439265[label="m_processors
+[0..*]"];
+DefaultMessageDumper1268439265 -> DefaultMessageTree985211899[label="m_queues
+[0..*]"];
+DefaultMessageDumperManager1268439265 -> DefaultMessageDumper1268439265[label="m_dumpers
+[0..*]"];
+DefaultMessageFinderManager1268439265 -> DefaultMessageProcessor1268439265[label="m_map
+[0..*]"];
+DefaultMessageManager982561799 -> Context1723658738[label="m_context
+[0..1]"];
+DefaultMessageManager982561799 -> DefaultClientConfigManager1502793185[arrowhead=none, arrowtail=empty, dir=both];
+DefaultMessageManager982561799 -> DefaultForkedTransaction982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultMessageManager982561799 -> DefaultTaggedTransaction982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultMessageManager982561799 -> DefaultTaggedTransaction982561799[label="m_taggedTransactions
+[0..*]"];
+DefaultMessageManager982561799 -> DefaultTransaction982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultMessageManager982561799 -> DefaultTransportManager1176817822[arrowhead=none, arrowtail=empty, dir=both];
+DefaultMessageManager982561799 -> Domain1605072409[label="m_domain
+[0..1]"];
+DefaultMessageManager982561799 -> MessageIdFactory982561799[label="m_factory
+[0..1]"];
+DefaultMessageManager982561799 -> TransactionHelper1723658738[label="m_validator
+[0..1]"];
+DefaultMessageProcessor1268439265 -> DefaultMessageTree985211899[label="m_queue
+[0..*]"];
+DefaultMessageQueue1176817822 -> DefaultMessageTree985211899[label="m_queue
+[0..*]"];
+DefaultMessageTree985211899 -> DefaultHeartbeat982561799[label="events
+[0..*]"];
+DefaultMessageTree985211899 -> DefaultHeartbeat982561799[label="transactions
+[0..*]"];
+DefaultMessageTree985211899 -> DefaultMetric982561799[label="metrics
+[0..*]"];
+DefaultMessageTree985211899 -> NullMessageTree985211899[arrowhead=none, arrowtail=empty, dir=both];
+DefaultRemoteServersUpdater1539190358 -> BaseHistoricalModelService1722581904[label="m_service
+[0..1]"];
+DefaultTrace982561799 -> DefaultMessageManager982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultTrace982561799 -> NullMessageManager982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultTransaction982561799 -> DefaultForkedTransaction982561799[arrowhead=none, arrowtail=empty, dir=both];
+DefaultTransaction982561799 -> DefaultTaggedTransaction982561799[arrowhead=none, arrowtail=empty, dir=both];
+EventAlert1946561597 -> BaseHistoricalModelService1722581904[label="m_service
+[0..1]"];
+EventHolder1580404237 -> DefaultEvent982561799[label="m_event
+[0..1]"];
+ExceptionAlert433294088 -> BaseHistoricalModelService1722581904[label="m_topService
+[0..1]"];
+ExternalInfoBuilder119244091 -> BaseHistoricalModelService1722581904[label="m_problemservice
+[0..1]"];
+FailureSummaryBuilder655011407 -> BaseHistoricalModelService1722581904[label="m_service
+[0..1]"];
+Handler740287836 -> BaseHistoricalModelService1722581904[label="m_service
+[0..1]"];
+HeartbeatAlert1714023003 -> BaseHistoricalModelService1722581904[label="m_heartbeatService
+[0..1]"];
+HeartbeatHolder1580404237 -> DefaultHeartbeat982561799[label="m_heartbeat
+[0..1]"];
+LocalMessageBucketManager762293801 -> MessageItem762293801[label="m_last
+[0..*]"];
+LocalMessageBucketManager762293801 -> MessageItem762293801[label="m_messageQueues
+[0..*]"];
+MessageGzip1196726320 -> MessageItem762293801[label="m_messageQueue
+[0..*]"];
+MessageItem762293801 -> DefaultMessageTree985211899[label="m_tree
+[0..1]"];
+MetricHolder1580404237 -> DefaultMetric982561799[label="m_metric
+[0..1]"];
+MockMessageBuilder982561799 -> TransactionHolder1580404237[label="m_stack
+[0..*]"];
+Model630999377 -> DefaultMessageTree985211899[label="m_tree
+[0..1]"];
+ModelServiceWithCalSupport1722581904 -> BaseCompositeModelService1722581904[arrowhead=none, arrowtail=empty, dir=both];
+ModelServiceWithCalSupport1722581904 -> BaseHistoricalModelService1722581904[arrowhead=none, arrowtail=empty, dir=both];
+ModelServiceWithCalSupport1722581904 -> BaseRemoteModelService1722581904[arrowhead=none, arrowtail=empty, dir=both];
+ModelServiceWithCalSupport1722581904 -> DefaultHeartbeat982561799[label="m_current
+[0..1]"];
+PeriodTask468824849 -> DefaultMessageQueue1176817822[label="m_queue
+[0..1]"];
+StateBuilder783603927 -> BaseHistoricalModelService1722581904[label="m_stateService
+[0..1]"];
+StorageUpdateItem631244496 -> DefaultHeartbeat982561799[label="m_transaction
+[0..1]"];
+TcpSocketSender1176817822 -> DefaultMessageQueue1176817822[label="m_atomicQueue
+[0..1]"];
+TcpSocketSender1176817822 -> DefaultMessageQueue1176817822[label="m_queue
+[0..1]"];
+TopologyGraphManager2141995237 -> BaseHistoricalModelService1722581904[label="m_service
+[0..1]"];
+TransactionAlert149352775 -> BaseHistoricalModelService1722581904[label="m_service
+[0..1]"];
+TransactionHolder1580404237 -> DefaultTransaction982561799[label="m_transaction
+[0..1]"];
+    
+}
+@enduml

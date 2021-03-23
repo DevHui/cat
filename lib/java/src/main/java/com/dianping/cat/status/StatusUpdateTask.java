@@ -57,10 +57,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class StatusUpdateTask implements Threads.Task {
+    private static CatLogger LOGGER = CatLogger.getInstance();
     private ClientConfigService configService = DefaultClientConfigService.getInstance();
     private ChannelManager channelManager = ChannelManager.getInstance();
     private boolean active = true;
-    private static CatLogger LOGGER = CatLogger.getInstance();
 
     public StatusUpdateTask() {
         initialize();

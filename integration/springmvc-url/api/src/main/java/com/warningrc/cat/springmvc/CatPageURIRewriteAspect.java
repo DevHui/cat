@@ -70,8 +70,7 @@ public class CatPageURIRewriteAspect implements InitializingBean {
             if (uri != null) {
                 request.setAttribute("cat-page-uri", uri);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.warn("修改cat统计uri失败[{}]", e.getMessage(), e);
         }
         return pjp.proceed();

@@ -19,21 +19,21 @@
 package org.unidal.cat.message.storage;
 
 public enum FileType {
-	MAPPING("map"),
+    MAPPING("map"),
 
-	TOKEN("token"),
+    TOKEN("token"),
 
-	INDEX("idx"),
+    INDEX("idx"),
 
-	DATA("dat");
+    DATA("dat");
 
-	private String m_extension;
+    private String m_extension;
 
-	private FileType(String extension) {
-		m_extension = extension;
-	}
+    private FileType(String extension) {
+        m_extension = extension;
+    }
 
-	public String getExtension() {
-		return m_extension;
-	}
+    public String getExtension() {
+        return m_extension;
+    }
 }

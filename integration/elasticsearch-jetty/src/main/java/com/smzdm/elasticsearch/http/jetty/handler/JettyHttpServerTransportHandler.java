@@ -27,9 +27,12 @@ import java.util.Map;
  */
 public class JettyHttpServerTransportHandler extends AbstractHandler {
 
+    protected volatile ESLogger logger;
     private volatile JettyHttpServerTransport transport;
 
-    protected volatile ESLogger logger;
+    private static String buildClassLoggerName(Class clazz) {
+        return Classes.getPackageName(clazz);
+    }
 
     @Override
     protected void doStart() throws Exception {
@@ -79,7 +82,6 @@ public class JettyHttpServerTransportHandler extends AbstractHandler {
         }
     }
 
-
     public JettyHttpServerTransport getTransport() {
         return transport;
     }
@@ -87,10 +89,6 @@ public class JettyHttpServerTransportHandler extends AbstractHandler {
     public void setTransport(JettyHttpServerTransport transport) {
         this.transport = transport;
         this.logger = Loggers.getLogger(buildClassLoggerName(getClass()), transport.settings());
-    }
-
-    private static String buildClassLoggerName(Class clazz) {
-        return Classes.getPackageName(clazz);
     }
 
     private Transaction logCatTransaction(Context ctx) {
@@ -157,16 +155,13 @@ public class JettyHttpServerTransportHandler extends AbstractHandler {
 
 
     private static class Context implements Cat.Context {
-        private Map<String, String> map = new HashMap<String, String>();
-
         private static final String ORIGIN_URL = "ORIGIN_URL";
         private static final String CALLER_METHOD = "_catCallerMethod";
         private static final String CALLER_DOMAIN = "_catCallerDomain";
         private static final String REMOTE_IP = "REMOTE_IP";
         private static final String CAT_SERVER_DOMAIN = "_catServerDomain";
         private static final String CAT_SERVER = "_catServer";
-
-
+        private Map<String, String> map = new HashMap<String, String>();
         private HttpServletRequest request;
         private HttpServletResponse response;
 

@@ -16,10 +16,8 @@ public class HttpServerRestChannel extends HttpChannel {
     private final RestRequest restRequest;
 
     private final HttpServletResponse resp;
-
-    private IOException sendFailure;
-
     private final CountDownLatch latch;
+    private IOException sendFailure;
 
     public HttpServerRestChannel(RestRequest restRequest, HttpServletResponse resp) {
         super(restRequest, true);
@@ -69,5 +67,5 @@ public class HttpServerRestChannel extends HttpChannel {
             }
             latch.countDown();
         }
-     }
+    }
 }

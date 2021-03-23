@@ -81,13 +81,25 @@ public enum NullMessage implements Transaction, Event, Metric, Trace, Heartbeat,
     }
 
     @Override
+    public void setDurationInMicros(long durationInMicros) {
+    }
+
+    @Override
     public long getDurationInMillis() {
         return 0;
     }
 
     @Override
+    public void setDurationInMillis(long duration) {
+    }
+
+    @Override
     public String getMessageId() {
         return DEFAULT;
+    }
+
+    @Override
+    public void setMessageId(String messageId) {
     }
 
     @Override
@@ -113,8 +125,20 @@ public enum NullMessage implements Transaction, Event, Metric, Trace, Heartbeat,
     }
 
     @Override
+    public void setStatus(String status) {
+    }
+
+    @Override
+    public void setStatus(Throwable e) {
+    }
+
+    @Override
     public long getTimestamp() {
         return 0;
+    }
+
+    @Override
+    public void setTimestamp(long timestamp) {
     }
 
     @Override
@@ -143,35 +167,11 @@ public enum NullMessage implements Transaction, Event, Metric, Trace, Heartbeat,
     }
 
     @Override
-    public void setDurationInMicros(long durationInMicros) {
-    }
-
-    @Override
-    public void setDurationInMillis(long duration) {
-    }
-
-    @Override
     public void setDurationStart(long durationStart) {
     }
 
     @Override
-    public void setMessageId(String messageId) {
-    }
-
-    @Override
-    public void setStatus(String status) {
-    }
-
-    @Override
-    public void setStatus(Throwable e) {
-    }
-
-    @Override
     public void setSuccessStatus() {
-    }
-
-    @Override
-    public void setTimestamp(long timestamp) {
     }
 
 }

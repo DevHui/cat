@@ -18,12 +18,6 @@
  */
 package com.dianping.cat.build.report;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.unidal.lookup.configuration.AbstractResourceConfigurator;
-import org.unidal.lookup.configuration.Component;
-
 import com.dianping.cat.config.server.ServerConfigManager;
 import com.dianping.cat.consumer.storage.StorageAnalyzer;
 import com.dianping.cat.report.page.storage.config.StorageGroupConfigManager;
@@ -35,27 +29,32 @@ import com.dianping.cat.report.page.storage.task.StorageReportBuilder;
 import com.dianping.cat.report.page.storage.task.StorageReportService;
 import com.dianping.cat.report.server.RemoteServersManager;
 import com.dianping.cat.report.service.ModelService;
+import org.unidal.lookup.configuration.AbstractResourceConfigurator;
+import org.unidal.lookup.configuration.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StorageComponentConfigurator extends AbstractResourceConfigurator {
-	@Override
-	public List<Component> defineComponents() {
-		List<Component> all = new ArrayList<Component>();
+    @Override
+    public List<Component> defineComponents() {
+        List<Component> all = new ArrayList<Component>();
 
-		all.add(A(StorageGroupConfigManager.class));
+        all.add(A(StorageGroupConfigManager.class));
 
-		all.add(A(LocalStorageService.class));
-		all.add(C(ModelService.class, "storage-historical", HistoricalStorageService.class) //
-								.req(StorageReportService.class, ServerConfigManager.class));
-		all.add(C(ModelService.class, StorageAnalyzer.ID, CompositeStorageService.class) //
-								.req(ServerConfigManager.class, RemoteServersManager.class) //
-								.req(ModelService.class, new String[] { "storage-historical" }, "m_services"));
+        all.add(A(LocalStorageService.class));
+        all.add(C(ModelService.class, "storage-historical", HistoricalStorageService.class) //
+                .req(StorageReportService.class, ServerConfigManager.class));
+        all.add(C(ModelService.class, StorageAnalyzer.ID, CompositeStorageService.class) //
+                .req(ServerConfigManager.class, RemoteServersManager.class) //
+                .req(ModelService.class, new String[]{"storage-historical"}, "m_services"));
 
-		all.add(A(StorageReportBuilder.class));
+        all.add(A(StorageReportBuilder.class));
 
-		all.add(A(StorageReportService.class));
+        all.add(A(StorageReportService.class));
 
-		all.add(A(StorageAlertInfoBuilder.class));
+        all.add(A(StorageAlertInfoBuilder.class));
 
-		return all;
-	}
+        return all;
+    }
 }

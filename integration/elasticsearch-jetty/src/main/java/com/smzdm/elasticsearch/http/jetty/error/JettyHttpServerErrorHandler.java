@@ -21,10 +21,10 @@ public class JettyHttpServerErrorHandler extends ErrorHandler {
         AbstractHttpConnection connection = AbstractHttpConnection.getCurrentConnection();
         connection.getRequest().setHandled(true);
         response.setContentType(MimeTypes.TEXT_PLAIN_8859_1);
-        ByteArrayISO8859Writer writer= new ByteArrayISO8859Writer(4096);
+        ByteArrayISO8859Writer writer = new ByteArrayISO8859Writer(4096);
         writer.write(request.getAttribute(Dispatcher.ERROR_STATUS_CODE) + " " +
-                     request.getAttribute(Dispatcher.ERROR_MESSAGE) + " " +
-                     request.getAttribute(Dispatcher.ERROR_REQUEST_URI));
+                request.getAttribute(Dispatcher.ERROR_MESSAGE) + " " +
+                request.getAttribute(Dispatcher.ERROR_REQUEST_URI));
         writer.flush();
         response.setContentLength(writer.size());
         writer.writeTo(response.getOutputStream());

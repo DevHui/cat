@@ -18,27 +18,26 @@
  */
 package com.dianping.cat.report.page.problem.service;
 
-import java.io.IOException;
-
-import org.xml.sax.SAXException;
-
 import com.dianping.cat.consumer.problem.ProblemAnalyzer;
 import com.dianping.cat.consumer.problem.model.entity.ProblemReport;
 import com.dianping.cat.consumer.problem.model.transform.DefaultSaxParser;
 import com.dianping.cat.report.service.BaseRemoteModelService;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
 
 public class RemoteProblemService extends BaseRemoteModelService<ProblemReport> {
-	public RemoteProblemService() {
-		super(ProblemAnalyzer.ID);
-	}
+    public RemoteProblemService() {
+        super(ProblemAnalyzer.ID);
+    }
 
-	@Override
-	protected ProblemReport buildModel(String xml) throws SAXException, IOException {
-		return DefaultSaxParser.parse(xml);
-	}
+    @Override
+    protected ProblemReport buildModel(String xml) throws SAXException, IOException {
+        return DefaultSaxParser.parse(xml);
+    }
 
-	@Override
-	public boolean isServersFixed() {
-		return true;
-	}
+    @Override
+    public boolean isServersFixed() {
+        return true;
+    }
 }

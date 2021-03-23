@@ -22,13 +22,13 @@ import java.util.List;
 
 public interface Contactor {
 
-	public String getId();
+    public String getId();
 
-	public List<String> queryEmailContactors(String id);
+    public List<String> queryEmailContactors(String id);
 
-	public List<String> queryWeiXinContactors(String id);
+    public List<String> queryWeiXinContactors(String id);
 
-	public List<String> querySmsContactors(String id);
+    public List<String> querySmsContactors(String id);
 
-	public List<String> queryDXContactors(String id);
+    public List<String> queryDXContactors(String id);
 }

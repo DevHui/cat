@@ -16,7 +16,7 @@
  */
 package com.qbao.cat.plugin;
 /**
- * 
+ *
  */
 
 
@@ -37,151 +37,152 @@ import com.dianping.cat.message.Transaction;
  * @author andersen
  *
  */
-public abstract class DefaultPluginTemplate  implements PluginTemplate{
-	
-	protected static Properties config = new Properties();
-	
-	private static AtomicBoolean isInited = new AtomicBoolean(false);
-	
-	static{
-		if (isInited.compareAndSet(false, true) && System.getProperty("CATPLUGIN_CONF") != null){
-			String configPath = System.getProperty("CATPLUGIN_CONF");
-			try {
-				// ¶ÁÈ¡ÊôĞÔÎÄ¼şa.properties
-				InputStream in = new BufferedInputStream(new FileInputStream(configPath));
-				config.load(new InputStreamReader(in, "utf-8")); /// ¼ÓÔØÊôĞÔÁĞ±í
-				in.close();
-			} catch (Exception e) {
-				System.out.println("Warn: CatPlugin can't resolve properties file : " + configPath);
-			}
-		}else{
-			System.out.println("Warn: CatPlugin miss properties file! You can set it with -DCATPLUGIN_CONF=/opt/.... £¡");
-		}
-	}
+public abstract class DefaultPluginTemplate implements PluginTemplate {
 
-	@Override
-	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		return proxyCollector(pjp);
-	}
-	
-	public Object proxyCollector(ProceedingJoinPoint pjp) throws Throwable {
-		Transaction transaction = proxyBeginLog(pjp);
-		Object obj = null;
-		try {
-			obj = pjp.proceed();
-			proxySuccess(transaction);
-			return obj;
-		} catch (Throwable e) {
-			exception(transaction, e);
-			throw e;
-		} finally {
-			proxyEndLog(transaction, obj, pjp.getArgs());
-		}
-	}
-	
-	protected void proxySuccess(Transaction transaction){
-		try {
-			transaction.setStatus(Transaction.SUCCESS);
-		} catch (Throwable e) {}
-	}
+    protected static Properties config = new Properties();
 
-	protected void exception(Transaction transaction, Throwable t) {
-		try {
-			if (isNotNull(transaction)) {
-				transaction.setStatus(t);
-				Cat.logError(t);
-			}
-		} catch (Throwable e) {
-		}
-	}
+    private static AtomicBoolean isInited = new AtomicBoolean(false);
 
-	protected Transaction proxyBeginLog(ProceedingJoinPoint pjp) {
-		try {
-			return beginLog(pjp);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+    static {
+        if (isInited.compareAndSet(false, true) && System.getProperty("CATPLUGIN_CONF") != null) {
+            String configPath = System.getProperty("CATPLUGIN_CONF");
+            try {
+                // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½a.properties
+                InputStream in = new BufferedInputStream(new FileInputStream(configPath));
+                config.load(new InputStreamReader(in, "utf-8")); /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ±ï¿½
+                in.close();
+            } catch (Exception e) {
+                System.out.println("Warn: CatPlugin can't resolve properties file : " + configPath);
+            }
+        } else {
+            System.out.println("Warn: CatPlugin miss properties file! You can set it with -DCATPLUGIN_CONF=/opt/.... ï¿½ï¿½");
+        }
+    }
 
-		return null;
-	}
+    @Override
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        return proxyCollector(pjp);
+    }
 
-	protected void proxyEndLog(Transaction transaction, Object retVal, Object... params) {
-		try {
-			if (isNotNull(transaction)) {
-				endLog(transaction, retVal, params);
-			}
-		} catch (Throwable e) {
-			
-		}finally{
-			if (isNotNull(transaction)) {
-				transaction.complete();
-			}
-		}
-	}
-	
-	protected Transaction newTransaction(String type,String name) {
-		return Cat.newTransaction(type,name);
-	}
-	
-	/**
-	 * ·½·¨Ö´ĞĞÇ°¿ªÊ¼Âñµã
-	 * @param pjp ·½·¨Ö´ĞĞÉÏÏÂÎÄ
-	 * @return ÂñµãÉú³ÉµÄtransaction¶ÔÏó   ×¢£º¿ÉÔÚÆäÖĞ¼ÓÈëÈô¸Éevent
-	 */
-	protected abstract Transaction beginLog(ProceedingJoinPoint pjp);
-	
-	/**
-	 * ·½·¨Ö´ĞĞºó½øĞĞÊÕÎ²¹¤×÷ 
-	 * @param transaction  beginLogÖĞÉú³ÉµÄtransaction¶ÔÏó£¬×¢£º²»ÓÃÊÖ¶¯µ÷ÓÃcomplete½áÊø£¬Ä£°åÒÑµ÷ÓÃ
-	 * @param retVal ·½·¨·µ»Ø½á¹û
-	 * @param params ·½·¨µ÷ÓÃÊ±´«Èë²ÎÊı
-	 */
-	protected abstract void endLog(Transaction transaction, Object retVal, Object... params);
-	
-	public boolean isNull(Object obj) {
-		return obj == null;
-	}
+    public Object proxyCollector(ProceedingJoinPoint pjp) throws Throwable {
+        Transaction transaction = proxyBeginLog(pjp);
+        Object obj = null;
+        try {
+            obj = pjp.proceed();
+            proxySuccess(transaction);
+            return obj;
+        } catch (Throwable e) {
+            exception(transaction, e);
+            throw e;
+        } finally {
+            proxyEndLog(transaction, obj, pjp.getArgs());
+        }
+    }
 
-	public boolean isNotNull(Object obj) {
-		return !isNull(obj);
-	}
-	
-	public boolean isNullOrEmpty(String param){
-		return isNull(param)||param.trim().equals("");
-	}
-	
+    protected void proxySuccess(Transaction transaction) {
+        try {
+            transaction.setStatus(Transaction.SUCCESS);
+        } catch (Throwable e) {
+        }
+    }
 
-	@Override
-	public void doReturn(JoinPoint joinPoint, Object retVal) {
-		// TODO Auto-generated method stub
-		
-	}
+    protected void exception(Transaction transaction, Throwable t) {
+        try {
+            if (isNotNull(transaction)) {
+                transaction.setStatus(t);
+                Cat.logError(t);
+            }
+        } catch (Throwable e) {
+        }
+    }
 
-	@Override
-	public void doThrowing(JoinPoint joinPoint, Throwable ex) {
-		// TODO Auto-generated method stub
-		
-	}
+    protected Transaction proxyBeginLog(ProceedingJoinPoint pjp) {
+        try {
+            return beginLog(pjp);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
 
-		
-	@Override
-	public void doBefore(JoinPoint joinPoint) {
-		// TODO Auto-generated method stub
-		
-	}
+        return null;
+    }
 
-	@Override
-	public void doAfter(JoinPoint joinPoint) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	public String getConcreteUri(String uri) {
-		int index = -1;
-		if((index=uri.indexOf(";"))>-1){
-			uri = uri.substring(0, index);
-		}
-		return uri;
-	}
+    protected void proxyEndLog(Transaction transaction, Object retVal, Object... params) {
+        try {
+            if (isNotNull(transaction)) {
+                endLog(transaction, retVal, params);
+            }
+        } catch (Throwable e) {
+
+        } finally {
+            if (isNotNull(transaction)) {
+                transaction.complete();
+            }
+        }
+    }
+
+    protected Transaction newTransaction(String type, String name) {
+        return Cat.newTransaction(type, name);
+    }
+
+    /**
+     * ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½Ç°ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½
+     * @param pjp ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @return ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½transactionï¿½ï¿½ï¿½ï¿½   ×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½event
+     */
+    protected abstract Transaction beginLog(ProceedingJoinPoint pjp);
+
+    /**
+     * ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ğºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½ï¿½
+     * @param transaction  beginLogï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½transactionï¿½ï¿½ï¿½ï¿½×¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½completeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½
+     * @param retVal ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø½ï¿½ï¿½
+     * @param params ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     */
+    protected abstract void endLog(Transaction transaction, Object retVal, Object... params);
+
+    public boolean isNull(Object obj) {
+        return obj == null;
+    }
+
+    public boolean isNotNull(Object obj) {
+        return !isNull(obj);
+    }
+
+    public boolean isNullOrEmpty(String param) {
+        return isNull(param) || param.trim().equals("");
+    }
+
+
+    @Override
+    public void doReturn(JoinPoint joinPoint, Object retVal) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void doThrowing(JoinPoint joinPoint, Throwable ex) {
+        // TODO Auto-generated method stub
+
+    }
+
+
+    @Override
+    public void doBefore(JoinPoint joinPoint) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void doAfter(JoinPoint joinPoint) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public String getConcreteUri(String uri) {
+        int index = -1;
+        if ((index = uri.indexOf(";")) > -1) {
+            uri = uri.substring(0, index);
+        }
+        return uri;
+    }
 
 }

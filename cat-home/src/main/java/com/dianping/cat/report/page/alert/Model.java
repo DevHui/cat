@@ -18,58 +18,57 @@
  */
 package com.dianping.cat.report.page.alert;
 
-import java.util.Date;
-import java.util.Map;
-
-import org.unidal.web.mvc.ViewModel;
-import org.unidal.web.mvc.view.annotation.ModelMeta;
-
 import com.dianping.cat.Constants;
 import com.dianping.cat.report.ReportPage;
 import com.dianping.cat.report.page.alert.Handler.AlertMinute;
+import org.unidal.web.mvc.ViewModel;
+import org.unidal.web.mvc.view.annotation.ModelMeta;
+
+import java.util.Date;
+import java.util.Map;
 
 @ModelMeta("model")
 public class Model extends ViewModel<ReportPage, Action, Context> {
 
-	private String m_alertResult;
+    private String m_alertResult;
 
-	private Map<String, AlertMinute> m_alertMinutes;
+    private Map<String, AlertMinute> m_alertMinutes;
 
-	public Model(Context ctx) {
-		super(ctx);
-	}
+    public Model(Context ctx) {
+        super(ctx);
+    }
 
-	public Map<String, AlertMinute> getAlertMinutes() {
-		return m_alertMinutes;
-	}
+    public Map<String, AlertMinute> getAlertMinutes() {
+        return m_alertMinutes;
+    }
 
-	public void setAlertMinutes(Map<String, AlertMinute> alertMinutes) {
-		m_alertMinutes = alertMinutes;
-	}
+    public void setAlertMinutes(Map<String, AlertMinute> alertMinutes) {
+        m_alertMinutes = alertMinutes;
+    }
 
-	public String getAlertResult() {
-		return m_alertResult;
-	}
+    public String getAlertResult() {
+        return m_alertResult;
+    }
 
-	public void setAlertResult(String alertResult) {
-		m_alertResult = alertResult;
-	}
+    public void setAlertResult(String alertResult) {
+        m_alertResult = alertResult;
+    }
 
-	public Date getDate() {
-		return new Date();
-	}
+    public Date getDate() {
+        return new Date();
+    }
 
-	@Override
-	public Action getDefaultAction() {
-		return Action.VIEW;
-	}
+    @Override
+    public Action getDefaultAction() {
+        return Action.VIEW;
+    }
 
-	public String getDomain() {
-		return Constants.CAT;
-	}
+    public String getDomain() {
+        return Constants.CAT;
+    }
 
-	public String getIpAddress() {
-		return null;
-	}
+    public String getIpAddress() {
+        return null;
+    }
 
 }

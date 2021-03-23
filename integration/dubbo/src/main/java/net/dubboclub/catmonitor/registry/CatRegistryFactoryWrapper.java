@@ -26,16 +26,17 @@ public class CatRegistryFactoryWrapper implements RegistryFactory {
 
     class RegistryWrapper implements Registry {
         private Registry originRegistry;
-        private URL appendProviderAppName(URL url){
-            String side = url.getParameter(Constants.SIDE_KEY);
-            if(Constants.PROVIDER_SIDE.equals(side)){
-                url=url.addParameter(CatConstants.PROVIDER_APPLICATION_NAME,url.getParameter(Constants.APPLICATION_KEY));
-            }
-            return url;
-        }
 
         public RegistryWrapper(Registry originRegistry) {
             this.originRegistry = originRegistry;
+        }
+
+        private URL appendProviderAppName(URL url) {
+            String side = url.getParameter(Constants.SIDE_KEY);
+            if (Constants.PROVIDER_SIDE.equals(side)) {
+                url = url.addParameter(CatConstants.PROVIDER_APPLICATION_NAME, url.getParameter(Constants.APPLICATION_KEY));
+            }
+            return url;
         }
 
         @Override
@@ -65,12 +66,12 @@ public class CatRegistryFactoryWrapper implements RegistryFactory {
 
         @Override
         public void subscribe(URL url, NotifyListener listener) {
-            originRegistry.subscribe(url,listener);
+            originRegistry.subscribe(url, listener);
         }
 
         @Override
         public void unsubscribe(URL url, NotifyListener listener) {
-            originRegistry.unsubscribe(url,listener);
+            originRegistry.unsubscribe(url, listener);
         }
 
         @Override

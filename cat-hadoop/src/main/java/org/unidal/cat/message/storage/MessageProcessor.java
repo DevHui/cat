@@ -18,12 +18,11 @@
  */
 package org.unidal.cat.message.storage;
 
-import java.util.concurrent.BlockingQueue;
-
+import com.dianping.cat.message.spi.MessageTree;
 import org.unidal.helper.Threads.Task;
 
-import com.dianping.cat.message.spi.MessageTree;
+import java.util.concurrent.BlockingQueue;
 
 public interface MessageProcessor extends Task {
-	public void initialize(int hour, int index, BlockingQueue<MessageTree> queue);
+    public void initialize(int hour, int index, BlockingQueue<MessageTree> queue);
 }

@@ -27,22 +27,22 @@ import com.qbao.cat.plugin.DefaultPluginTemplate;
 
 @Aspect
 public abstract class CommonPluginTemplate2 extends DefaultPluginTemplate {
-	@Pointcut
-	public void scope() {
-	}
+    @Pointcut
+    public void scope() {
+    }
 
-	@Around(POINTCUT_NAME)
-	public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
-		return super.doAround(pjp);
-	}
+    @Around(POINTCUT_NAME)
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        return super.doAround(pjp);
+    }
 
-	@Override
-	protected Transaction beginLog(ProceedingJoinPoint pjp) {
-		Transaction transaction = Cat.newTransaction("Common.Method", pjp.getSignature().toString());
-		return transaction;
-	}
+    @Override
+    protected Transaction beginLog(ProceedingJoinPoint pjp) {
+        Transaction transaction = Cat.newTransaction("Common.Method", pjp.getSignature().toString());
+        return transaction;
+    }
 
-	@Override
-	protected void endLog(Transaction transaction, Object retVal, Object... params) {
-	}
+    @Override
+    protected void endLog(Transaction transaction, Object retVal, Object... params) {
+    }
 }

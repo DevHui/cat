@@ -18,13 +18,6 @@
  */
 package com.dianping.cat.report.page.matrix.task;
 
-import java.util.Date;
-
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
-import org.unidal.lookup.annotation.Inject;
-import org.unidal.lookup.annotation.Named;
-
 import com.dianping.cat.Cat;
 import com.dianping.cat.configuration.NetworkInterfaceManager;
 import com.dianping.cat.consumer.matrix.MatrixAnalyzer;
@@ -41,127 +34,133 @@ import com.dianping.cat.report.task.TaskBuilder;
 import com.dianping.cat.report.task.TaskHelper;
 import com.dianping.cat.report.task.current.CurrentWeeklyMonthlyReportTask;
 import com.dianping.cat.report.task.current.CurrentWeeklyMonthlyReportTask.CurrentWeeklyMonthlyTask;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
+import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
+import org.unidal.lookup.annotation.Inject;
+import org.unidal.lookup.annotation.Named;
+
+import java.util.Date;
 
 @Named(type = TaskBuilder.class, value = MatrixReportBuilder.ID)
 public class MatrixReportBuilder implements TaskBuilder, Initializable {
 
-	public static final String ID = MatrixAnalyzer.ID;
+    public static final String ID = MatrixAnalyzer.ID;
 
-	@Inject
-	protected MatrixReportService m_reportService;
+    @Inject
+    protected MatrixReportService m_reportService;
 
-	@Override
-	public boolean buildDailyTask(String name, String domain, Date period) {
-		MatrixReport matrixReport = queryHourlyReportByDuration(name, domain, period, TaskHelper.tomorrowZero(period));
-		DailyReport report = new DailyReport();
+    @Override
+    public boolean buildDailyTask(String name, String domain, Date period) {
+        MatrixReport matrixReport = queryHourlyReportByDuration(name, domain, period, TaskHelper.tomorrowZero(period));
+        DailyReport report = new DailyReport();
 
-		report.setCreationDate(new Date());
-		report.setDomain(domain);
-		report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
-		report.setName(name);
-		report.setPeriod(period);
-		report.setType(1);
-		byte[] binaryContent = DefaultNativeBuilder.build(matrixReport);
-		return m_reportService.insertDailyReport(report, binaryContent);
-	}
+        report.setCreationDate(new Date());
+        report.setDomain(domain);
+        report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
+        report.setName(name);
+        report.setPeriod(period);
+        report.setType(1);
+        byte[] binaryContent = DefaultNativeBuilder.build(matrixReport);
+        return m_reportService.insertDailyReport(report, binaryContent);
+    }
 
-	@Override
-	public boolean buildHourlyTask(String name, String domain, Date period) {
-		throw new RuntimeException("Matrix report don't support hourly report!");
-	}
+    @Override
+    public boolean buildHourlyTask(String name, String domain, Date period) {
+        throw new RuntimeException("Matrix report don't support hourly report!");
+    }
 
-	@Override
-	public boolean buildMonthlyTask(String name, String domain, Date period) {
-		MatrixReport matrixReport = queryDailyReportsByDuration(domain, period, TaskHelper.nextMonthStart(period));
-		MonthlyReport report = new MonthlyReport();
+    @Override
+    public boolean buildMonthlyTask(String name, String domain, Date period) {
+        MatrixReport matrixReport = queryDailyReportsByDuration(domain, period, TaskHelper.nextMonthStart(period));
+        MonthlyReport report = new MonthlyReport();
 
-		report.setCreationDate(new Date());
-		report.setDomain(domain);
-		report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
-		report.setName(name);
-		report.setPeriod(period);
-		report.setType(1);
-		byte[] binaryContent = DefaultNativeBuilder.build(matrixReport);
-		return m_reportService.insertMonthlyReport(report, binaryContent);
-	}
+        report.setCreationDate(new Date());
+        report.setDomain(domain);
+        report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
+        report.setName(name);
+        report.setPeriod(period);
+        report.setType(1);
+        byte[] binaryContent = DefaultNativeBuilder.build(matrixReport);
+        return m_reportService.insertMonthlyReport(report, binaryContent);
+    }
 
-	@Override
-	public boolean buildWeeklyTask(String name, String domain, Date period) {
-		MatrixReport matrixReport = queryDailyReportsByDuration(domain, period,
-								new Date(period.getTime()	+ TimeHelper.ONE_WEEK));
-		WeeklyReport report = new WeeklyReport();
+    @Override
+    public boolean buildWeeklyTask(String name, String domain, Date period) {
+        MatrixReport matrixReport = queryDailyReportsByDuration(domain, period,
+                new Date(period.getTime() + TimeHelper.ONE_WEEK));
+        WeeklyReport report = new WeeklyReport();
 
-		report.setCreationDate(new Date());
-		report.setDomain(domain);
-		report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
-		report.setName(name);
-		report.setPeriod(period);
-		report.setType(1);
-		byte[] binaryContent = DefaultNativeBuilder.build(matrixReport);
-		return m_reportService.insertWeeklyReport(report, binaryContent);
-	}
+        report.setCreationDate(new Date());
+        report.setDomain(domain);
+        report.setIp(NetworkInterfaceManager.INSTANCE.getLocalHostAddress());
+        report.setName(name);
+        report.setPeriod(period);
+        report.setType(1);
+        byte[] binaryContent = DefaultNativeBuilder.build(matrixReport);
+        return m_reportService.insertWeeklyReport(report, binaryContent);
+    }
 
-	@Override
-	public void initialize() throws InitializationException {
-		CurrentWeeklyMonthlyReportTask.getInstance().register(new CurrentWeeklyMonthlyTask() {
+    @Override
+    public void initialize() throws InitializationException {
+        CurrentWeeklyMonthlyReportTask.getInstance().register(new CurrentWeeklyMonthlyTask() {
 
-			@Override
-			public void buildCurrentMonthlyTask(String name, String domain, Date start) {
-				buildMonthlyTask(name, domain, start);
-			}
+            @Override
+            public void buildCurrentMonthlyTask(String name, String domain, Date start) {
+                buildMonthlyTask(name, domain, start);
+            }
 
-			@Override
-			public void buildCurrentWeeklyTask(String name, String domain, Date start) {
-				buildWeeklyTask(name, domain, start);
-			}
+            @Override
+            public void buildCurrentWeeklyTask(String name, String domain, Date start) {
+                buildWeeklyTask(name, domain, start);
+            }
 
-			@Override
-			public String getReportName() {
-				return ID;
-			}
-		});
-	}
+            @Override
+            public String getReportName() {
+                return ID;
+            }
+        });
+    }
 
-	private MatrixReport queryDailyReportsByDuration(String domain, Date start, Date end) {
-		long startTime = start.getTime();
-		long endTime = end.getTime();
-		MatrixReportMerger merger = new MatrixReportMerger(new MatrixReport(domain));
+    private MatrixReport queryDailyReportsByDuration(String domain, Date start, Date end) {
+        long startTime = start.getTime();
+        long endTime = end.getTime();
+        MatrixReportMerger merger = new MatrixReportMerger(new MatrixReport(domain));
 
-		for (; startTime < endTime; startTime += TimeHelper.ONE_DAY) {
-			try {
-				MatrixReport reportModel = m_reportService
-										.queryReport(domain, new Date(startTime), new Date(startTime	+ TimeHelper.ONE_DAY));
+        for (; startTime < endTime; startTime += TimeHelper.ONE_DAY) {
+            try {
+                MatrixReport reportModel = m_reportService
+                        .queryReport(domain, new Date(startTime), new Date(startTime + TimeHelper.ONE_DAY));
 
-				reportModel.accept(merger);
-			} catch (Exception e) {
-				Cat.logError(e);
-			}
-		}
-		MatrixReport matrixReport = merger.getMatrixReport();
-		new MatrixReportFilter().visitMatrixReport(matrixReport);
+                reportModel.accept(merger);
+            } catch (Exception e) {
+                Cat.logError(e);
+            }
+        }
+        MatrixReport matrixReport = merger.getMatrixReport();
+        new MatrixReportFilter().visitMatrixReport(matrixReport);
 
-		matrixReport.setStartTime(start);
-		matrixReport.setEndTime(end);
-		return matrixReport;
-	}
+        matrixReport.setStartTime(start);
+        matrixReport.setEndTime(end);
+        return matrixReport;
+    }
 
-	private MatrixReport queryHourlyReportByDuration(String name, String domain, Date start, Date end) {
-		long startTime = start.getTime();
-		long endTime = end.getTime();
-		MatrixReportMerger merger = new MatrixReportMerger(new MatrixReport(domain));
+    private MatrixReport queryHourlyReportByDuration(String name, String domain, Date start, Date end) {
+        long startTime = start.getTime();
+        long endTime = end.getTime();
+        MatrixReportMerger merger = new MatrixReportMerger(new MatrixReport(domain));
 
-		for (; startTime < endTime; startTime = startTime + TimeHelper.ONE_HOUR) {
-			Date date = new Date(startTime);
-			MatrixReport reportModel = m_reportService.queryReport(domain, date, new Date(date.getTime()	+ TimeHelper.ONE_HOUR));
+        for (; startTime < endTime; startTime = startTime + TimeHelper.ONE_HOUR) {
+            Date date = new Date(startTime);
+            MatrixReport reportModel = m_reportService.queryReport(domain, date, new Date(date.getTime() + TimeHelper.ONE_HOUR));
 
-			reportModel.accept(merger);
-		}
-		MatrixReport matrixReport = merger.getMatrixReport();
-		new MatrixReportFilter().visitMatrixReport(matrixReport);
+            reportModel.accept(merger);
+        }
+        MatrixReport matrixReport = merger.getMatrixReport();
+        new MatrixReportFilter().visitMatrixReport(matrixReport);
 
-		matrixReport.setStartTime(start);
-		matrixReport.setEndTime(end);
-		return matrixReport;
-	}
+        matrixReport.setStartTime(start);
+        matrixReport.setEndTime(end);
+        return matrixReport;
+    }
 
 }

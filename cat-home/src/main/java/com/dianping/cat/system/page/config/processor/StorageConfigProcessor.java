@@ -25,20 +25,20 @@ import com.dianping.cat.system.page.config.Payload;
 public class StorageConfigProcessor extends BaseProcesser {
 
 
-	public void process(Action action, Payload payload, Model model) {
+    public void process(Action action, Payload payload, Model model) {
 
-		switch (action) {
-		case STORAGE_RULE:
-			break;
-		case STORAGE_RULE_ADD_OR_UPDATE:
-			break;
-		case STORAGE_RULE_ADD_OR_UPDATE_SUBMIT:
-			break;
-		case STORAGE_RULE_DELETE:
-			break;
-		default:
-			throw new RuntimeException("Error action name: " + action.getName());
-		}
-	}
+        switch (action) {
+            case STORAGE_RULE:
+                break;
+            case STORAGE_RULE_ADD_OR_UPDATE:
+                break;
+            case STORAGE_RULE_ADD_OR_UPDATE_SUBMIT:
+                break;
+            case STORAGE_RULE_DELETE:
+                break;
+            default:
+                throw new RuntimeException("Error action name: " + action.getName());
+        }
+    }
 
 }

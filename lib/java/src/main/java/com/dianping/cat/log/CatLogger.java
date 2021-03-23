@@ -27,17 +27,13 @@ import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class CatLogger {
+    private static final String DEFAULT_BASE_DIR = "/data/applogs/cat";
+    private static CatLogger LOGGER = new CatLogger();
     private MessageFormat format;
     private BufferedWriter writer;
     private String lastPath;
     private boolean devMode;
     private ReentrantLock lock = new ReentrantLock();
-    private static final String DEFAULT_BASE_DIR = "/data/applogs/cat";
-    private static CatLogger LOGGER = new CatLogger();
-
-    public static CatLogger getInstance() {
-        return LOGGER;
-    }
 
     private CatLogger() {
         String pattern = "[{0,date," + "MM-dd HH:mm:ss.SSS" + "}] [{1}] [{3}] {2}";
@@ -45,6 +41,10 @@ public class CatLogger {
 
         format = new MessageFormat(pattern);
         devMode = Boolean.parseBoolean(mode);
+    }
+
+    public static CatLogger getInstance() {
+        return LOGGER;
     }
 
     private void console(String message) {

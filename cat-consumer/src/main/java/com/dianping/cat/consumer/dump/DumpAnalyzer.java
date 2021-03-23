@@ -39,111 +39,111 @@ import java.util.concurrent.TimeUnit;
 
 @Named(type = MessageAnalyzer.class, value = DumpAnalyzer.ID, instantiationStrategy = Named.PER_LOOKUP)
 public class DumpAnalyzer extends AbstractMessageAnalyzer<Object> implements LogEnabled {
-	public static final String ID = "dump";
+    public static final String ID = "dump";
 
-	@Inject
-	private ServerStatisticManager m_serverStateManager;
+    @Inject
+    private ServerStatisticManager m_serverStateManager;
 
-	@Inject
-	private MessageDumperManager m_dumperManager;
+    @Inject
+    private MessageDumperManager m_dumperManager;
 
-	@Inject
-	private MessageFinderManager m_finderManager;
+    @Inject
+    private MessageFinderManager m_finderManager;
 
-	private Logger m_logger;
+    private Logger m_logger;
 
-	private int m_discradSize = 50000000;
+    private int m_discradSize = 50000000;
 
-	private void closeStorage() {
-		int hour = (int) TimeUnit.MILLISECONDS.toHours(m_startTime);
-		Transaction t = Cat.newTransaction("Dumper", "Storage" + hour);
+    private void closeStorage() {
+        int hour = (int) TimeUnit.MILLISECONDS.toHours(m_startTime);
+        Transaction t = Cat.newTransaction("Dumper", "Storage" + hour);
 
-		try {
-			m_finderManager.close(hour);
-			m_dumperManager.close(hour);
-			t.setStatus(Transaction.SUCCESS);
-		} catch (Exception e) {
-			m_logger.error(e.getMessage(), e);
-			t.setStatus(e);
-		} finally {
-			t.complete();
-		}
-	}
+        try {
+            m_finderManager.close(hour);
+            m_dumperManager.close(hour);
+            t.setStatus(Transaction.SUCCESS);
+        } catch (Exception e) {
+            m_logger.error(e.getMessage(), e);
+            t.setStatus(e);
+        } finally {
+            t.complete();
+        }
+    }
 
-	@Override
-	public synchronized void doCheckpoint(boolean atEnd) {
-		if (atEnd) {
-			Threads.forGroup("cat").start(new Runnable() {
-				@Override
-				public void run() {
-					closeStorage();
-				}
-			});
-		} else {
-			closeStorage();
-		}
-	}
+    @Override
+    public synchronized void doCheckpoint(boolean atEnd) {
+        if (atEnd) {
+            Threads.forGroup("cat").start(new Runnable() {
+                @Override
+                public void run() {
+                    closeStorage();
+                }
+            });
+        } else {
+            closeStorage();
+        }
+    }
 
-	@Override
-	public void enableLogging(Logger logger) {
-		m_logger = logger;
-	}
+    @Override
+    public void enableLogging(Logger logger) {
+        m_logger = logger;
+    }
 
-	@Override
-	public Object getReport(String domain) {
-		throw new UnsupportedOperationException("This should not be called!");
-	}
+    @Override
+    public Object getReport(String domain) {
+        throw new UnsupportedOperationException("This should not be called!");
+    }
 
-	@Override
-	public ReportManager<?> getReportManager() {
-		return null;
-	}
+    @Override
+    public ReportManager<?> getReportManager() {
+        return null;
+    }
 
-	@Override
-	public void initialize(long startTime, long duration, long extraTime) {
-		super.initialize(startTime, duration, extraTime);
-		int hour = (int) TimeUnit.MILLISECONDS.toHours(startTime);
+    @Override
+    public void initialize(long startTime, long duration, long extraTime) {
+        super.initialize(startTime, duration, extraTime);
+        int hour = (int) TimeUnit.MILLISECONDS.toHours(startTime);
 
-		m_dumperManager.findOrCreate(hour);
-	}
+        m_dumperManager.findOrCreate(hour);
+    }
 
-	@Override
-	protected void loadReports() {
-		// do nothing
-	}
+    @Override
+    protected void loadReports() {
+        // do nothing
+    }
 
-	@Override
-	public void process(MessageTree tree) {
-		try {
-			MessageId messageId = MessageId.parse(tree.getMessageId());
+    @Override
+    public void process(MessageTree tree) {
+        try {
+            MessageId messageId = MessageId.parse(tree.getMessageId());
 
-			if (!shouldDiscard(messageId)) {
-				processWithStorage(tree, messageId, messageId.getHour());
-			}
-		} catch (Exception ignored) {
-		}
-	}
+            if (!shouldDiscard(messageId)) {
+                processWithStorage(tree, messageId, messageId.getHour());
+            }
+        } catch (Exception ignored) {
+        }
+    }
 
-	private void processWithStorage(MessageTree tree, MessageId messageId, int hour) {
-		MessageDumper dumper = m_dumperManager.find(hour);
+    private void processWithStorage(MessageTree tree, MessageId messageId, int hour) {
+        MessageDumper dumper = m_dumperManager.find(hour);
 
-		tree.setFormatMessageId(messageId);
+        tree.setFormatMessageId(messageId);
 
-		if (dumper != null) {
-			dumper.process(tree);
-		} else {
-			m_serverStateManager.addPigeonTimeError(1);
-		}
-	}
+        if (dumper != null) {
+            dumper.process(tree);
+        } else {
+            m_serverStateManager.addPigeonTimeError(1);
+        }
+    }
 
-	public void setServerStateManager(ServerStatisticManager serverStateManager) {
-		m_serverStateManager = serverStateManager;
-	}
+    public void setServerStateManager(ServerStatisticManager serverStateManager) {
+        m_serverStateManager = serverStateManager;
+    }
 
-	private boolean shouldDiscard(MessageId id) {
-		int index = id.getIndex();
+    private boolean shouldDiscard(MessageId id) {
+        int index = id.getIndex();
 
-		return index > m_discradSize;
-	}
+        return index > m_discradSize;
+    }
 
 }

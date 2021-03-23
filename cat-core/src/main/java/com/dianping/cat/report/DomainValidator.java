@@ -25,22 +25,22 @@ import java.util.concurrent.ConcurrentHashMap;
 @Named
 public class DomainValidator {
 
-	private ConcurrentHashMap<String, String> m_valids = new ConcurrentHashMap<String, String>();
+    private ConcurrentHashMap<String, String> m_valids = new ConcurrentHashMap<String, String>();
 
-	public boolean validate(String domain) {
-		if (!m_valids.containsKey(domain)) {
-			int length = domain.length();
-			char c;
+    public boolean validate(String domain) {
+        if (!m_valids.containsKey(domain)) {
+            int length = domain.length();
+            char c;
 
-			for (int i = 0; i < length; i++) {
-				c = domain.charAt(i);
+            for (int i = 0; i < length; i++) {
+                c = domain.charAt(i);
 
-				if (c > 126 || c < 32) {
-					return false;
-				}
-			}
-			m_valids.put(domain, domain);
-		}
-		return true;
-	}
+                if (c > 126 || c < 32) {
+                    return false;
+                }
+            }
+            m_valids.put(domain, domain);
+        }
+        return true;
+    }
 }

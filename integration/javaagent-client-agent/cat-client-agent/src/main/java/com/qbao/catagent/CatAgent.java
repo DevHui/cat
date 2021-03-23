@@ -21,33 +21,32 @@ import java.lang.instrument.Instrumentation;
 
 /**
  * @author andersen
- *
  */
 public class CatAgent {
-	
-	private static Instrumentation s_instrumentation;
-    
+
+    private static Instrumentation s_instrumentation;
+
     private static ClassFileTransformer s_transformer;
-    
+
     public static void premain(String options, Instrumentation instrumentation) {
-    	/* Handle duplicate agents */
-    	if (s_instrumentation != null) {
-    		return;
-    	}
+        /* Handle duplicate agents */
+        if (s_instrumentation != null) {
+            return;
+        }
         s_instrumentation = instrumentation;
         s_transformer = new ClassPathPreSetAgentAdapter(options);
         s_instrumentation.addTransformer(s_transformer);
     }
 
-    
+
     public static void agentmain(String options, Instrumentation instrumentation) {
-    	premain(options, instrumentation);
+        premain(options, instrumentation);
     }
-    
+
     public static Instrumentation getInstrumentation() {
         if (s_instrumentation == null) {
             throw new UnsupportedOperationException(
-                "CatClient agent was started via '-javaagent' (preMain) ");
+                    "CatClient agent was started via '-javaagent' (preMain) ");
         }
         return s_instrumentation;
     }

@@ -1,0 +1,228 @@
+@startuml
+
+/' diagram meta data start
+config=CallConfiguration;
+{
+  "rootMethod": "com.dianping.cat.Cat#initializeByDomain(String,String...)",
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showMethodParametersTypes": false,
+    "showMethodParametersNames": false,
+    "showMethodReturnType": false,
+    "showPackageLevels": 2,
+    "showCallOrder": false,
+    "edgeMode": "MethodsOnly", // TypesOnly, MethodsOnly, TypesAndMethods, MethodsAndDirectTypeUsage
+    "showDetailedClassStructure": false
+  },
+  "rootClass": "com.dianping.cat.Cat"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="LR"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_231963676 { 
+   	label=dianping
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1054235340 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_1100550952 { 
+   	label=Server
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Server1605072409XXXsetHttpPort672261858[
+	label="+ setHttpPort()"
+	style=filled
+	fillcolor=white
+	tooltip="Server
+
+null"
+	fontcolor=darkgreen
+];
+
+Server1605072409XXXsetPort672261858[
+	label="+ setPort()"
+	style=filled
+	fillcolor=white
+	tooltip="Server
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1520922023 { 
+   	label=Domain
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Domain1605072409XXXsetEnabled1729365000[
+	label="+ setEnabled()"
+	style=filled
+	fillcolor=white
+	tooltip="Domain
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1814665410 { 
+   	label=ClientConfig
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ClientConfig1605072409XXXaddDomain2052636900[
+	label="+ addDomain()"
+	style=filled
+	fillcolor=white
+	tooltip="ClientConfig
+
+null"
+	fontcolor=darkgreen
+];
+
+ClientConfig1605072409XXXaddServer1821959325[
+	label="+ addServer()"
+	style=filled
+	fillcolor=white
+	tooltip="ClientConfig
+
+null"
+	fontcolor=darkgreen
+];
+
+ClientConfig1605072409XXXsetMode1808118735[
+	label="+ setMode()"
+	style=filled
+	fillcolor=white
+	tooltip="ClientConfig
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_729580959 { 
+   	label=Cat
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Cat2002533913XXXinitialize2189724[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	fontcolor=darkgreen
+];
+
+Cat2002533913XXXinitializeByDomain1308468536[
+	label="+ initializeByDomain()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	fontcolor=darkgreen
+];
+
+Cat2002533913XXXinitializeByDomain642049240[
+	label="+ initializeByDomain()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	penwidth=4
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+'edges    
+Cat2002533913XXXinitializeByDomain1308468536 -> Cat2002533913XXXinitialize2189724;
+Cat2002533913XXXinitializeByDomain1308468536 -> ClientConfig1605072409XXXaddDomain2052636900;
+Cat2002533913XXXinitializeByDomain1308468536 -> ClientConfig1605072409XXXaddServer1821959325;
+Cat2002533913XXXinitializeByDomain1308468536 -> ClientConfig1605072409XXXsetMode1808118735;
+Cat2002533913XXXinitializeByDomain1308468536 -> Domain1605072409XXXsetEnabled1729365000;
+Cat2002533913XXXinitializeByDomain1308468536 -> Server1605072409XXXsetHttpPort672261858;
+Cat2002533913XXXinitializeByDomain1308468536 -> Server1605072409XXXsetPort672261858;
+Cat2002533913XXXinitializeByDomain642049240 -> Cat2002533913XXXinitializeByDomain1308468536;
+    
+}
+@enduml

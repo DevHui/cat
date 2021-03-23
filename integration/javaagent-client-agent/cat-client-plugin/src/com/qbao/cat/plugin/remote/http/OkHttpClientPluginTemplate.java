@@ -1,4 +1,3 @@
-
 package com.qbao.cat.plugin.remote.http;
 
 import com.dianping.cat.Cat;
@@ -27,30 +26,34 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Aspect
 public abstract class OkHttpClientPluginTemplate extends ClientPluginTemplate<Map<String, Collection<String>>> {
-    private static final ThreadLocal<AtomicBoolean> Entered = new ThreadLocal<AtomicBoolean>(){
+    private static final ThreadLocal<AtomicBoolean> Entered = new ThreadLocal<AtomicBoolean>() {
         @Override
         protected AtomicBoolean initialValue() {
             return new AtomicBoolean(false);
         }
     };
+
     @Override
     @Pointcut
-    public void scope() {}
+    public void scope() {
+    }
 
     @Override
     @Around(POINTCUT_NAME)
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         Object obj = null;
         boolean result = true;
-        try{
+        try {
             result = Entered.get().compareAndSet(false, true);
-        }catch(Throwable t){}
-        if(result){
+        } catch (Throwable t) {
+        }
+        if (result) {
             obj = super.doAround(pjp);
-            try{
+            try {
                 Entered.get().set(false);
-            }catch(Throwable tt){}
-        }else{
+            } catch (Throwable tt) {
+            }
+        } else {
             obj = pjp.proceed();
         }
         return obj;
@@ -60,11 +63,11 @@ public abstract class OkHttpClientPluginTemplate extends ClientPluginTemplate<Ma
     @Override
     public Transaction beginLog(ProceedingJoinPoint pjp) {
         Object target = pjp.getTarget();
-        if (!(target instanceof Client)){
+        if (!(target instanceof Client)) {
             return null;
         }
-        if (pjp.getArgs() != null || pjp.getArgs().length > 0 || pjp.getArgs()[0] instanceof feign.Request){
-            feign.Request request = (feign.Request)pjp.getArgs()[0];
+        if (pjp.getArgs() != null || pjp.getArgs().length > 0 || pjp.getArgs()[0] instanceof feign.Request) {
+            feign.Request request = (feign.Request) pjp.getArgs()[0];
             Map headers = request.headers();
             try {
                 Transaction t = logTransaction(headers, new URI(request.url()), request.httpMethod().name().toString());
@@ -79,9 +82,9 @@ public abstract class OkHttpClientPluginTemplate extends ClientPluginTemplate<Ma
 
     private Transaction logTransaction(Map<String, Collection<String>> request, URI uri, String method) {
         Transaction transaction;
-        transaction = this.newTransaction(this.getTransactionType(),uri.getScheme()+"://"+uri.getAuthority()+getConcreteUri(uri.getPath()));
-        sendClientAddr(request, getClientAddrDataKey(),getClientAddrData());
-        sendClientDomain(request,getClientDomainDataKey(),getClientDomainData());
+        transaction = this.newTransaction(this.getTransactionType(), uri.getScheme() + "://" + uri.getAuthority() + getConcreteUri(uri.getPath()));
+        sendClientAddr(request, getClientAddrDataKey(), getClientAddrData());
+        sendClientDomain(request, getClientDomainDataKey(), getClientDomainData());
         Cat.logEvent("Http.Method", method);
         logRemoteTrace(request);
         return transaction;
@@ -95,12 +98,12 @@ public abstract class OkHttpClientPluginTemplate extends ClientPluginTemplate<Ma
 
     @Override
     public void endLog(Transaction transaction, Object retVal, Object... params) {
-        Object[] addrs = ((Response)retVal).headers().get(getServerAddrDataKey()).toArray();
-        Object[] domains = ((Response)retVal).headers().get(getServerDomainDataKey()).toArray();
-        if(isNotNull(addrs) && addrs.length == 1){
+        Object[] addrs = ((Response) retVal).headers().get(getServerAddrDataKey()).toArray();
+        Object[] domains = ((Response) retVal).headers().get(getServerDomainDataKey()).toArray();
+        if (isNotNull(addrs) && addrs.length == 1) {
             logServerAddr(String.valueOf(addrs[0]));
         }
-        if(isNotNull(domains) && domains.length == 1){
+        if (isNotNull(domains) && domains.length == 1) {
             logServerDomain(String.valueOf(domains[0]));
         }
     }
@@ -142,14 +145,15 @@ public abstract class OkHttpClientPluginTemplate extends ClientPluginTemplate<Ma
 
     /**
      * headers中加入指定参数
+     *
      * @param headers
      * @param key
      * @param value
      */
-    private void addHeaderValue(Map<String, Collection<String>> headers, String key, String value){
-        if (headers.containsKey(key)){
+    private void addHeaderValue(Map<String, Collection<String>> headers, String key, String value) {
+        if (headers.containsKey(key)) {
             headers.get(key).add(value);
-        }else {
+        } else {
             List<String> tmp = new ArrayList<String>();
             tmp.add(value);
             headers.put(key, tmp);

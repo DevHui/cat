@@ -1,0 +1,1544 @@
+@startuml
+
+/' diagram meta data start
+config=CallConfiguration;
+{
+  "rootMethod": "com.dianping.cat.Cat#logError(String,Throwable)",
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": ""
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": true,
+    "cutInterfaceStructures": true,
+    "cutDataStructures": true,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false // root node is included
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showMethodParametersTypes": false,
+    "showMethodParametersNames": false,
+    "showMethodReturnType": false,
+    "showPackageLevels": 2,
+    "showCallOrder": false,
+    "edgeMode": "MethodsOnly", // TypesOnly, MethodsOnly, TypesAndMethods, MethodsAndDirectTypeUsage
+    "showDetailedClassStructure": false
+  },
+  "rootClass": "com.dianping.cat.Cat"
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="LR"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_231963676 { 
+   	label=dianping
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1054235340 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_100413926 { 
+   	label=RefreshHost
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   RefreshHost1615015249XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="RefreshHost
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_103909604 { 
+   	label=AlertService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AlertService97531645XXXinsert2129702289[
+	label="+ insert()"
+	style=filled
+	fillcolor=white
+	tooltip="AlertService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1085566299 { 
+   	label=LocalResourceContentFetcher
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   LocalResourceContentFetcher124398146XXXgetConfigContent1808118735[
+	label="+ getConfigContent()"
+	style=filled
+	fillcolor=white
+	tooltip="LocalResourceContentFetcher
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1096115788 { 
+   	label=SampleConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   SampleConfigManager1351998783XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="SampleConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1107897077 { 
+   	label=TopologyGraphConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   TopologyGraphConfigManager2141995237XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="TopologyGraphConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1122772857 { 
+   	label=ReportReloadConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ReportReloadConfigManager1482847049XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="ReportReloadConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1138069196 { 
+   	label=Decorator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Decorator1721086535XXXgenerateContent313035839[
+	label="+ generateContent()"
+	style=filled
+	fillcolor=white
+	tooltip="Decorator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1171320324 { 
+   	label=DefaultMetric
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultMetric982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMetric
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1243728683 { 
+   	label=ClientReportBuilder
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ClientReportBuilder1271214333XXXbuildDailyTask1730104472[
+	label="+ buildDailyTask()"
+	style=filled
+	fillcolor=white
+	tooltip="ClientReportBuilder
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1346187765 { 
+   	label=HeartbeatDisplayPolicyManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   HeartbeatDisplayPolicyManager618891374XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="HeartbeatDisplayPolicyManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_135518960 { 
+   	label=BaseRuleHelper
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   BaseRuleHelper277330119XXXconvertConditions993691678[
+	label="+ convertConditions()"
+	style=filled
+	fillcolor=white
+	tooltip="BaseRuleHelper
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1362586179 { 
+   	label=DatabaseParser
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DatabaseParser925500459XXXparseDatabase1808118735[
+	label="+ parseDatabase()"
+	style=filled
+	fillcolor=white
+	tooltip="DatabaseParser
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1382457875 { 
+   	label=SenderManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   SenderManager1732819881XXXsendAlert932354681[
+	label="+ sendAlert()"
+	style=filled
+	fillcolor=white
+	tooltip="SenderManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_138682983 { 
+   	label=AlertConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AlertConfigManager1283990710XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="AlertConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_139692925 { 
+   	label=Handler
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Handler1436966209XXXhandleOutbound1678783089[
+	label="+ handleOutbound()"
+	style=filled
+	fillcolor=white
+	tooltip="Handler
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1405554057 { 
+   	label=AlertPolicyManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AlertPolicyManager1283990710XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="AlertPolicyManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1414267305 { 
+   	label=TpValueStatisticConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   TpValueStatisticConfigManager752991271XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="TpValueStatisticConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+
+TpValueStatisticConfigManager752991271XXXshouldStatistic2013066710[
+	label="+ shouldStatistic()"
+	style=filled
+	fillcolor=white
+	tooltip="TpValueStatisticConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1423420454 { 
+   	label=RouterConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   RouterConfigManager938245874XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="RouterConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1475706756 { 
+   	label=ServerFilterConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ServerFilterConfigManager1348150182XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="ServerFilterConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1529266271 { 
+   	label=StorageSQLBuilder
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   StorageSQLBuilder657865883XXXbuild485852482[
+	label="+ build()"
+	style=filled
+	fillcolor=white
+	tooltip="StorageSQLBuilder
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1536005449 { 
+   	label=HeartbeatAlert
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   HeartbeatAlert1714023003XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="HeartbeatAlert
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1627452372 { 
+   	label=ServerConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ServerConfigManager1348150182XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="ServerConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1636862596 { 
+   	label=WeixinSender
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   WeixinSender1732819881XXXsend1222472702[
+	label="+ send()"
+	style=filled
+	fillcolor=white
+	tooltip="WeixinSender
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1663430405 { 
+   	label=TransactionAlert
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   TransactionAlert149352775XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="TransactionAlert
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1714593488 { 
+   	label=DefaultHeartbeat
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultHeartbeat982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultHeartbeat
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1727786545 { 
+   	label=DependencyAnalyzer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DependencyAnalyzer1535718638XXXprocess794768421[
+	label="+ process()"
+	style=filled
+	fillcolor=white
+	tooltip="DependencyAnalyzer
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1746470632 { 
+   	label=StorageGroupConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   StorageGroupConfigManager2119069553XXXbuildUrl924985979[
+	label="+ buildUrl()"
+	style=filled
+	fillcolor=white
+	tooltip="StorageGroupConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+
+StorageGroupConfigManager2119069553XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="StorageGroupConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1760607835 { 
+   	label=BusinessAlert
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   BusinessAlert792960521XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="BusinessAlert
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1797224788 { 
+   	label=AlertSummaryService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AlertSummaryService1478910607XXXinsert848366282[
+	label="+ insert()"
+	style=filled
+	fillcolor=white
+	tooltip="AlertSummaryService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1808896656 { 
+   	label=AbstractMessage
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AbstractMessage982561799XXXaddData1808118735[
+	label="+ addData()"
+	style=filled
+	fillcolor=white
+	tooltip="AbstractMessage
+
+&#10;		 add one or multiple key-value pairs to the message.&#10;		&#10;		 @param keyValuePairs key-value pairs like 'a=1&b=2&...'&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1820719436 { 
+   	label=SummaryBuilder
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   SummaryBuilder655011407XXXgenerateHtml950324557[
+	label="+ generateHtml()"
+	style=filled
+	fillcolor=white
+	tooltip="SummaryBuilder
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1842262706 { 
+   	label=AbstractMessageAnalyzer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AbstractMessageAnalyzer468824849XXXanalyze1134663318[
+	label="+ analyze()"
+	style=filled
+	fillcolor=white
+	tooltip="AbstractMessageAnalyzer
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1885530906 { 
+   	label=GlobalConfigProcessor
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   GlobalConfigProcessor573078427XXXprocess1529780815[
+	label="+ process()"
+	style=filled
+	fillcolor=white
+	tooltip="GlobalConfigProcessor
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_1956142076 { 
+   	label=BusinessDecorator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   BusinessDecorator792960521XXXgenerateContent313035839[
+	label="+ generateContent()"
+	style=filled
+	fillcolor=white
+	tooltip="BusinessDecorator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_2020987210 { 
+   	label=ExceptionRuleConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ExceptionRuleConfigManager433294088XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="ExceptionRuleConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_2068875902 { 
+   	label=ExceptionDecorator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ExceptionDecorator433294088XXXgenerateContent313035839[
+	label="+ generateContent()"
+	style=filled
+	fillcolor=white
+	tooltip="ExceptionDecorator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_2093560401 { 
+   	label=MailSender
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   MailSender1732819881XXXsend1222472702[
+	label="+ send()"
+	style=filled
+	fillcolor=white
+	tooltip="MailSender
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_212521290 { 
+   	label=ProjectService
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ProjectService1985549344XXXdelete1355342585[
+	label="+ delete()"
+	style=filled
+	fillcolor=white
+	tooltip="ProjectService
+
+null"
+	fontcolor=darkgreen
+];
+
+ProjectService1985549344XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="ProjectService
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_2135955959 { 
+   	label=ProjectDecorator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ProjectDecorator1721086535XXXbuildContactInfo1808118735[
+	label="+ buildContactInfo()"
+	style=filled
+	fillcolor=white
+	tooltip="ProjectDecorator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_2141586817 { 
+   	label=TaskConsumer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   TaskConsumer1539190358XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="TaskConsumer
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_239955154 { 
+   	label=ReportFacade
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ReportFacade1539190358XXXbuilderReport2599333[
+	label="+ builderReport()"
+	style=filled
+	fillcolor=white
+	tooltip="ReportFacade
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_254873948 { 
+   	label=SendExecutor
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   SendExecutor502410565XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="SendExecutor
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_274426038 { 
+   	label=UserConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   UserConfigManager381668284XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="UserConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_349377590 { 
+   	label=DomainGroupConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DomainGroupConfigManager1539309900XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="DomainGroupConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_36170244 { 
+   	label=AbstractSender
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AbstractSender1732819881XXXhttpSend2012146208[
+	label="+ httpSend()"
+	style=filled
+	fillcolor=white
+	tooltip="AbstractSender
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_367749253 { 
+   	label=ProjectUpdateTask
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ProjectUpdateTask1509455828XXXdeleteUnusedDomainInfo0[
+	label="+ deleteUnusedDomainInfo()"
+	style=filled
+	fillcolor=white
+	tooltip="ProjectUpdateTask
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_398883310 { 
+   	label=DefaultTransaction
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultTransaction982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultTransaction
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_407893421 { 
+   	label=ResourceConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   ResourceConfigManager381668284XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="ResourceConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_408379036 { 
+   	label=TransactionDecorator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   TransactionDecorator149352775XXXgenerateContent313035839[
+	label="+ generateContent()"
+	style=filled
+	fillcolor=white
+	tooltip="TransactionDecorator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_461333630 { 
+   	label=SenderConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   SenderConfigManager1283990710XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="SenderConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_499344648 { 
+   	label=DefaultDataChecker
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultDataChecker2120222064XXXcheckData1372814886[
+	label="+ checkData()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultDataChecker
+
+null"
+	fontcolor=darkgreen
+];
+
+DefaultDataChecker2120222064XXXcheckData1483878419[
+	label="+ checkData()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultDataChecker
+
+null"
+	fontcolor=darkgreen
+];
+
+DefaultDataChecker2120222064XXXcheckDataForApp1372814886[
+	label="+ checkDataForApp()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultDataChecker
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_543648671 { 
+   	label=AllReportConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AllReportConfigManager1840918117XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="AllReportConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_562747450 { 
+   	label=AtomicMessageConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AtomicMessageConfigManager1482847049XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="AtomicMessageConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_56342005 { 
+   	label=BaseRuleConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   BaseRuleConfigManager1801461189XXXconvertConditions993691678[
+	label="+ convertConditions()"
+	style=filled
+	fillcolor=white
+	tooltip="BaseRuleConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+
+BaseRuleConfigManager1801461189XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="BaseRuleConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_609461575 { 
+   	label=StatusUpdateTask
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   StatusUpdateTask1020536473XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="StatusUpdateTask
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_622830674 { 
+   	label=BusinessGraphCreator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   BusinessGraphCreator669448218XXXbuildGraphByDomain988136651[
+	label="+ buildGraphByDomain()"
+	style=filled
+	fillcolor=white
+	tooltip="BusinessGraphCreator
+
+null"
+	fontcolor=darkgreen
+];
+
+BusinessGraphCreator669448218XXXbuildGraphByTag988136651[
+	label="+ buildGraphByTag()"
+	style=filled
+	fillcolor=white
+	tooltip="BusinessGraphCreator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_642047153 { 
+   	label=TransactionAnalyzer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   TransactionAnalyzer976050789XXXprocess794768421[
+	label="+ process()"
+	style=filled
+	fillcolor=white
+	tooltip="TransactionAnalyzer
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_653325837 { 
+   	label=EventAlert
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   EventAlert1946561597XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="EventAlert
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_687009296 { 
+   	label=AlertInfoBuilder
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AlertInfoBuilder655011407XXXgenerateAlertSummary950324557[
+	label="+ generateAlertSummary()"
+	style=filled
+	fillcolor=white
+	tooltip="AlertInfoBuilder
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_729580959 { 
+   	label=Cat
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Cat2002533913XXXlogError424332965[
+	label="+ logError()"
+	style=filled
+	fillcolor=white
+	tooltip="Cat
+
+null"
+	penwidth=4
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_766785005 { 
+   	label=DefaultMessageProducer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultMessageProducer982561799XXXlogError424332965[
+	label="+ logError()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageProducer
+
+&#10;		 Log an error.&#10;		&#10;		 @param cause root cause exception&#10;		"
+	fontcolor=darkgreen
+];
+
+DefaultMessageProducer982561799XXXlogEvent2012146208[
+	label="+ logEvent()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageProducer
+
+&#10;		 Log an event in one shot.&#10;		&#10;		 @param type event type&#10;		 @param name event name&#10;		 @param status \"0\" means success, otherwise means error code&#10;		 @param nameValuePairs name value pairs in the format of \"a=1&b=2&...\"&#10;		"
+	fontcolor=darkgreen
+];
+
+DefaultMessageProducer982561799XXXnewEvent2013066710[
+	label="+ newEvent()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultMessageProducer
+
+&#10;		 Create a new event with given type and name.&#10;		&#10;		 @param type event type&#10;		 @param name event name&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_773623139 { 
+   	label=NullMessageProducer
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   NullMessageProducer982561799XXXlogError424332965[
+	label="+ logError()"
+	style=filled
+	fillcolor=white
+	tooltip="NullMessageProducer
+
+&#10;		 Log an error.&#10;		&#10;		 @param cause root cause exception&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_784414652 { 
+   	label=AlertSummaryExecutor
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   AlertSummaryExecutor1478910607XXXexecute1368930904[
+	label="+ execute()"
+	style=filled
+	fillcolor=white
+	tooltip="AlertSummaryExecutor
+
+null"
+	fontcolor=darkgreen
+];
+
+AlertSummaryExecutor1478910607XXXexecute950324557[
+	label="+ execute()"
+	style=filled
+	fillcolor=white
+	tooltip="AlertSummaryExecutor
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_786603214 { 
+   	label=DefaultEvent
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultEvent982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultEvent
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_800332665 { 
+   	label=DefaultTrace
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultTrace982561799XXXcomplete0[
+	label="+ complete()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultTrace
+
+&#10;		 Complete the message construction.&#10;		"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_80391073 { 
+   	label=RelatedSummaryBuilder
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   RelatedSummaryBuilder655011407XXXgenerateModel950324557[
+	label="+ generateModel()"
+	style=filled
+	fillcolor=white
+	tooltip="RelatedSummaryBuilder
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_806810423 { 
+   	label=SmsSender
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   SmsSender1732819881XXXsend1222472702[
+	label="+ send()"
+	style=filled
+	fillcolor=white
+	tooltip="SmsSender
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_815674461 { 
+   	label=TopoGraphFormatConfigManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   TopoGraphFormatConfigManager1860433547XXXinitialize0[
+	label="+ initialize()"
+	style=filled
+	fillcolor=white
+	tooltip="TopoGraphFormatConfigManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_822666348 { 
+   	label=EventDecorator
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   EventDecorator1946561597XXXgenerateContent313035839[
+	label="+ generateContent()"
+	style=filled
+	fillcolor=white
+	tooltip="EventDecorator
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_874722265 { 
+   	label=DecoratorManager
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DecoratorManager1721086535XXXgenerateTitleAndContent313035839[
+	label="+ generateTitleAndContent()"
+	style=filled
+	fillcolor=white
+	tooltip="DecoratorManager
+
+null"
+	fontcolor=darkgreen
+];
+} 
+
+subgraph cluster_967656045 { 
+   	label=Context
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   Context1723658738XXXshouldLog748255520[
+	label="+ shouldLog()"
+	style=filled
+	fillcolor=white
+	tooltip="Context
+
+null"
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+subgraph cluster_840542049 { 
+   	label=unidal
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_1272011271 { 
+   	label=cat
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   subgraph cluster_211959378 { 
+   	label=DefaultBlockWriter
+	labeljust=l
+	fillcolor=white
+	style=filled
+   
+   DefaultBlockWriter1268439265XXXrun0[
+	label="+ run()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultBlockWriter
+
+null"
+	fontcolor=darkgreen
+];
+
+DefaultBlockWriter1268439265XXXshutdown0[
+	label="+ shutdown()"
+	style=filled
+	fillcolor=white
+	tooltip="DefaultBlockWriter
+
+null"
+	fontcolor=darkgreen
+];
+} 
+} 
+} 
+
+'edges    
+AbstractMessageAnalyzer468824849XXXanalyze1134663318 -> StorageSQLBuilder657865883XXXbuild485852482;
+AbstractSender1732819881XXXhttpSend2012146208 -> Cat2002533913XXXlogError424332965;
+AlertConfigManager1283990710XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+AlertInfoBuilder655011407XXXgenerateAlertSummary950324557 -> Cat2002533913XXXlogError424332965;
+AlertPolicyManager1283990710XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+AlertService97531645XXXinsert2129702289 -> Cat2002533913XXXlogError424332965;
+AlertSummaryExecutor1478910607XXXexecute1368930904 -> AlertSummaryExecutor1478910607XXXexecute950324557;
+AlertSummaryExecutor1478910607XXXexecute950324557 -> Cat2002533913XXXlogError424332965;
+AlertSummaryService1478910607XXXinsert848366282 -> Cat2002533913XXXlogError424332965;
+AllReportConfigManager1840918117XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+AtomicMessageConfigManager1482847049XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+BaseRuleConfigManager1801461189XXXconvertConditions993691678 -> BaseRuleHelper277330119XXXconvertConditions993691678;
+BaseRuleConfigManager1801461189XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+BaseRuleHelper277330119XXXconvertConditions993691678 -> Cat2002533913XXXlogError424332965;
+BusinessAlert792960521XXXrun0 -> BaseRuleHelper277330119XXXconvertConditions993691678;
+BusinessDecorator792960521XXXgenerateContent313035839 -> AlertSummaryExecutor1478910607XXXexecute950324557;
+BusinessDecorator792960521XXXgenerateContent313035839 -> ProjectDecorator1721086535XXXbuildContactInfo1808118735;
+BusinessGraphCreator669448218XXXbuildGraphByDomain988136651 -> Cat2002533913XXXlogError424332965;
+BusinessGraphCreator669448218XXXbuildGraphByTag988136651 -> Cat2002533913XXXlogError424332965;
+Cat2002533913XXXlogError424332965 -> DefaultMessageProducer982561799XXXlogError424332965;
+Cat2002533913XXXlogError424332965 -> NullMessageProducer982561799XXXlogError424332965;
+ClientReportBuilder1271214333XXXbuildDailyTask1730104472 -> Cat2002533913XXXlogError424332965;
+DatabaseParser925500459XXXparseDatabase1808118735 -> Cat2002533913XXXlogError424332965;
+Decorator1721086535XXXgenerateContent313035839 -> BusinessDecorator792960521XXXgenerateContent313035839;
+Decorator1721086535XXXgenerateContent313035839 -> EventDecorator1946561597XXXgenerateContent313035839;
+Decorator1721086535XXXgenerateContent313035839 -> ExceptionDecorator433294088XXXgenerateContent313035839;
+Decorator1721086535XXXgenerateContent313035839 -> TransactionDecorator149352775XXXgenerateContent313035839;
+DecoratorManager1721086535XXXgenerateTitleAndContent313035839 -> Decorator1721086535XXXgenerateContent313035839;
+DefaultBlockWriter1268439265XXXrun0 -> Cat2002533913XXXlogError424332965;
+DefaultBlockWriter1268439265XXXshutdown0 -> Cat2002533913XXXlogError424332965;
+DefaultDataChecker2120222064XXXcheckData1372814886 -> Cat2002533913XXXlogError424332965;
+DefaultDataChecker2120222064XXXcheckData1483878419 -> Cat2002533913XXXlogError424332965;
+DefaultDataChecker2120222064XXXcheckDataForApp1372814886 -> Cat2002533913XXXlogError424332965;
+DefaultMessageProducer982561799XXXlogError424332965 -> Context1723658738XXXshouldLog748255520;
+DefaultMessageProducer982561799XXXlogError424332965 -> DefaultMessageProducer982561799XXXlogEvent2012146208;
+DefaultMessageProducer982561799XXXlogEvent2012146208 -> AbstractMessage982561799XXXaddData1808118735;
+DefaultMessageProducer982561799XXXlogEvent2012146208 -> DefaultEvent982561799XXXcomplete0;
+DefaultMessageProducer982561799XXXlogEvent2012146208 -> DefaultHeartbeat982561799XXXcomplete0;
+DefaultMessageProducer982561799XXXlogEvent2012146208 -> DefaultMessageProducer982561799XXXnewEvent2013066710;
+DefaultMessageProducer982561799XXXlogEvent2012146208 -> DefaultMetric982561799XXXcomplete0;
+DefaultMessageProducer982561799XXXlogEvent2012146208 -> DefaultTrace982561799XXXcomplete0;
+DefaultMessageProducer982561799XXXlogEvent2012146208 -> DefaultTransaction982561799XXXcomplete0;
+DependencyAnalyzer1535718638XXXprocess794768421 -> DatabaseParser925500459XXXparseDatabase1808118735;
+DomainGroupConfigManager1539309900XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+EventAlert1946561597XXXrun0 -> BaseRuleConfigManager1801461189XXXconvertConditions993691678;
+EventDecorator1946561597XXXgenerateContent313035839 -> Cat2002533913XXXlogError424332965;
+ExceptionDecorator433294088XXXgenerateContent313035839 -> AlertSummaryExecutor1478910607XXXexecute950324557;
+ExceptionDecorator433294088XXXgenerateContent313035839 -> Cat2002533913XXXlogError424332965;
+ExceptionDecorator433294088XXXgenerateContent313035839 -> ProjectDecorator1721086535XXXbuildContactInfo1808118735;
+ExceptionRuleConfigManager433294088XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+GlobalConfigProcessor573078427XXXprocess1529780815 -> ProjectService1985549344XXXdelete1355342585;
+Handler106263607XXXhandleOutbound1678783089 -> Cat2002533913XXXlogError424332965;
+Handler106263607XXXhandleOutbound1678783089 -> GlobalConfigProcessor573078427XXXprocess1529780815;
+Handler1267597894XXXhandleOutbound1678783089 -> BusinessGraphCreator669448218XXXbuildGraphByDomain988136651;
+Handler1436966209XXXhandleOutbound1678783089 -> StorageGroupConfigManager2119069553XXXbuildUrl924985979;
+Handler187541347XXXhandleOutbound1678783089 -> AlertSummaryExecutor1478910607XXXexecute1368930904;
+HeartbeatAlert1714023003XXXrun0 -> BaseRuleConfigManager1801461189XXXconvertConditions993691678;
+HeartbeatDisplayPolicyManager618891374XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+LocalResourceContentFetcher124398146XXXgetConfigContent1808118735 -> Cat2002533913XXXlogError424332965;
+MailSender1732819881XXXsend1222472702 -> AbstractSender1732819881XXXhttpSend2012146208;
+ProjectDecorator1721086535XXXbuildContactInfo1808118735 -> Cat2002533913XXXlogError424332965;
+ProjectService1985549344XXXdelete1355342585 -> Cat2002533913XXXlogError424332965;
+ProjectService1985549344XXXinitialize0 -> Cat2002533913XXXlogError424332965;
+ProjectUpdateTask1509455828XXXdeleteUnusedDomainInfo0 -> ProjectService1985549344XXXdelete1355342585;
+RefreshHost1615015249XXXrun0 -> Cat2002533913XXXlogError424332965;
+RelatedSummaryBuilder655011407XXXgenerateModel950324557 -> AlertInfoBuilder655011407XXXgenerateAlertSummary950324557;
+ReportFacade1539190358XXXbuilderReport2599333 -> ClientReportBuilder1271214333XXXbuildDailyTask1730104472;
+ReportReloadConfigManager1482847049XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+ResourceConfigManager381668284XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+RouterConfigManager938245874XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+SampleConfigManager1351998783XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+SendExecutor502410565XXXrun0 -> AlertService97531645XXXinsert2129702289;
+SenderConfigManager1283990710XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+SenderManager1732819881XXXsendAlert932354681 -> Cat2002533913XXXlogError424332965;
+SenderManager1732819881XXXsendAlert932354681 -> SmsSender1732819881XXXsend1222472702;
+ServerConfigManager1348150182XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+ServerFilterConfigManager1348150182XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+SmsSender1732819881XXXsend1222472702 -> AbstractSender1732819881XXXhttpSend2012146208;
+StatusUpdateTask1020536473XXXrun0 -> Cat2002533913XXXlogError424332965;
+StorageGroupConfigManager2119069553XXXbuildUrl924985979 -> Cat2002533913XXXlogError424332965;
+StorageGroupConfigManager2119069553XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+StorageSQLBuilder657865883XXXbuild485852482 -> DatabaseParser925500459XXXparseDatabase1808118735;
+SummaryBuilder655011407XXXgenerateHtml950324557 -> RelatedSummaryBuilder655011407XXXgenerateModel950324557;
+TaskConsumer1539190358XXXrun0 -> Cat2002533913XXXlogError424332965;
+TaskConsumer1539190358XXXrun0 -> ReportFacade1539190358XXXbuilderReport2599333;
+TopoGraphFormatConfigManager1860433547XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+TopologyGraphConfigManager2141995237XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+TpValueStatisticConfigManager752991271XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+TpValueStatisticConfigManager752991271XXXshouldStatistic2013066710 -> Cat2002533913XXXlogError424332965;
+TransactionAlert149352775XXXrun0 -> BaseRuleConfigManager1801461189XXXconvertConditions993691678;
+TransactionAnalyzer976050789XXXprocess794768421 -> TpValueStatisticConfigManager752991271XXXshouldStatistic2013066710;
+TransactionDecorator149352775XXXgenerateContent313035839 -> Cat2002533913XXXlogError424332965;
+UserConfigManager381668284XXXinitialize0 -> LocalResourceContentFetcher124398146XXXgetConfigContent1808118735;
+WeixinSender1732819881XXXsend1222472702 -> AbstractSender1732819881XXXhttpSend2012146208;
+    
+}
+@enduml

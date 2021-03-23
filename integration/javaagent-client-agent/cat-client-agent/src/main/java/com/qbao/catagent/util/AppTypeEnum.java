@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.qbao.catagent.util;
 
@@ -9,29 +9,29 @@ package com.qbao.catagent.util;
  *
  */
 public enum AppTypeEnum {
-	
-	TOMCAT("tomcat"), JETTY("jetty"), SPRINGBOOT("springboot");
-	
-	private String name;
-	
-	private AppTypeEnum(String name){
-		this.name = name;
-	}
-	
-	 public String getName() {
-         return name;
-     }
 
-     public void setName(String name) {
-         this.name = name;
-     }
-     
-     public static AppTypeEnum getAppType(String type){
-    	 for (AppTypeEnum at : AppTypeEnum.values()){
-    		 if (at.getName().equals(type)){
-    			 return at;
-    		 }
-    	 }
-    	 return null; 
-     }
+    TOMCAT("tomcat"), JETTY("jetty"), SPRINGBOOT("springboot");
+
+    private String name;
+
+    private AppTypeEnum(String name) {
+        this.name = name;
+    }
+
+    public static AppTypeEnum getAppType(String type) {
+        for (AppTypeEnum at : AppTypeEnum.values()) {
+            if (at.getName().equals(type)) {
+                return at;
+            }
+        }
+        return null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

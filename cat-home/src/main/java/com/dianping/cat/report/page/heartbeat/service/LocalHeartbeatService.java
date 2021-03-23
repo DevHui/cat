@@ -18,14 +18,6 @@
  */
 package com.dianping.cat.report.page.heartbeat.service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import org.unidal.lookup.annotation.Inject;
-import org.unidal.lookup.annotation.Named;
-import org.unidal.lookup.util.StringUtils;
-
 import com.dianping.cat.Constants;
 import com.dianping.cat.consumer.heartbeat.HeartbeatAnalyzer;
 import com.dianping.cat.consumer.heartbeat.HeartbeatReportMerger;
@@ -40,114 +32,121 @@ import com.dianping.cat.report.ReportBucketManager;
 import com.dianping.cat.report.service.LocalModelService;
 import com.dianping.cat.report.service.ModelPeriod;
 import com.dianping.cat.report.service.ModelRequest;
+import org.unidal.lookup.annotation.Inject;
+import org.unidal.lookup.annotation.Named;
+import org.unidal.lookup.util.StringUtils;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Named(type = LocalModelService.class, value = LocalHeartbeatService.ID)
 public class LocalHeartbeatService extends LocalModelService<HeartbeatReport> {
 
-	public static final String ID = HeartbeatAnalyzer.ID;
+    public static final String ID = HeartbeatAnalyzer.ID;
 
-	@Inject
-	private ReportBucketManager m_bucketManager;
+    @Inject
+    private ReportBucketManager m_bucketManager;
 
-	public LocalHeartbeatService() {
-		super(HeartbeatAnalyzer.ID);
-	}
+    public LocalHeartbeatService() {
+        super(HeartbeatAnalyzer.ID);
+    }
 
-	private String filterReport(ApiPayload payload, HeartbeatReport report) {
-		String ipAddress = payload.getIpAddress();
+    private String filterReport(ApiPayload payload, HeartbeatReport report) {
+        String ipAddress = payload.getIpAddress();
 
-		if (StringUtils.isEmpty(ipAddress)) {
-			Set<String> ips = report.getIps();
-			if (ips.size() > 0) {
-				ipAddress = SortHelper.sortIpAddress(ips).get(0);
-			}
-		}
-		HeartBeatReportFilter filter = new HeartBeatReportFilter(ipAddress, payload.getMin(), payload.getMax());
+        if (StringUtils.isEmpty(ipAddress)) {
+            Set<String> ips = report.getIps();
+            if (ips.size() > 0) {
+                ipAddress = SortHelper.sortIpAddress(ips).get(0);
+            }
+        }
+        HeartBeatReportFilter filter = new HeartBeatReportFilter(ipAddress, payload.getMin(), payload.getMax());
 
-		return filter.buildXml(report);
-	}
+        return filter.buildXml(report);
+    }
 
-	@Override
-	public String buildReport(ModelRequest request, ModelPeriod period, String domain, ApiPayload payload)
-							throws Exception {
-		List<HeartbeatReport> reports = super.getReport(period, domain);
-		HeartbeatReport report = null;
+    @Override
+    public String buildReport(ModelRequest request, ModelPeriod period, String domain, ApiPayload payload)
+            throws Exception {
+        List<HeartbeatReport> reports = super.getReport(period, domain);
+        HeartbeatReport report = null;
 
-		if (reports != null) {
-			report = new HeartbeatReport(domain);
-			HeartbeatReportMerger merger = new HeartbeatReportMerger(report);
+        if (reports != null) {
+            report = new HeartbeatReport(domain);
+            HeartbeatReportMerger merger = new HeartbeatReportMerger(report);
 
-			for (HeartbeatReport tmp : reports) {
-				tmp.accept(merger);
-			}
-		}
+            for (HeartbeatReport tmp : reports) {
+                tmp.accept(merger);
+            }
+        }
 
-		if ((report == null || report.getIps().isEmpty()) && period.isLast()) {
-			long startTime = request.getStartTime();
-			report = getReportFromLocalDisk(startTime, domain);
-		}
+        if ((report == null || report.getIps().isEmpty()) && period.isLast()) {
+            long startTime = request.getStartTime();
+            report = getReportFromLocalDisk(startTime, domain);
+        }
 
-		return filterReport(payload, report);
-	}
+        return filterReport(payload, report);
+    }
 
-	private HeartbeatReport getReportFromLocalDisk(long timestamp, String domain) throws Exception {
-		HeartbeatReport report = new HeartbeatReport(domain);
-		HeartbeatReportMerger merger = new HeartbeatReportMerger(report);
+    private HeartbeatReport getReportFromLocalDisk(long timestamp, String domain) throws Exception {
+        HeartbeatReport report = new HeartbeatReport(domain);
+        HeartbeatReportMerger merger = new HeartbeatReportMerger(report);
 
-		report.setStartTime(new Date(timestamp));
-		report.setEndTime(new Date(timestamp + TimeHelper.ONE_HOUR - 1));
+        report.setStartTime(new Date(timestamp));
+        report.setEndTime(new Date(timestamp + TimeHelper.ONE_HOUR - 1));
 
-		for (int i = 0; i < getAnalyzerCount(); i++) {
-			ReportBucket bucket = null;
-			try {
-				bucket = m_bucketManager.getReportBucket(timestamp, HeartbeatAnalyzer.ID, i);
-				String xml = bucket.findById(domain);
+        for (int i = 0; i < getAnalyzerCount(); i++) {
+            ReportBucket bucket = null;
+            try {
+                bucket = m_bucketManager.getReportBucket(timestamp, HeartbeatAnalyzer.ID, i);
+                String xml = bucket.findById(domain);
 
-				if (xml != null) {
-					HeartbeatReport tmp = DefaultSaxParser.parse(xml);
+                if (xml != null) {
+                    HeartbeatReport tmp = DefaultSaxParser.parse(xml);
 
-					tmp.accept(merger);
-				}
-			} finally {
-				if (bucket != null) {
-					m_bucketManager.closeBucket(bucket);
-				}
-			}
-		}
-		return report;
-	}
+                    tmp.accept(merger);
+                }
+            } finally {
+                if (bucket != null) {
+                    m_bucketManager.closeBucket(bucket);
+                }
+            }
+        }
+        return report;
+    }
 
-	public static class HeartBeatReportFilter
-							extends	com.dianping.cat.consumer.heartbeat.model.transform.DefaultXmlBuilder {
-		private String m_ip;
+    public static class HeartBeatReportFilter
+            extends com.dianping.cat.consumer.heartbeat.model.transform.DefaultXmlBuilder {
+        private String m_ip;
 
-		private int m_min;
+        private int m_min;
 
-		private int m_max;
+        private int m_max;
 
-		public HeartBeatReportFilter(String ip, int min, int max) {
-			super(true, new StringBuilder(DEFAULT_SIZE));
-			m_ip = ip;
-			m_min = min;
-			m_max = max;
-		}
+        public HeartBeatReportFilter(String ip, int min, int max) {
+            super(true, new StringBuilder(DEFAULT_SIZE));
+            m_ip = ip;
+            m_min = min;
+            m_max = max;
+        }
 
-		@Override
-		public void visitPeriod(Period period) {
-			int minute = period.getMinute();
+        @Override
+        public void visitPeriod(Period period) {
+            int minute = period.getMinute();
 
-			if (m_min == -1 && m_max == -1) {
-				super.visitPeriod(period);
-			} else if (minute <= m_max && minute >= m_min) {
-				super.visitPeriod(period);
-			}
-		}
+            if (m_min == -1 && m_max == -1) {
+                super.visitPeriod(period);
+            } else if (minute <= m_max && minute >= m_min) {
+                super.visitPeriod(period);
+            }
+        }
 
-		@Override
-		public void visitMachine(com.dianping.cat.consumer.heartbeat.model.entity.Machine machine) {
-			if (machine.getIp().equals(m_ip) || StringUtils.isEmpty(m_ip) || Constants.ALL.equals(m_ip)) {
-				super.visitMachine(machine);
-			}
-		}
-	}
+        @Override
+        public void visitMachine(com.dianping.cat.consumer.heartbeat.model.entity.Machine machine) {
+            if (machine.getIp().equals(m_ip) || StringUtils.isEmpty(m_ip) || Constants.ALL.equals(m_ip)) {
+                super.visitMachine(machine);
+            }
+        }
+    }
 }

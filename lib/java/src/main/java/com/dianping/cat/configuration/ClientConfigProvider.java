@@ -21,5 +21,5 @@ package com.dianping.cat.configuration;
 import com.dianping.cat.configuration.client.entity.ClientConfig;
 
 public interface ClientConfigProvider {
-	ClientConfig getClientConfig();
+    ClientConfig getClientConfig();
 }

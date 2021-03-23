@@ -18,45 +18,44 @@
  */
 package com.dianping.cat.mvc;
 
-import java.util.Date;
-
+import com.dianping.cat.config.server.ServerConfigManager;
+import com.dianping.cat.helper.TimeHelper;
 import org.unidal.lookup.annotation.Inject;
 import org.unidal.lookup.annotation.Named;
 
-import com.dianping.cat.config.server.ServerConfigManager;
-import com.dianping.cat.helper.TimeHelper;
+import java.util.Date;
 
 @Named
 public class PayloadNormalizer {
 
-	@Inject
-	protected ServerConfigManager m_manager;
+    @Inject
+    protected ServerConfigManager m_manager;
 
-	@SuppressWarnings("rawtypes")
-	public void normalize(AbstractReportModel model, AbstractReportPayload payload) {
-		long date = payload.getDate();
-		long current = System.currentTimeMillis();
+    @SuppressWarnings("rawtypes")
+    public void normalize(AbstractReportModel model, AbstractReportPayload payload) {
+        long date = payload.getDate();
+        long current = System.currentTimeMillis();
 
-		if (date > current) {
-			date = current - current % TimeHelper.ONE_HOUR;
-			model.setDate(date);
-		} else {
-			model.setDate(date);
-		}
+        if (date > current) {
+            date = current - current % TimeHelper.ONE_HOUR;
+            model.setDate(date);
+        } else {
+            model.setDate(date);
+        }
 
-		model.setIpAddress(payload.getIpAddress());
-		model.setDisplayDomain(payload.getDomain());
+        model.setIpAddress(payload.getIpAddress());
+        model.setDisplayDomain(payload.getDomain());
 
-		if (payload.getAction().getName().startsWith("history")) {
-			payload.computeHistoryDate();
+        if (payload.getAction().getName().startsWith("history")) {
+            payload.computeHistoryDate();
 
-			Date start = payload.getHistoryStartDate();
-			Date end = payload.getHistoryEndDate();
+            Date start = payload.getHistoryStartDate();
+            Date end = payload.getHistoryEndDate();
 
-			model.setReportType(payload.getReportType());
-			model.setDate(start.getTime());
-			model.setCustomDate(start, end);
-		}
-	}
+            model.setReportType(payload.getReportType());
+            model.setDate(start.getTime());
+            model.setCustomDate(start, end);
+        }
+    }
 
 }

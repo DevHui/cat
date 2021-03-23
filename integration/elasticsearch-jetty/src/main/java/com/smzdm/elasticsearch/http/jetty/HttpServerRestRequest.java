@@ -42,7 +42,7 @@ public class HttpServerRestRequest extends HttpRequest {
     private final Map<String, String> params;
 
     private final BytesReference content;
-    
+
     private final String opaqueId;
 
     public HttpServerRestRequest(HttpServletRequest request) throws IOException {
@@ -58,16 +58,18 @@ public class HttpServerRestRequest extends HttpRequest {
         content = new BytesArray(Streams.copyToByteArray(request.getInputStream()));
     }
 
-    @Override public Method method() {
+    @Override
+    public Method method() {
         return this.method;
     }
 
-    @Override public String uri() {
+    @Override
+    public String uri() {
         int prefixLength = 0;
-        if (request.getContextPath() != null ) {
+        if (request.getContextPath() != null) {
             prefixLength += request.getContextPath().length();
         }
-        if (request.getServletPath() != null ) {
+        if (request.getServletPath() != null) {
             prefixLength += request.getServletPath().length();
         }
         if (prefixLength > 0) {
@@ -77,15 +79,18 @@ public class HttpServerRestRequest extends HttpRequest {
         }
     }
 
-    @Override public String rawPath() {
+    @Override
+    public String rawPath() {
         return uri();
     }
 
-    @Override public boolean hasContent() {
+    @Override
+    public boolean hasContent() {
         return content.length() > 0;
     }
 
-    @Override public boolean contentUnsafe() {
+    @Override
+    public boolean contentUnsafe() {
         return false;
     }
 
@@ -94,11 +99,13 @@ public class HttpServerRestRequest extends HttpRequest {
         return content;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override public String header(String name) {
+    @Override
+    public String header(String name) {
         return request.getHeader(name);
     }
 
-    @Override public Iterable<Map.Entry<String, String>> headers() {
+    @Override
+    public Iterable<Map.Entry<String, String>> headers() {
         List<Map.Entry<String, String>> headers = new ArrayList<Map.Entry<String, String>>();
         Enumeration<String> headerNames = this.request.getHeaderNames();
         while (headerNames.hasMoreElements()) {
@@ -106,25 +113,29 @@ public class HttpServerRestRequest extends HttpRequest {
             Enumeration<String> headerValues = this.request.getHeaders(name);
             while (headerValues.hasMoreElements()) {
                 String value = headerValues.nextElement();
-                headers.add(new SimpleEntry<String,String>(name, value));
+                headers.add(new SimpleEntry<String, String>(name, value));
             }
         }
         return headers;
     }
 
-    @Override public Map<String, String> params() {
+    @Override
+    public Map<String, String> params() {
         return params;
     }
 
-    @Override public boolean hasParam(String key) {
+    @Override
+    public boolean hasParam(String key) {
         return params.containsKey(key);
     }
 
-    @Override public String param(String key) {
+    @Override
+    public String param(String key) {
         return params.get(key);
     }
 
-    @Override public String param(String key, String defaultValue) {
+    @Override
+    public String param(String key, String defaultValue) {
         String value = params.get(key);
         if (value == null) {
             return defaultValue;
@@ -147,15 +158,15 @@ public class HttpServerRestRequest extends HttpRequest {
     public long remotePort() {
         return this.request.getRemotePort();
     }
-    
+
     public String remoteUser() {
         return this.request.getRemoteUser();
     }
-    
+
     public String scheme() {
         return this.request.getScheme();
     }
-    
+
     public String contentType() {
         return this.request.getContentType();
     }

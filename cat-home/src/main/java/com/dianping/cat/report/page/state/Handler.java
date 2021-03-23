@@ -18,18 +18,6 @@
  */
 package com.dianping.cat.report.page.state;
 
-import javax.servlet.ServletException;
-import java.io.IOException;
-import java.util.Date;
-
-import org.unidal.lookup.annotation.Inject;
-import org.unidal.lookup.util.StringUtils;
-import org.unidal.tuple.Pair;
-import org.unidal.web.mvc.PageHandler;
-import org.unidal.web.mvc.annotation.InboundActionMeta;
-import org.unidal.web.mvc.annotation.OutboundActionMeta;
-import org.unidal.web.mvc.annotation.PayloadMeta;
-
 import com.dianping.cat.Constants;
 import com.dianping.cat.config.server.ServerFilterConfigManager;
 import com.dianping.cat.consumer.state.StateAnalyzer;
@@ -43,118 +31,129 @@ import com.dianping.cat.report.page.state.service.StateReportService;
 import com.dianping.cat.report.service.ModelRequest;
 import com.dianping.cat.report.service.ModelResponse;
 import com.dianping.cat.report.service.ModelService;
+import org.unidal.lookup.annotation.Inject;
+import org.unidal.lookup.util.StringUtils;
+import org.unidal.tuple.Pair;
+import org.unidal.web.mvc.PageHandler;
+import org.unidal.web.mvc.annotation.InboundActionMeta;
+import org.unidal.web.mvc.annotation.OutboundActionMeta;
+import org.unidal.web.mvc.annotation.PayloadMeta;
+
+import javax.servlet.ServletException;
+import java.io.IOException;
+import java.util.Date;
 
 public class Handler implements PageHandler<Context> {
-	@Inject
-	private JspViewer m_jspViewer;
+    @Inject
+    private JspViewer m_jspViewer;
 
-	@Inject
-	private StateReportService m_reportService;
+    @Inject
+    private StateReportService m_reportService;
 
-	@Inject
-	private StateGraphBuilder m_stateGraphs;
+    @Inject
+    private StateGraphBuilder m_stateGraphs;
 
-	@Inject
-	private StateBuilder m_stateBuilder;
+    @Inject
+    private StateBuilder m_stateBuilder;
 
-	@Inject(type = ModelService.class, value = StateAnalyzer.ID)
-	private ModelService<StateReport> m_service;
+    @Inject(type = ModelService.class, value = StateAnalyzer.ID)
+    private ModelService<StateReport> m_service;
 
-	@Inject
-	private PayloadNormalizer m_normalizePayload;
+    @Inject
+    private PayloadNormalizer m_normalizePayload;
 
-	@Inject
-	private ServerFilterConfigManager m_serverFilterConfigManager;
+    @Inject
+    private ServerFilterConfigManager m_serverFilterConfigManager;
 
-	private void buildDisplayInfo(Model model, Payload payload, StateReport report) {
-		StateDisplay display = new StateDisplay(payload.getIpAddress(), m_serverFilterConfigManager.getUnusedDomains());
+    private void buildDisplayInfo(Model model, Payload payload, StateReport report) {
+        StateDisplay display = new StateDisplay(payload.getIpAddress(), m_serverFilterConfigManager.getUnusedDomains());
 
-		display.setSortType(payload.getSort());
-		display.visitStateReport(report);
-		model.setState(display);
-		model.setReport(report);
-	}
+        display.setSortType(payload.getSort());
+        display.visitStateReport(report);
+        model.setState(display);
+        model.setReport(report);
+    }
 
-	public StateReport getHistoryReport(Payload payload) {
-		String domain = Constants.CAT;
-		Date start = payload.getHistoryStartDate();
-		Date end = payload.getHistoryEndDate();
+    public StateReport getHistoryReport(Payload payload) {
+        String domain = Constants.CAT;
+        Date start = payload.getHistoryStartDate();
+        Date end = payload.getHistoryEndDate();
 
-		return m_reportService.queryReport(domain, start, end);
-	}
+        return m_reportService.queryReport(domain, start, end);
+    }
 
-	private StateReport getHourlyReport(Payload payload) {
-		// only for cat
-		String domain = Constants.CAT;
-		ModelRequest request = new ModelRequest(domain, payload.getDate()) //
-								.setProperty("ip", payload.getIpAddress());
+    private StateReport getHourlyReport(Payload payload) {
+        // only for cat
+        String domain = Constants.CAT;
+        ModelRequest request = new ModelRequest(domain, payload.getDate()) //
+                .setProperty("ip", payload.getIpAddress());
 
-		if (m_service.isEligable(request)) {
-			ModelResponse<StateReport> response = m_service.invoke(request);
+        if (m_service.isEligable(request)) {
+            ModelResponse<StateReport> response = m_service.invoke(request);
 
-			return response.getModel();
-		} else {
-			throw new RuntimeException("Internal error: no eligable sql service registered for " + request + "!");
-		}
-	}
+            return response.getModel();
+        } else {
+            throw new RuntimeException("Internal error: no eligable sql service registered for " + request + "!");
+        }
+    }
 
-	@Override
-	@PayloadMeta(Payload.class)
-	@InboundActionMeta(name = StateAnalyzer.ID)
-	public void handleInbound(Context ctx) throws ServletException, IOException {
-		// display only, no action here
-	}
+    @Override
+    @PayloadMeta(Payload.class)
+    @InboundActionMeta(name = StateAnalyzer.ID)
+    public void handleInbound(Context ctx) throws ServletException, IOException {
+        // display only, no action here
+    }
 
-	@Override
-	@OutboundActionMeta(name = StateAnalyzer.ID)
-	public void handleOutbound(Context ctx) throws ServletException, IOException {
-		Model model = new Model(ctx);
-		Payload payload = ctx.getPayload();
-		Action action = payload.getAction();
+    @Override
+    @OutboundActionMeta(name = StateAnalyzer.ID)
+    public void handleOutbound(Context ctx) throws ServletException, IOException {
+        Model model = new Model(ctx);
+        Payload payload = ctx.getPayload();
+        Action action = payload.getAction();
 
-		normalize(model, payload);
-		String key = payload.getKey();
-		StateReport report = null;
-		Pair<LineChart, PieChart> pair = null;
+        normalize(model, payload);
+        String key = payload.getKey();
+        StateReport report = null;
+        Pair<LineChart, PieChart> pair = null;
 
-		switch (action) {
-		case HOURLY:
-			report = getHourlyReport(payload);
-			model.setMessage(m_stateBuilder.buildStateMessage(payload.getDate(), payload.getIpAddress()));
-			buildDisplayInfo(model, payload, report);
-			break;
-		case HISTORY:
-			report = getHistoryReport(payload);
+        switch (action) {
+            case HOURLY:
+                report = getHourlyReport(payload);
+                model.setMessage(m_stateBuilder.buildStateMessage(payload.getDate(), payload.getIpAddress()));
+                buildDisplayInfo(model, payload, report);
+                break;
+            case HISTORY:
+                report = getHistoryReport(payload);
 
-			buildDisplayInfo(model, payload, report);
-			break;
-		case GRAPH:
-			report = getHourlyReport(payload);
-			pair = m_stateGraphs.buildGraph(payload, key, report);
+                buildDisplayInfo(model, payload, report);
+                break;
+            case GRAPH:
+                report = getHourlyReport(payload);
+                pair = m_stateGraphs.buildGraph(payload, key, report);
 
-			model.setGraph(new JsonBuilder().toJson(pair.getKey()));
-			model.setPieChart(new JsonBuilder().toJson(pair.getValue()));
-			break;
-		case HISTORY_GRAPH:
-			pair = m_stateGraphs.buildGraph(payload, key);
+                model.setGraph(new JsonBuilder().toJson(pair.getKey()));
+                model.setPieChart(new JsonBuilder().toJson(pair.getValue()));
+                break;
+            case HISTORY_GRAPH:
+                pair = m_stateGraphs.buildGraph(payload, key);
 
-			model.setGraph(new JsonBuilder().toJson(pair.getKey()));
-			model.setPieChart(new JsonBuilder().toJson(pair.getValue()));
-			break;
-		}
-		m_jspViewer.view(ctx, model);
-	}
+                model.setGraph(new JsonBuilder().toJson(pair.getKey()));
+                model.setPieChart(new JsonBuilder().toJson(pair.getValue()));
+                break;
+        }
+        m_jspViewer.view(ctx, model);
+    }
 
-	private void normalize(Model model, Payload payload) {
-		model.setPage(ReportPage.STATE);
-		model.setAction(payload.getAction());
+    private void normalize(Model model, Payload payload) {
+        model.setPage(ReportPage.STATE);
+        model.setAction(payload.getAction());
 
-		String ip = payload.getIpAddress();
+        String ip = payload.getIpAddress();
 
-		if (StringUtils.isEmpty(ip)) {
-			payload.setIpAddress(Constants.ALL);
-		}
-		m_normalizePayload.normalize(model, payload);
-	}
+        if (StringUtils.isEmpty(ip)) {
+            payload.setIpAddress(Constants.ALL);
+        }
+        m_normalizePayload.normalize(model, payload);
+    }
 
 }

@@ -18,131 +18,130 @@
  */
 package com.dianping.cat.report.page.heartbeat;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.unidal.web.mvc.view.annotation.EntityMeta;
-import org.unidal.web.mvc.view.annotation.ModelMeta;
-
 import com.dianping.cat.consumer.heartbeat.HeartbeatAnalyzer;
 import com.dianping.cat.consumer.heartbeat.model.entity.HeartbeatReport;
 import com.dianping.cat.helper.SortHelper;
 import com.dianping.cat.mvc.AbstractReportModel;
 import com.dianping.cat.report.ReportPage;
 import com.dianping.cat.report.page.heartbeat.HeartbeatSvgGraph.ExtensionGroup;
+import org.unidal.web.mvc.view.annotation.EntityMeta;
+import org.unidal.web.mvc.view.annotation.ModelMeta;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @ModelMeta(HeartbeatAnalyzer.ID)
 public class Model extends AbstractReportModel<Action, ReportPage, Context> {
 
-	private int m_hour;
+    private int m_hour;
 
-	private String m_ipAddress;
+    private String m_ipAddress;
 
-	@EntityMeta
-	private HeartbeatReport m_report;
+    @EntityMeta
+    private HeartbeatReport m_report;
 
-	private transient HeartbeatSvgGraph m_result;
+    private transient HeartbeatSvgGraph m_result;
 
-	private List<String> m_extensionGroups = new ArrayList<String>();
+    private List<String> m_extensionGroups = new ArrayList<String>();
 
-	private int m_extensionCount;
+    private int m_extensionCount;
 
-	private String m_extensionHistoryGraphs;
+    private String m_extensionHistoryGraphs;
 
-	private Map<String, ExtensionGroup> m_extensionGraph = new HashMap<String, ExtensionGroup>();
+    private Map<String, ExtensionGroup> m_extensionGraph = new HashMap<String, ExtensionGroup>();
 
-	public Model(Context ctx) {
-		super(ctx);
-	}
+    public Model(Context ctx) {
+        super(ctx);
+    }
 
-	@Override
-	public Action getDefaultAction() {
-		return Action.VIEW;
-	}
+    @Override
+    public Action getDefaultAction() {
+        return Action.VIEW;
+    }
 
-	@Override
-	public String getDomain() {
-		if (m_report == null) {
-			return getDisplayDomain();
-		} else {
-			return m_report.getDomain();
-		}
-	}
+    @Override
+    public String getDomain() {
+        if (m_report == null) {
+            return getDisplayDomain();
+        } else {
+            return m_report.getDomain();
+        }
+    }
 
-	public int getExtensionCount() {
-		return m_extensionCount;
-	}
+    public int getExtensionCount() {
+        return m_extensionCount;
+    }
 
-	public void setExtensionCount(int extensionCount) {
-		m_extensionCount = extensionCount;
-	}
+    public void setExtensionCount(int extensionCount) {
+        m_extensionCount = extensionCount;
+    }
 
-	public Map<String, ExtensionGroup> getExtensionGraph() {
-		return m_extensionGraph;
-	}
+    public Map<String, ExtensionGroup> getExtensionGraph() {
+        return m_extensionGraph;
+    }
 
-	public void setExtensionGraph(Map<String, ExtensionGroup> extensionGraph) {
-		m_extensionGraph = extensionGraph;
-	}
+    public void setExtensionGraph(Map<String, ExtensionGroup> extensionGraph) {
+        m_extensionGraph = extensionGraph;
+    }
 
-	public List<String> getExtensionGroups() {
-		return m_extensionGroups;
-	}
+    public List<String> getExtensionGroups() {
+        return m_extensionGroups;
+    }
 
-	public void setExtensionGroups(List<String> extensionGroups) {
-		m_extensionGroups = extensionGroups;
-	}
+    public void setExtensionGroups(List<String> extensionGroups) {
+        m_extensionGroups = extensionGroups;
+    }
 
-	public String getExtensionHistoryGraphs() {
-		return m_extensionHistoryGraphs;
-	}
+    public String getExtensionHistoryGraphs() {
+        return m_extensionHistoryGraphs;
+    }
 
-	public void setExtensionHistoryGraphs(String extensionHistoryGraphs) {
-		m_extensionHistoryGraphs = extensionHistoryGraphs;
-	}
+    public void setExtensionHistoryGraphs(String extensionHistoryGraphs) {
+        m_extensionHistoryGraphs = extensionHistoryGraphs;
+    }
 
-	public int getHour() {
-		return m_hour;
-	}
+    public int getHour() {
+        return m_hour;
+    }
 
-	public void setHour(int hour) {
-		m_hour = hour;
-	}
+    public void setHour(int hour) {
+        m_hour = hour;
+    }
 
-	@Override
-	public String getIpAddress() {
-		return m_ipAddress;
-	}
+    @Override
+    public String getIpAddress() {
+        return m_ipAddress;
+    }
 
-	@Override
-	public void setIpAddress(String ipAddress) {
-		m_ipAddress = ipAddress;
-	}
+    @Override
+    public void setIpAddress(String ipAddress) {
+        m_ipAddress = ipAddress;
+    }
 
-	public List<String> getIps() {
-		if (m_report == null) {
-			return new ArrayList<String>();
-		} else {
-			return SortHelper.sortIpAddress(m_report.getIps());
-		}
-	}
+    public List<String> getIps() {
+        if (m_report == null) {
+            return new ArrayList<String>();
+        } else {
+            return SortHelper.sortIpAddress(m_report.getIps());
+        }
+    }
 
-	public HeartbeatReport getReport() {
-		return m_report;
-	}
+    public HeartbeatReport getReport() {
+        return m_report;
+    }
 
-	public void setReport(HeartbeatReport report) {
-		m_report = report;
-	}
+    public void setReport(HeartbeatReport report) {
+        m_report = report;
+    }
 
-	public HeartbeatSvgGraph getResult() {
-		return m_result;
-	}
+    public HeartbeatSvgGraph getResult() {
+        return m_result;
+    }
 
-	public void setResult(HeartbeatSvgGraph result) {
-		m_result = result;
-	}
+    public void setResult(HeartbeatSvgGraph result) {
+        m_result = result;
+    }
 
 }

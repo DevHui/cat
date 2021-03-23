@@ -20,30 +20,30 @@ package com.dianping.cat.alarm.spi;
 
 public enum AlertChannel {
 
-	MAIL("mail"),
+    MAIL("mail"),
 
-	SMS("sms"),
+    SMS("sms"),
 
-	WEIXIN("weixin"),
+    WEIXIN("weixin"),
 
-	DX("dx");
+    DX("dx");
 
-	private String m_name;
+    private String m_name;
 
-	private AlertChannel(String name) {
-		m_name = name;
-	}
+    private AlertChannel(String name) {
+        m_name = name;
+    }
 
-	public static AlertChannel findByName(String name) {
-		for (AlertChannel channel : values()) {
-			if (channel.getName().equals(name)) {
-				return channel;
-			}
-		}
-		return null;
-	}
+    public static AlertChannel findByName(String name) {
+        for (AlertChannel channel : values()) {
+            if (channel.getName().equals(name)) {
+                return channel;
+            }
+        }
+        return null;
+    }
 
-	public String getName() {
-		return m_name;
-	}
+    public String getName() {
+        return m_name;
+    }
 }

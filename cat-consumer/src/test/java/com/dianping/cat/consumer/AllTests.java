@@ -18,10 +18,6 @@
  */
 package com.dianping.cat.consumer;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
-
 import com.dianping.cat.consumer.core.aggregation.CompositeFormatTest;
 import com.dianping.cat.consumer.core.aggregation.DefaultFormatTest;
 import com.dianping.cat.consumer.cross.CrossAnalyzerTest;
@@ -34,12 +30,7 @@ import com.dianping.cat.consumer.heartbeat.HeartbeatReportMergerTest;
 import com.dianping.cat.consumer.matrix.MatrixAnalyzerTest;
 import com.dianping.cat.consumer.matrix.MatrixModelTest;
 import com.dianping.cat.consumer.matrix.MatrixReportMergerTest;
-import com.dianping.cat.consumer.problem.ProblemAnalyzerTest;
-import com.dianping.cat.consumer.problem.ProblemFilterTest;
-import com.dianping.cat.consumer.problem.ProblemHandlerTest;
-import com.dianping.cat.consumer.problem.ProblemReportConvertorTest;
-import com.dianping.cat.consumer.problem.ProblemReportMergerTest;
-import com.dianping.cat.consumer.problem.ProblemReportTest;
+import com.dianping.cat.consumer.problem.*;
 import com.dianping.cat.consumer.state.StateAnalyzerTest;
 import com.dianping.cat.consumer.state.StateReportMergerTest;
 import com.dianping.cat.consumer.top.TopAnalyzerTest;
@@ -47,71 +38,74 @@ import com.dianping.cat.consumer.top.TopReportMergerTest;
 import com.dianping.cat.consumer.transaction.TransactionAnalyzerTest;
 import com.dianping.cat.consumer.transaction.TransactionReportMergerTest;
 import com.dianping.cat.consumer.transaction.TransactionReportTest;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
 
-						ProblemHandlerTest.class,
+        ProblemHandlerTest.class,
 
-/* transaction */
+        /* transaction */
 
-						TransactionAnalyzerTest.class,
+        TransactionAnalyzerTest.class,
 
-						TransactionReportTest.class,
+        TransactionReportTest.class,
 
-						TransactionReportMergerTest.class,
+        TransactionReportMergerTest.class,
 
-/* event */
-						EventAnalyzerTest.class,
+        /* event */
+        EventAnalyzerTest.class,
 
-						EventReportMergerTest.class,
+        EventReportMergerTest.class,
 
-/* heartbeat */
-						HeartbeatAnalyzerTest.class,
+        /* heartbeat */
+        HeartbeatAnalyzerTest.class,
 
-						HeartbeatReportMergerTest.class,
+        HeartbeatReportMergerTest.class,
 
-/* state */
-						StateAnalyzerTest.class,
+        /* state */
+        StateAnalyzerTest.class,
 
-						StateReportMergerTest.class,
+        StateReportMergerTest.class,
 
-/* top */
-						TopAnalyzerTest.class,
+        /* top */
+        TopAnalyzerTest.class,
 
-						TopReportMergerTest.class,
+        TopReportMergerTest.class,
 
-/* problem */
+        /* problem */
 
-						ProblemHandlerTest.class,
+        ProblemHandlerTest.class,
 
-						ProblemReportTest.class,
+        ProblemReportTest.class,
 
-						ProblemAnalyzerTest.class,
+        ProblemAnalyzerTest.class,
 
-						ProblemReportMergerTest.class,
+        ProblemReportMergerTest.class,
 
-						CompositeFormatTest.class,
+        CompositeFormatTest.class,
 
-						DefaultFormatTest.class,
+        DefaultFormatTest.class,
 
-						ProblemFilterTest.class,
+        ProblemFilterTest.class,
 
-						//MetricAnalyzerTest.class,
+        //MetricAnalyzerTest.class,
 
-						ProblemReportConvertorTest.class,
+        ProblemReportConvertorTest.class,
 
-						CrossInfoTest.class,
+        CrossInfoTest.class,
 
-						CrossReportMergerTest.class,
+        CrossReportMergerTest.class,
 
-						MatrixModelTest.class,
+        MatrixModelTest.class,
 
-						MatrixReportMergerTest.class,
+        MatrixReportMergerTest.class,
 
-						CrossAnalyzerTest.class,
+        CrossAnalyzerTest.class,
 
-						MatrixAnalyzerTest.class,	})
+        MatrixAnalyzerTest.class,})
 public class AllTests {
 
 }

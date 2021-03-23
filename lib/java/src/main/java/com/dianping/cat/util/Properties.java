@@ -27,6 +27,10 @@ public class Properties {
         return new StringPropertyAccessor();
     }
 
+    public interface PropertyProvider {
+        Object getProperty(String name);
+    }
+
     public static class MapPropertyProvider<T> implements PropertyProvider {
         private String name;
         private Map<String, T> map;
@@ -104,10 +108,6 @@ public class Properties {
         }
 
         public abstract T getProperty(String name, T defaultValue);
-    }
-
-    public interface PropertyProvider {
-        Object getProperty(String name);
     }
 
     public static class StringPropertyAccessor extends PropertyAccessor<String> {

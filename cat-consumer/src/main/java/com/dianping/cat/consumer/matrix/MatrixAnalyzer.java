@@ -40,119 +40,119 @@ import java.util.Map.Entry;
 
 @Named(type = MessageAnalyzer.class, value = MatrixAnalyzer.ID, instantiationStrategy = Named.PER_LOOKUP)
 public class MatrixAnalyzer extends AbstractMessageAnalyzer<MatrixReport> implements LogEnabled {
-	public static final String ID = "matrix";
+    public static final String ID = "matrix";
 
-	@Inject(ID)
-	private ReportManager<MatrixReport> m_reportManager;
+    @Inject(ID)
+    private ReportManager<MatrixReport> m_reportManager;
 
-	@Override
-	public synchronized void doCheckpoint(boolean atEnd) {
-		if (atEnd && !isLocalMode()) {
-			m_reportManager.storeHourlyReports(getStartTime(), StoragePolicy.FILE_AND_DB, m_index);
-		} else {
-			m_reportManager.storeHourlyReports(getStartTime(), StoragePolicy.FILE, m_index);
-		}
-	}
+    @Override
+    public synchronized void doCheckpoint(boolean atEnd) {
+        if (atEnd && !isLocalMode()) {
+            m_reportManager.storeHourlyReports(getStartTime(), StoragePolicy.FILE_AND_DB, m_index);
+        } else {
+            m_reportManager.storeHourlyReports(getStartTime(), StoragePolicy.FILE, m_index);
+        }
+    }
 
-	@Override
-	public void enableLogging(Logger logger) {
-		m_logger = logger;
-	}
+    @Override
+    public void enableLogging(Logger logger) {
+        m_logger = logger;
+    }
 
-	@Override
-	public MatrixReport getReport(String domain) {
-		return m_reportManager.getHourlyReport(getStartTime(), domain, false);
-	}
+    @Override
+    public MatrixReport getReport(String domain) {
+        return m_reportManager.getHourlyReport(getStartTime(), domain, false);
+    }
 
-	@Override
-	public ReportManager<MatrixReport> getReportManager() {
-		return m_reportManager;
-	}
+    @Override
+    public ReportManager<MatrixReport> getReportManager() {
+        return m_reportManager;
+    }
 
-	@Override
-	protected void loadReports() {
-		m_reportManager.loadHourlyReports(getStartTime(), StoragePolicy.FILE, m_index);
-	}
+    @Override
+    protected void loadReports() {
+        m_reportManager.loadHourlyReports(getStartTime(), StoragePolicy.FILE, m_index);
+    }
 
-	@Override
-	public boolean isEligable(MessageTree tree) {
-		if (tree.getTransactions().size() > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public boolean isEligable(MessageTree tree) {
+        if (tree.getTransactions().size() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	@Override
-	public void process(MessageTree tree) {
-		String domain = tree.getDomain();
-		MatrixReport report = m_reportManager.getHourlyReport(getStartTime(), domain, true);
-		Message message = tree.getMessage();
+    @Override
+    public void process(MessageTree tree) {
+        String domain = tree.getDomain();
+        MatrixReport report = m_reportManager.getHourlyReport(getStartTime(), domain, true);
+        Message message = tree.getMessage();
 
-		if (message instanceof Transaction) {
-			String messageType = message.getType();
+        if (message instanceof Transaction) {
+            String messageType = message.getType();
 
-			if (messageType.equals("URL") || messageType.equals("Service") || messageType.equals("PigeonService")) {
-				Matrix matrix = report.findOrCreateMatrix(message.getName());
-				matrix.setType(message.getType());
-				matrix.setName(message.getName());
-				long duration = ((Transaction) message).getDurationInMicros();
-				matrix.incCount();
-				matrix.setTotalTime(matrix.getTotalTime() + duration);
+            if (messageType.equals("URL") || messageType.equals("Service") || messageType.equals("PigeonService")) {
+                Matrix matrix = report.findOrCreateMatrix(message.getName());
+                matrix.setType(message.getType());
+                matrix.setName(message.getName());
+                long duration = ((Transaction) message).getDurationInMicros();
+                matrix.incCount();
+                matrix.setTotalTime(matrix.getTotalTime() + duration);
 
-				Map<String, Ratio> ratios = new HashMap<String, Ratio>();
-				ratios.put("Call", new Ratio());
-				ratios.put("SQL", new Ratio());
-				ratios.put("Cache", new Ratio());
+                Map<String, Ratio> ratios = new HashMap<String, Ratio>();
+                ratios.put("Call", new Ratio());
+                ratios.put("SQL", new Ratio());
+                ratios.put("Cache", new Ratio());
 
-				processTransaction(tree, (Transaction) message, ratios);
+                processTransaction(tree, (Transaction) message, ratios);
 
-				for (Entry<String, Ratio> entry : ratios.entrySet()) {
-					String type = entry.getKey();
-					Ratio ratio = entry.getValue();
-					int count = ratio.getTotalCount();
-					long time = ratio.getTotalTime();
+                for (Entry<String, Ratio> entry : ratios.entrySet()) {
+                    String type = entry.getKey();
+                    Ratio ratio = entry.getValue();
+                    int count = ratio.getTotalCount();
+                    long time = ratio.getTotalTime();
 
-					Ratio real = matrix.findOrCreateRatio(type);
-					if (real.getMin() > count || real.getMin() == 0) {
-						real.setMin(count);
-					}
-					if (real.getMax() < count) {
-						real.setMax(count);
-						real.setUrl(tree.getMessageId());
-					}
-					real.setTotalCount(real.getTotalCount() + count);
-					real.setTotalTime(real.getTotalTime() + time);
-				}
-				if (matrix.getUrl() == null) {
-					matrix.setUrl(tree.getMessageId());
-				}
-			}
-		}
-	}
+                    Ratio real = matrix.findOrCreateRatio(type);
+                    if (real.getMin() > count || real.getMin() == 0) {
+                        real.setMin(count);
+                    }
+                    if (real.getMax() < count) {
+                        real.setMax(count);
+                        real.setUrl(tree.getMessageId());
+                    }
+                    real.setTotalCount(real.getTotalCount() + count);
+                    real.setTotalTime(real.getTotalTime() + time);
+                }
+                if (matrix.getUrl() == null) {
+                    matrix.setUrl(tree.getMessageId());
+                }
+            }
+        }
+    }
 
-	private void processTransaction(MessageTree tree, Transaction t, Map<String, Ratio> ratios) {
-		List<Message> children = t.getChildren();
-		String type = t.getType();
-		Ratio ratio = null;
+    private void processTransaction(MessageTree tree, Transaction t, Map<String, Ratio> ratios) {
+        List<Message> children = t.getChildren();
+        String type = t.getType();
+        Ratio ratio = null;
 
-		if (m_serverConfigManager.isRpcClient(type)) {
-			ratio = ratios.get("Call");
-		} else if (type.equals("SQL")) {
-			ratio = ratios.get("SQL");
-		} else if (type.startsWith("Cache.")) {
-			ratio = ratios.get("Cache");
-		}
-		if (ratio != null) {
-			ratio.incTotalCount();
-			ratio.setTotalTime(ratio.getTotalTime() + t.getDurationInMicros());
-		}
+        if (m_serverConfigManager.isRpcClient(type)) {
+            ratio = ratios.get("Call");
+        } else if (type.equals("SQL")) {
+            ratio = ratios.get("SQL");
+        } else if (type.startsWith("Cache.")) {
+            ratio = ratios.get("Cache");
+        }
+        if (ratio != null) {
+            ratio.incTotalCount();
+            ratio.setTotalTime(ratio.getTotalTime() + t.getDurationInMicros());
+        }
 
-		for (Message child : children) {
-			if (child instanceof Transaction) {
-				processTransaction(tree, (Transaction) child, ratios);
-			}
-		}
-	}
+        for (Message child : children) {
+            if (child instanceof Transaction) {
+                processTransaction(tree, (Transaction) child, ratios);
+            }
+        }
+    }
 
 }

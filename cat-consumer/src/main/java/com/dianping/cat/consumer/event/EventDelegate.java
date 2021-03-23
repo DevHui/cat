@@ -40,118 +40,118 @@ import java.util.Map;
 @Named(type = ReportDelegate.class, value = EventAnalyzer.ID)
 public class EventDelegate implements ReportDelegate<EventReport> {
 
-	@Inject
-	private TaskManager m_taskManager;
+    @Inject
+    private TaskManager m_taskManager;
 
-	@Inject
-	private ServerFilterConfigManager m_configManager;
+    @Inject
+    private ServerFilterConfigManager m_configManager;
 
-	@Inject
-	private AllReportConfigManager m_allManager;
+    @Inject
+    private AllReportConfigManager m_allManager;
 
-	@Inject
-	private ServerConfigManager m_serverConfigManager;
+    @Inject
+    private ServerConfigManager m_serverConfigManager;
 
-	@Inject
-	private AtomicMessageConfigManager m_atomicMessageConfigManager;
+    @Inject
+    private AtomicMessageConfigManager m_atomicMessageConfigManager;
 
-	private EventTpsStatisticsComputer m_computer = new EventTpsStatisticsComputer();
+    private EventTpsStatisticsComputer m_computer = new EventTpsStatisticsComputer();
 
-	@Override
-	public void afterLoad(Map<String, EventReport> reports) {
-	}
+    @Override
+    public void afterLoad(Map<String, EventReport> reports) {
+    }
 
-	@Override
-	public void beforeSave(Map<String, EventReport> reports) {
-		//		if (reports.size() > 0) {
-		//			EventReport all = createAggregatedReport(reports);
-		//
-		//			reports.put(all.getDomain(), all);
-		//		}
-	}
+    @Override
+    public void beforeSave(Map<String, EventReport> reports) {
+        //		if (reports.size() > 0) {
+        //			EventReport all = createAggregatedReport(reports);
+        //
+        //			reports.put(all.getDomain(), all);
+        //		}
+    }
 
-	@Override
-	public byte[] buildBinary(EventReport report) {
-		return DefaultNativeBuilder.build(report);
-	}
+    @Override
+    public byte[] buildBinary(EventReport report) {
+        return DefaultNativeBuilder.build(report);
+    }
 
-	@Override
-	public String buildXml(EventReport report) {
-		report.accept(m_computer);
+    @Override
+    public String buildXml(EventReport report) {
+        report.accept(m_computer);
 
-		new EventReportCountFilter(m_serverConfigManager.getMaxTypeThreshold(),
-								m_atomicMessageConfigManager.getMaxNameThreshold(report.getDomain()),
-								m_serverConfigManager.getTypeNameLengthLimit()).visitEventReport(report);
+        new EventReportCountFilter(m_serverConfigManager.getMaxTypeThreshold(),
+                m_atomicMessageConfigManager.getMaxNameThreshold(report.getDomain()),
+                m_serverConfigManager.getTypeNameLengthLimit()).visitEventReport(report);
 
-		return report.toString();
-	}
+        return report.toString();
+    }
 
-	public EventReport createAggregatedReport(Map<String, EventReport> reports) {
-		if (reports.size() > 0) {
-			EventReport first = reports.values().iterator().next();
-			EventReport all = makeReport(Constants.ALL, first.getStartTime().getTime(), Constants.HOUR);
-			EventReportTypeAggregator visitor = new EventReportTypeAggregator(all, m_allManager);
+    public EventReport createAggregatedReport(Map<String, EventReport> reports) {
+        if (reports.size() > 0) {
+            EventReport first = reports.values().iterator().next();
+            EventReport all = makeReport(Constants.ALL, first.getStartTime().getTime(), Constants.HOUR);
+            EventReportTypeAggregator visitor = new EventReportTypeAggregator(all, m_allManager);
 
-			try {
-				for (EventReport report : reports.values()) {
-					String domain = report.getDomain();
+            try {
+                for (EventReport report : reports.values()) {
+                    String domain = report.getDomain();
 
-					if (!domain.equals(Constants.ALL)) {
-						all.getIps().add(domain);
+                    if (!domain.equals(Constants.ALL)) {
+                        all.getIps().add(domain);
 
-						visitor.visitEventReport(report);
-					}
-				}
-			} catch (Exception e) {
-				Cat.logError(e);
-			}
-			return all;
-		} else {
-			return new EventReport(Constants.ALL);
-		}
-	}
+                        visitor.visitEventReport(report);
+                    }
+                }
+            } catch (Exception e) {
+                Cat.logError(e);
+            }
+            return all;
+        } else {
+            return new EventReport(Constants.ALL);
+        }
+    }
 
-	@Override
-	public boolean createHourlyTask(EventReport report) {
-		String domain = report.getDomain();
+    @Override
+    public boolean createHourlyTask(EventReport report) {
+        String domain = report.getDomain();
 
-		if (domain.equals(Constants.ALL) || m_configManager.validateDomain(domain)) {
-			return m_taskManager.createTask(report.getStartTime(), domain, EventAnalyzer.ID, TaskProlicy.ALL_EXCLUED_HOURLY);
-		} else {
-			return true;
-		}
-	}
+        if (domain.equals(Constants.ALL) || m_configManager.validateDomain(domain)) {
+            return m_taskManager.createTask(report.getStartTime(), domain, EventAnalyzer.ID, TaskProlicy.ALL_EXCLUED_HOURLY);
+        } else {
+            return true;
+        }
+    }
 
-	@Override
-	public String getDomain(EventReport report) {
-		return report.getDomain();
-	}
+    @Override
+    public String getDomain(EventReport report) {
+        return report.getDomain();
+    }
 
-	@Override
-	public EventReport makeReport(String domain, long startTime, long duration) {
-		EventReport report = new EventReport(domain);
+    @Override
+    public EventReport makeReport(String domain, long startTime, long duration) {
+        EventReport report = new EventReport(domain);
 
-		report.setStartTime(new Date(startTime));
-		report.setEndTime(new Date(startTime + duration - 1));
+        report.setStartTime(new Date(startTime));
+        report.setEndTime(new Date(startTime + duration - 1));
 
-		return report;
-	}
+        return report;
+    }
 
-	@Override
-	public EventReport mergeReport(EventReport old, EventReport other) {
-		EventReportMerger merger = new EventReportMerger(old);
+    @Override
+    public EventReport mergeReport(EventReport old, EventReport other) {
+        EventReportMerger merger = new EventReportMerger(old);
 
-		other.accept(merger);
-		return old;
-	}
+        other.accept(merger);
+        return old;
+    }
 
-	@Override
-	public EventReport parseBinary(byte[] bytes) {
-		return DefaultNativeParser.parse(bytes);
-	}
+    @Override
+    public EventReport parseBinary(byte[] bytes) {
+        return DefaultNativeParser.parse(bytes);
+    }
 
-	@Override
-	public EventReport parseXml(String xml) throws Exception {
-		return DefaultSaxParser.parse(xml);
-	}
+    @Override
+    public EventReport parseXml(String xml) throws Exception {
+        return DefaultSaxParser.parse(xml);
+    }
 }

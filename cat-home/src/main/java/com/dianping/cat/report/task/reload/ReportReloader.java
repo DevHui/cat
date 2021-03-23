@@ -22,10 +22,10 @@ import java.util.List;
 
 public interface ReportReloader {
 
-	public List<ReportReloadEntity> loadReport(long time);
+    public List<ReportReloadEntity> loadReport(long time);
 
-	public String getId();
+    public String getId();
 
-	public boolean reload(long time);
+    public boolean reload(long time);
 
 }

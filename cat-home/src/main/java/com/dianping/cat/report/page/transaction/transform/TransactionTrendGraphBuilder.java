@@ -18,266 +18,257 @@
  */
 package com.dianping.cat.report.page.transaction.transform;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.site.lookup.util.StringUtils;
-
 import com.dianping.cat.Cat;
 import com.dianping.cat.consumer.GraphTrendUtil;
-import com.dianping.cat.consumer.transaction.model.entity.GraphTrend;
-import com.dianping.cat.consumer.transaction.model.entity.Machine;
-import com.dianping.cat.consumer.transaction.model.entity.TransactionName;
-import com.dianping.cat.consumer.transaction.model.entity.TransactionReport;
-import com.dianping.cat.consumer.transaction.model.entity.TransactionType;
+import com.dianping.cat.consumer.transaction.model.entity.*;
 import com.dianping.cat.consumer.transaction.model.transform.BaseVisitor;
 import com.dianping.cat.helper.TimeHelper;
 import com.dianping.cat.report.graph.LineChart;
 import com.dianping.cat.report.page.transaction.Model;
 import com.dianping.cat.report.page.transaction.Payload;
+import com.site.lookup.util.StringUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TransactionTrendGraphBuilder {
 
-	public static final String COUNT = "count";
+    public static final String COUNT = "count";
 
-	public static final String FAIL = "fail";
+    public static final String FAIL = "fail";
 
-	public static final String AVG = "avg";
+    public static final String AVG = "avg";
 
-	private int m_duration = 1;
+    private int m_duration = 1;
 
-	private LineChart buildLineChart(Date start, Date end, long step, int size) {
-		LineChart item = new LineChart();
+    private LineChart buildLineChart(Date start, Date end, long step, int size) {
+        LineChart item = new LineChart();
 
-		item.setStart(start);
-		item.setSize(size);
-		item.setStep(step);
-		item.setSubTitles(buildSubTitles(start, end));
-		return item;
-	}
+        item.setStart(start);
+        item.setSize(size);
+        item.setStep(step);
+        item.setSubTitles(buildSubTitles(start, end));
+        return item;
+    }
 
-	private String buildSubTitle(Date start, Date end) {
-		SimpleDateFormat from = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat to = new SimpleDateFormat("MM-dd");
-		StringBuilder sb = new StringBuilder();
+    private String buildSubTitle(Date start, Date end) {
+        SimpleDateFormat from = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat to = new SimpleDateFormat("MM-dd");
+        StringBuilder sb = new StringBuilder();
 
-		sb.append(from.format(start)).append("~").append(to.format(end));
-		return sb.toString();
-	}
+        sb.append(from.format(start)).append("~").append(to.format(end));
+        return sb.toString();
+    }
 
-	private List<String> buildSubTitles(Date start, Date end) {
-		List<String> subTitles = new ArrayList<String>();
+    private List<String> buildSubTitles(Date start, Date end) {
+        List<String> subTitles = new ArrayList<String>();
 
-		subTitles.add(buildSubTitle(start, end));
-		return subTitles;
-	}
+        subTitles.add(buildSubTitle(start, end));
+        return subTitles;
+    }
 
-	public void buildTrendGraph(Model model, Payload payload, TransactionReport report) {
-		String name = payload.getName();
-		Date start = payload.getHistoryStartDate();
-		Date end = payload.getHistoryEndDate();
-		String reportType = payload.getReportType();
-		String ip = payload.getIpAddress();
-		String type = payload.getType();
-		String display = name != null ? name : type;
+    public void buildTrendGraph(Model model, Payload payload, TransactionReport report) {
+        String name = payload.getName();
+        Date start = payload.getHistoryStartDate();
+        Date end = payload.getHistoryEndDate();
+        String reportType = payload.getReportType();
+        String ip = payload.getIpAddress();
+        String type = payload.getType();
+        String display = name != null ? name : type;
 
-		Map<String, double[]> data = getDatas(report, ip, type, name);
+        Map<String, double[]> data = getDatas(report, ip, type, name);
 
-		ReportType queryType = ReportType.findByName(reportType);
-		long step = queryType.getStep() * m_duration;
-		int size = (int) ((start.getTime() - end.getTime()) / step);
+        ReportType queryType = ReportType.findByName(reportType);
+        long step = queryType.getStep() * m_duration;
+        int size = (int) ((start.getTime() - end.getTime()) / step);
 
-		LineChart fail = buildLineChart(start, end, step, size);
-		LineChart count = buildLineChart(start, end, step, size);
-		LineChart avg = buildLineChart(start, end, step, size);
+        LineChart fail = buildLineChart(start, end, step, size);
+        LineChart count = buildLineChart(start, end, step, size);
+        LineChart avg = buildLineChart(start, end, step, size);
 
-		fail.setTitle(display + queryType.getFailTitle());
-		count.setTitle(display + queryType.getSumTitle());
-		avg.setTitle(display + queryType.getResponseTimeTitle());
+        fail.setTitle(display + queryType.getFailTitle());
+        count.setTitle(display + queryType.getSumTitle());
+        avg.setTitle(display + queryType.getResponseTimeTitle());
 
-		fail.addValue(data.get(FAIL));
-		count.addValue(data.get(COUNT));
-		avg.addValue(data.get(AVG));
+        fail.addValue(data.get(FAIL));
+        count.addValue(data.get(COUNT));
+        avg.addValue(data.get(AVG));
 
-		model.setErrorTrend(fail.getJsonString());
-		model.setHitTrend(count.getJsonString());
-		model.setResponseTrend(avg.getJsonString());
-	}
+        model.setErrorTrend(fail.getJsonString());
+        model.setHitTrend(count.getJsonString());
+        model.setResponseTrend(avg.getJsonString());
+    }
 
-	private Map<String, double[]> getDatas(TransactionReport report, String ip, String type, String name) {
-		TransactionReportVisitor visitor = new TransactionReportVisitor(ip, type, name);
-		visitor.visitTransactionReport(report);
+    private Map<String, double[]> getDatas(TransactionReport report, String ip, String type, String name) {
+        TransactionReportVisitor visitor = new TransactionReportVisitor(ip, type, name);
+        visitor.visitTransactionReport(report);
 
-		return visitor.getDatas();
-	}
+        return visitor.getDatas();
+    }
 
-	public enum ReportType {
+    public enum ReportType {
 
-		DAY("day", TimeHelper.ONE_MINUTE) {
-			@Override
-			String getFailTitle() {
-				return " Error (count/min)";
-			}
+        DAY("day", TimeHelper.ONE_MINUTE) {
+            @Override
+            String getFailTitle() {
+                return " Error (count/min)";
+            }
 
-			@Override
-			String getResponseTimeTitle() {
-				return " Response Time (ms)";
-			}
+            @Override
+            String getResponseTimeTitle() {
+                return " Response Time (ms)";
+            }
 
-			@Override
-			String getSumTitle() {
-				return " Hits (count/min)";
-			}
+            @Override
+            String getSumTitle() {
+                return " Hits (count/min)";
+            }
 
-		},
+        },
 
-		WEEK("week", TimeHelper.ONE_DAY) {
-			@Override
-			String getFailTitle() {
-				return " Error (count/day)";
-			}
+        WEEK("week", TimeHelper.ONE_DAY) {
+            @Override
+            String getFailTitle() {
+                return " Error (count/day)";
+            }
 
-			@Override
-			String getResponseTimeTitle() {
-				return " Response Time (ms)";
-			}
+            @Override
+            String getResponseTimeTitle() {
+                return " Response Time (ms)";
+            }
 
-			@Override
-			String getSumTitle() {
-				return " Hits (count/day)";
-			}
-		},
+            @Override
+            String getSumTitle() {
+                return " Hits (count/day)";
+            }
+        },
 
-		MONTH("month", TimeHelper.ONE_DAY) {
-			@Override
-			String getFailTitle() {
-				return " Error (count/day)";
-			}
+        MONTH("month", TimeHelper.ONE_DAY) {
+            @Override
+            String getFailTitle() {
+                return " Error (count/day)";
+            }
 
-			@Override
-			String getResponseTimeTitle() {
-				return " Response Time (ms)";
-			}
+            @Override
+            String getResponseTimeTitle() {
+                return " Response Time (ms)";
+            }
 
-			@Override
-			String getSumTitle() {
-				return " Hits (count/day)";
-			}
-		};
+            @Override
+            String getSumTitle() {
+                return " Hits (count/day)";
+            }
+        };
 
-		private String m_name;
+        private String m_name;
 
-		private long m_step;
+        private long m_step;
 
-		private ReportType(String name, long step) {
-			m_name = name;
-			m_step = step;
-		}
+        private ReportType(String name, long step) {
+            m_name = name;
+            m_step = step;
+        }
 
-		public static ReportType findByName(String name) {
-			for (ReportType type : ReportType.values()) {
-				if (type.getName().equalsIgnoreCase(name)) {
-					return type;
-				}
-			}
-			throw new RuntimeException("Error graph query type");
-		}
+        public static ReportType findByName(String name) {
+            for (ReportType type : ReportType.values()) {
+                if (type.getName().equalsIgnoreCase(name)) {
+                    return type;
+                }
+            }
+            throw new RuntimeException("Error graph query type");
+        }
 
-		abstract String getFailTitle();
+        abstract String getFailTitle();
 
-		public String getName() {
-			return m_name;
-		}
+        public String getName() {
+            return m_name;
+        }
 
-		abstract String getResponseTimeTitle();
+        abstract String getResponseTimeTitle();
 
-		public long getStep() {
-			return m_step;
-		}
+        public long getStep() {
+            return m_step;
+        }
 
-		abstract String getSumTitle();
-	}
+        abstract String getSumTitle();
+    }
 
-	public class TransactionReportVisitor extends BaseVisitor {
+    public class TransactionReportVisitor extends BaseVisitor {
 
-		private String m_ip;
+        private String m_ip;
 
-		private String m_type;
+        private String m_type;
 
-		private String m_name;
+        private String m_name;
 
-		private Map<String, double[]> m_datas = new HashMap<String, double[]>();
+        private Map<String, double[]> m_datas = new HashMap<String, double[]>();
 
-		public TransactionReportVisitor(String ip, String type, String name) {
-			m_ip = ip;
-			m_type = type;
-			m_name = name;
-		}
+        public TransactionReportVisitor(String ip, String type, String name) {
+            m_ip = ip;
+            m_type = type;
+            m_name = name;
+        }
 
-		public Map<String, double[]> getDatas() {
-			return m_datas;
-		}
+        public Map<String, double[]> getDatas() {
+            return m_datas;
+        }
 
-		private double[] parseToDouble(String str) {
-			if (StringUtils.isNotEmpty(str)) {
-				String[] strs = str.split(GraphTrendUtil.GRAPH_SPLITTER);
-				double[] result = new double[strs.length];
+        private double[] parseToDouble(String str) {
+            if (StringUtils.isNotEmpty(str)) {
+                String[] strs = str.split(GraphTrendUtil.GRAPH_SPLITTER);
+                double[] result = new double[strs.length];
 
-				for (int i = 0; i < strs.length; i++) {
-					try {
-						result[i] = Double.parseDouble(strs[i]);
-					} catch (Exception e) {
-						result[i] = 0.0;
-						Cat.logError(e);
-					}
-				}
-				return result;
-			} else {
-				return null;
-			}
-		}
+                for (int i = 0; i < strs.length; i++) {
+                    try {
+                        result[i] = Double.parseDouble(strs[i]);
+                    } catch (Exception e) {
+                        result[i] = 0.0;
+                        Cat.logError(e);
+                    }
+                }
+                return result;
+            } else {
+                return null;
+            }
+        }
 
-		private void resolveGraphTrend(GraphTrend graph) {
-			if (graph != null) {
-				m_duration = graph.getDuration();
-				m_datas.put(AVG, parseToDouble(graph.getAvg()));
-				m_datas.put(COUNT, parseToDouble(graph.getCount()));
-				m_datas.put(FAIL, parseToDouble(graph.getFails()));
-			}
-		}
+        private void resolveGraphTrend(GraphTrend graph) {
+            if (graph != null) {
+                m_duration = graph.getDuration();
+                m_datas.put(AVG, parseToDouble(graph.getAvg()));
+                m_datas.put(COUNT, parseToDouble(graph.getCount()));
+                m_datas.put(FAIL, parseToDouble(graph.getFails()));
+            }
+        }
 
-		@Override
-		public void visitMachine(Machine machine) {
-			if (machine.getIp().equalsIgnoreCase(m_ip)) {
-				super.visitMachine(machine);
-			}
-		}
+        @Override
+        public void visitMachine(Machine machine) {
+            if (machine.getIp().equalsIgnoreCase(m_ip)) {
+                super.visitMachine(machine);
+            }
+        }
 
-		@Override
-		public void visitName(TransactionName name) {
-			String id = name.getId();
+        @Override
+        public void visitName(TransactionName name) {
+            String id = name.getId();
 
-			if (StringUtils.isNotEmpty(id) && id.equalsIgnoreCase(m_name)) {
-				resolveGraphTrend(name.getGraphTrend());
-			}
-		}
+            if (StringUtils.isNotEmpty(id) && id.equalsIgnoreCase(m_name)) {
+                resolveGraphTrend(name.getGraphTrend());
+            }
+        }
 
-		@Override
-		public void visitType(TransactionType type) {
-			String id = type.getId();
+        @Override
+        public void visitType(TransactionType type) {
+            String id = type.getId();
 
-			if (id.equalsIgnoreCase(m_type)) {
-				if (StringUtils.isEmpty(m_name)) {
-					resolveGraphTrend(type.getGraphTrend());
-				} else {
-					super.visitType(type);
-				}
-			}
-		}
-	}
+            if (id.equalsIgnoreCase(m_type)) {
+                if (StringUtils.isEmpty(m_name)) {
+                    resolveGraphTrend(type.getGraphTrend());
+                } else {
+                    super.visitType(type);
+                }
+            }
+        }
+    }
 
 }

@@ -35,48 +35,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ComponentsConfigurator extends AbstractResourceConfigurator {
-	public static void main(String[] args) {
-		generatePlexusComponentsXmlFile(new ComponentsConfigurator());
-	}
+    public static void main(String[] args) {
+        generatePlexusComponentsXmlFile(new ComponentsConfigurator());
+    }
 
-	@Override
-	public List<Component> defineComponents() {
-		List<Component> all = new ArrayList<Component>();
+    @Override
+    public List<Component> defineComponents() {
+        List<Component> all = new ArrayList<Component>();
 
-		all.addAll(new CatDatabaseConfigurator().defineComponents());
+        all.addAll(new CatDatabaseConfigurator().defineComponents());
 
-		all.add(A(SenderConfigManager.class));
+        all.add(A(SenderConfigManager.class));
 
-		all.add(A(DefaultDataChecker.class));
-		all.add(A(DecoratorManager.class));
-		all.add(A(ContactorManager.class));
+        all.add(A(DefaultDataChecker.class));
+        all.add(A(DecoratorManager.class));
+        all.add(A(ContactorManager.class));
 
-		all.add(A(AlertPolicyManager.class));
+        all.add(A(AlertPolicyManager.class));
 
-		all.add(C(Spliter.class, MailSpliter.ID, MailSpliter.class));
+        all.add(C(Spliter.class, MailSpliter.ID, MailSpliter.class));
 
-		all.add(C(Spliter.class, SmsSpliter.ID, SmsSpliter.class));
+        all.add(C(Spliter.class, SmsSpliter.ID, SmsSpliter.class));
 
-		all.add(C(Spliter.class, WeixinSpliter.ID, WeixinSpliter.class));
+        all.add(C(Spliter.class, WeixinSpliter.ID, WeixinSpliter.class));
 
-		all.add(C(Spliter.class, DXSpliter.ID, DXSpliter.class));
+        all.add(C(Spliter.class, DXSpliter.ID, DXSpliter.class));
 
-		all.add(A(SpliterManager.class));
+        all.add(A(SpliterManager.class));
 
-		all.add(C(Sender.class, MailSender.ID, MailSender.class).req(SenderConfigManager.class));
+        all.add(C(Sender.class, MailSender.ID, MailSender.class).req(SenderConfigManager.class));
 
-		all.add(C(Sender.class, SmsSender.ID, SmsSender.class).req(SenderConfigManager.class));
+        all.add(C(Sender.class, SmsSender.ID, SmsSender.class).req(SenderConfigManager.class));
 
-		all.add(C(Sender.class, WeixinSender.ID, WeixinSender.class).req(SenderConfigManager.class));
+        all.add(C(Sender.class, WeixinSender.ID, WeixinSender.class).req(SenderConfigManager.class));
 
-		all.add(A(SenderManager.class));
+        all.add(A(SenderManager.class));
 
-		all.add(A(AlertManager.class));
+        all.add(A(AlertManager.class));
 
-		all.add(A(AlertService.class));
+        all.add(A(AlertService.class));
 
-		all.add(A(AlertConfigManager.class));
+        all.add(A(AlertConfigManager.class));
 
-		return all;
-	}
+        return all;
+    }
 }

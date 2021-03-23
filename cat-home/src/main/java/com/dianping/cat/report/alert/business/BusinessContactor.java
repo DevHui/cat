@@ -23,10 +23,10 @@ import com.dianping.cat.alarm.spi.receiver.ProjectContactor;
 
 public class BusinessContactor extends ProjectContactor {
 
-	public static final String ID = AlertType.Business.getName();
+    public static final String ID = AlertType.Business.getName();
 
-	@Override
-	public String getId() {
-		return ID;
-	}
+    @Override
+    public String getId() {
+        return ID;
+    }
 }

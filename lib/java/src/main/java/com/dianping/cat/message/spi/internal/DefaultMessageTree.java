@@ -162,9 +162,18 @@ public class DefaultMessageTree implements MessageTree {
         return buf;
     }
 
+    public void setBuffer(ByteBuf buf) {
+        this.buf = buf;
+    }
+
     @Override
     public String getDomain() {
         return domain;
+    }
+
+    @Override
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     @Override
@@ -180,81 +189,13 @@ public class DefaultMessageTree implements MessageTree {
         return formatMessageId;
     }
 
-    @Override
-    public String getHostName() {
-        return hostName;
-    }
-
-    @Override
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    @Override
-    public Message getMessage() {
-        return message;
-    }
-
-    @Override
-    public String getMessageId() {
-        return messageId;
-    }
-
-    @Override
-    public String getParentMessageId() {
-        return parentMessageId;
-    }
-
-    @Override
-    public String getRootMessageId() {
-        return rootMessageId;
-    }
-
-    @Override
-    public String getSessionToken() {
-        return sessionToken;
-    }
-
-    @Override
-    public String getThreadGroupName() {
-        return threadGroupName;
-    }
-
-    @Override
-    public String getThreadId() {
-        return threadId;
-    }
-
-    @Override
-    public String getThreadName() {
-        return threadName;
-    }
-
-    @Override
-    public boolean isHitSample() {
-        return hitSample;
-    }
-
-    public void setBuffer(ByteBuf buf) {
-        this.buf = buf;
-    }
-
-    public void setDiscardPrivate(boolean discard) {
-        this.discard = discard;
-    }
-
-    @Override
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
-
     public void setFormatMessageId(MessageId formatMessageId) {
         this.formatMessageId = formatMessageId;
     }
 
     @Override
-    public void setHitSample(boolean hitSample) {
-        this.hitSample = hitSample;
+    public String getHostName() {
+        return hostName;
     }
 
     @Override
@@ -263,8 +204,18 @@ public class DefaultMessageTree implements MessageTree {
     }
 
     @Override
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    @Override
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    @Override
+    public Message getMessage() {
+        return message;
     }
 
     @Override
@@ -273,8 +224,18 @@ public class DefaultMessageTree implements MessageTree {
     }
 
     @Override
+    public String getMessageId() {
+        return messageId;
+    }
+
+    @Override
     public void setMessageId(String messageId) {
         this.messageId = messageId;
+    }
+
+    @Override
+    public String getParentMessageId() {
+        return parentMessageId;
     }
 
     @Override
@@ -283,8 +244,18 @@ public class DefaultMessageTree implements MessageTree {
     }
 
     @Override
+    public String getRootMessageId() {
+        return rootMessageId;
+    }
+
+    @Override
     public void setRootMessageId(String rootMessageId) {
         this.rootMessageId = rootMessageId;
+    }
+
+    @Override
+    public String getSessionToken() {
+        return sessionToken;
     }
 
     @Override
@@ -293,8 +264,18 @@ public class DefaultMessageTree implements MessageTree {
     }
 
     @Override
+    public String getThreadGroupName() {
+        return threadGroupName;
+    }
+
+    @Override
     public void setThreadGroupName(String threadGroupName) {
         this.threadGroupName = threadGroupName;
+    }
+
+    @Override
+    public String getThreadId() {
+        return threadId;
     }
 
     @Override
@@ -303,8 +284,27 @@ public class DefaultMessageTree implements MessageTree {
     }
 
     @Override
+    public String getThreadName() {
+        return threadName;
+    }
+
+    @Override
     public void setThreadName(String threadName) {
         this.threadName = threadName;
+    }
+
+    @Override
+    public boolean isHitSample() {
+        return hitSample;
+    }
+
+    @Override
+    public void setHitSample(boolean hitSample) {
+        this.hitSample = hitSample;
+    }
+
+    public void setDiscardPrivate(boolean discard) {
+        this.discard = discard;
     }
 
     @Override
