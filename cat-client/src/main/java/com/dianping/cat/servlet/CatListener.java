@@ -25,6 +25,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.File;
 
+/***
+ * 容器servlet启动时，加载
+ */
 public class CatListener implements ServletContextListener {
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
