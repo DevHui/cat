@@ -59,16 +59,25 @@ public class TcpSocketSender implements Task, MessageSender, LogEnabled {
     @Inject
     private MessageStatistics m_statistics;
 
+    /***
+     * 客户端配置信息
+     */
     @Inject
     private ClientConfigManager m_configManager;
 
     @Inject
     private MessageIdFactory m_factory;
 
+    /***
+     * 合并后，等待要发送的队列 - 内容
+     */
     private MessageQueue m_queue = new DefaultMessageQueue(SIZE);
 
     private MessageQueue m_atomicQueue = new DefaultMessageQueue(SIZE);
 
+    /***
+     * netty 连接远程访问并发送数据
+     */
     private ChannelManager m_channelManager;
 
     private Logger m_logger;
@@ -139,6 +148,11 @@ public class TcpSocketSender implements Task, MessageSender, LogEnabled {
         tree = null;
     }
 
+    /***
+     * 将队列中的内容 合并成一个消息树
+     * @param handler
+     * @return
+     */
     private MessageTree mergeTree(MessageQueue handler) {
         int max = MAX_CHILD_NUMBER;
         DefaultTransaction tran = new DefaultTransaction("System", "_CatMergeTree", null);
@@ -162,6 +176,10 @@ public class TcpSocketSender implements Task, MessageSender, LogEnabled {
         return first;
     }
 
+    /***
+     * 消息入队列
+     * @param tree
+     */
     private void offer(MessageTree tree) {
         if (m_configManager.isAtomicMessage(tree)) {
             boolean result = m_atomicQueue.offer(tree);
@@ -178,6 +196,9 @@ public class TcpSocketSender implements Task, MessageSender, LogEnabled {
         }
     }
 
+    /***
+     * 合并消息内容
+     */
     private void processAtomicMessage() {
         while (true) {
             if (shouldMerge(m_atomicQueue)) {
@@ -193,6 +214,9 @@ public class TcpSocketSender implements Task, MessageSender, LogEnabled {
         }
     }
 
+    /***
+     * 发送消息，并清空 消息树
+     */
     private void processNormalMessage() {
         while (true) {
             ChannelFuture channel = m_channelManager.channel();
@@ -255,7 +279,14 @@ public class TcpSocketSender implements Task, MessageSender, LogEnabled {
 
     @Override
     public void send(MessageTree tree) {
+        /***
+         * 堵塞队列 -- 同步
+         */
         if (!m_configManager.isBlock()) {
+
+            /***
+             * 信息收集比例
+             */
             double sampleRatio = m_configManager.getSampleRatio();
 
             if (tree.canDiscard() && sampleRatio < 1.0 && (!tree.isHitSample())) {
@@ -264,6 +295,10 @@ public class TcpSocketSender implements Task, MessageSender, LogEnabled {
                 offer(tree);
             }
         }
+
+        /***
+         * 同步数据
+         */
     }
 
     private void processTreeInClient(MessageTree tree) {

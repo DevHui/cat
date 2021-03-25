@@ -35,17 +35,33 @@ public class DefaultMessageQueue implements MessageQueue {
 
     @Override
     public boolean offer(MessageTree tree) {
+        /***
+         * 入队
+         * 如果队列没满，立即返回true； 如果队列满了，立即返回false-->不阻塞
+         */
         return m_queue.offer(tree);
     }
 
     @Override
     public MessageTree peek() {
+        /***
+         * 查看队列head值，但是不弹出
+         */
         return m_queue.peek();
     }
 
     @Override
     public MessageTree poll() {
         try {
+            /***
+             * 如果队列不空，出队；
+             *
+             * 如果队列已空且已经超时，返回null；
+             * 如果队列已空且时间未超时，则进入等待，直到出现以下三种情况：
+             *  被唤醒
+             *  等待时间超时
+             *  当前线程被中断
+             */
             return m_queue.poll(5, TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             return null;

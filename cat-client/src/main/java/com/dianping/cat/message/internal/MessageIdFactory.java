@@ -88,6 +88,9 @@ public class MessageIdFactory {
     }
 
     private File createMarkFile(String domain) {
+        /***
+         * 为每个服务创建mark文件，可写权限
+         */
         File mark = new File(Cat.getCatHome(), "cat-" + domain + ".mark");
 
         if (!mark.exists()) {
@@ -115,6 +118,9 @@ public class MessageIdFactory {
     }
 
     public String getNextId() {
+        /***
+         * 小时
+         */
         long timestamp = getTimestamp();
 
         if (timestamp != m_timestamp) {
@@ -172,6 +178,10 @@ public class MessageIdFactory {
         }
     }
 
+    /***
+     * 获取运行的进程 例如 20900@scott-pc， pid@用户电脑名称
+     * @return
+     */
     private int getProcessID() {
         try {
             RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
@@ -194,6 +204,9 @@ public class MessageIdFactory {
         byte[] bytes = new byte[4];
 
         for (int i = 0; i < 4; i++) {
+            /***
+             * byte 类型 强转
+             */
             bytes[i] = (byte) Integer.parseInt(items.get(i));
         }
 
@@ -221,6 +234,9 @@ public class MessageIdFactory {
         m_idPrefix = initIdPrefix(getTimestamp(), false);
         m_idPrefixOfMultiMode = initIdPrefix(getTimestamp(), true);
 
+        /***
+         * 对 MappedByteBuffer buffer不了解，不清楚这是在做什么？？
+         */
         if (m_byteBuffer.limit() > 0) {
             try {
                 long lastTimestamp = m_byteBuffer.getLong();
@@ -284,6 +300,10 @@ public class MessageIdFactory {
         return sb.toString();
     }
 
+    /***
+     * 每个小时的timesta不一致， 重置
+     * @param timestamp
+     */
     private void resetCounter(long timestamp) {
         m_index.set(0);
 
@@ -301,6 +321,9 @@ public class MessageIdFactory {
         return m_index.get();
     }
 
+    /***
+     * 同 initialize
+     */
     public synchronized void saveMark() {
         if (m_byteBuffer == null) {
             return;

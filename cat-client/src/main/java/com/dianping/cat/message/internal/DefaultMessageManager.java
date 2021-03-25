@@ -70,6 +70,9 @@ public class DefaultMessageManager extends ContainerHolder implements MessageMan
 
     private Map<String, TaggedTransaction> m_taggedTransactions;
 
+    /***
+     * 计算采样率
+     */
     private AtomicInteger m_sampleCount = new AtomicInteger();
 
     private Logger m_logger;
@@ -118,6 +121,11 @@ public class DefaultMessageManager extends ContainerHolder implements MessageMan
         }
     }
 
+    /***
+     * 发送并清理 上下文内容
+     * @param tree
+     * @param clearContext
+     */
     public void flush(MessageTree tree, boolean clearContext) {
         MessageSender sender = m_transportManager.getSender();
 
@@ -361,6 +369,11 @@ public class DefaultMessageManager extends ContainerHolder implements MessageMan
     class Context {
         private MessageTree m_tree;
 
+        /***
+         * stack 存储 消息内容
+         *
+         * todo
+         */
         private Stack<Transaction> m_stack;
 
         private int m_length;
@@ -390,6 +403,9 @@ public class DefaultMessageManager extends ContainerHolder implements MessageMan
         }
 
         public void add(Message message) {
+            /***
+             * stack为空，取出消息树内容，并发送
+             */
             if (m_stack.isEmpty()) {
                 MessageTree tree = m_tree.copy();
 
@@ -402,10 +418,18 @@ public class DefaultMessageManager extends ContainerHolder implements MessageMan
             }
         }
 
+        /***
+         * 将message添加到parent中
+         * @param message
+         * @param transaction
+         */
         private void addTransactionChild(Message message, Transaction transaction) {
             long treePeriod = trimToHour(m_tree.getMessage().getTimestamp());
             long messagePeriod = trimToHour(message.getTimestamp() - 10 * 1000L); // 10 seconds extra time allowed
 
+            /***
+             * 根据时间 & transaction 子信息，确定是否中的
+             */
             if (treePeriod < messagePeriod || m_length >= ApplicationSettings.getTreeLengthLimit()) {
                 m_validator.truncateAndFlush(this, message.getTimestamp());
             }
@@ -605,6 +629,9 @@ public class DefaultMessageManager extends ContainerHolder implements MessageMan
                 target.addData(source.getData().toString());
                 target.setStatus(Message.SUCCESS);
 
+                /***
+                 * 合并消息
+                 */
                 migrateMessage(stack, source, target, 1);
 
                 for (int i = stack.size() - 1; i >= 0; i--) {

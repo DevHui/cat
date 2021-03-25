@@ -53,6 +53,9 @@ public class Cat {
 
     private static int m_errorCount;
 
+    /***
+     * 生成消息的方法
+     */
     private MessageProducer m_producer;
 
     private MessageManager m_manager;

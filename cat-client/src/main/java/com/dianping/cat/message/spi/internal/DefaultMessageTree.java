@@ -57,6 +57,9 @@ public class DefaultMessageTree implements MessageTree {
 
     private MessageId m_formatMessageId;
 
+    /***
+     * 消息能否抛弃， 默认可以抛弃
+     */
     private boolean m_discard = true;
 
     private boolean m_processLoss = false;

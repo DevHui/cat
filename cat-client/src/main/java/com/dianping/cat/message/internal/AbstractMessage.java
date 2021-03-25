@@ -25,6 +25,9 @@ import io.netty.buffer.ByteBufAllocator;
 
 import java.nio.charset.Charset;
 
+/***
+ * 生成消息数据结构
+ */
 public abstract class AbstractMessage implements Message {
     protected String m_status = "unset";
 

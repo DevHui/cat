@@ -38,6 +38,9 @@ public class DefaultEvent extends AbstractMessage implements Event {
     public void complete() {
         setCompleted(true);
 
+        /**
+         * 消息添加，到指定的内容中
+         */
         if (m_manager != null) {
             m_manager.add(this);
         }

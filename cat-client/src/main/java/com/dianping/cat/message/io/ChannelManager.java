@@ -62,6 +62,9 @@ public class ChannelManager implements Task {
         m_configManager = configManager;
         m_idFactory = idFactory;
 
+        /***
+         * 使用netty建立socket连接
+         */
         EventLoopGroup group = new NioEventLoopGroup(1, new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -81,6 +84,9 @@ public class ChannelManager implements Task {
         });
         m_bootstrap = bootstrap;
 
+        /***
+         * 远程 routers信息
+         */
         String routerConfig = m_configManager.getRouters();
 
         if (StringUtils.isNotEmpty(routerConfig)) {
@@ -246,6 +252,12 @@ public class ChannelManager implements Task {
         return "TcpSocketSender-ChannelManager";
     }
 
+    /***
+     * 初始化 netty channel 连接信息
+     * @param addresses
+     * @param serverConfig
+     * @return
+     */
     private ChannelHolder initChannel(List<InetSocketAddress> addresses, String serverConfig) {
         try {
             int len = addresses.size();
@@ -386,6 +398,9 @@ public class ChannelManager implements Task {
         m_active = false;
     }
 
+    /***
+     * 服务器连接信息
+     */
     public static class ChannelHolder {
         private ChannelFuture m_activeFuture;
 
