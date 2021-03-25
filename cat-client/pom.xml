@@ -47,6 +47,7 @@
     </dependencies>
     <build>
         <plugins>
+            <!--http://codehaus-plexus.github.io/modello/modello.html-->
             <plugin>
                 <groupId>org.unidal.maven.plugins</groupId>
                 <artifactId>codegen-maven-plugin</artifactId>
